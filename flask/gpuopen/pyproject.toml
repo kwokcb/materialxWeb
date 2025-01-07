@@ -30,7 +30,7 @@ dependencies = [
 materialx-gpuopen-app = "MaterialXGPUOpenApp:main"
 
 [tool.setuptools.packages.find]
-where = ["."]  # Look for packages in the root directory
+where = ["."] 
 
 [tool.setuptools.package-data]
 "materialx_gpuopen_app" = [
@@ -39,3 +39,9 @@ where = ["."]  # Look for packages in the root directory
     "static/js/*",
     "templates/*",
 ]
+
+[project.urls]
+"Homepage" = "https://kwokcb.github.io/materialxWeb/"
+"Issues" = "https://github.com/kwokcb/materialxWeb/issues"
+"Source Code" = "https://github.com/kwokcb/materialxWeb"
+"Documentation" = "https://kwokcb.github.io/materialxWeb/"
