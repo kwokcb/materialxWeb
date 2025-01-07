@@ -1,0 +1,47 @@
+/* Add a blue border to all containers */
+.blue-bordered-container {
+    border: 2px solid rgb(35, 134, 255); /* Blue border */
+    border-radius: 0.5rem; /* Optional: Rounded corners for better aesthetics */
+    padding: 1rem; /* Optional: Add padding inside the container */
+    box-shadow: 0 2px 5px rgba(0, 0, 255, 0.2); /* Optional: Add a subtle blue shadow */
+}
+
+.small_text {
+    font-size: 0.75rem;
+}
+
+/* Set the base font size for the entire form */
+form#materialForm {
+    font-size: 0.75rem; /* Makes the font very small (12px equivalent) */
+}
+
+/* Adjust the size of input, textarea, and select elements */
+form#materialForm .form-control,
+form#materialForm .form-select,
+form#materialForm textarea {
+    font-size: 0.75rem; /* Ensure input font matches */
+    padding: 0.2rem 0.5rem; /* Smaller padding for compact fields */
+    height: auto; /* Avoid unnecessary extra height */
+}
+
+/* Reduce the size of labels */
+form#materialForm .form-label {
+    font-size: 0.75rem;
+}
+
+/* Make the form responsive while keeping it compact */
+form#materialForm {
+    /* max-width: 400px; /* Optional: limit the form's width */
+    margin: auto; /* Center the form */
+}
+
+/* Ensure buttons and other controls are aligned */
+form#materialForm .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem; /* Compact button size */
+}
+
+/* Optional: Customize Bootstrap spacing classes for even tighter spacing */
+form#materialForm .mb-3 {
+    margin-bottom: 0.5rem !important;
+}

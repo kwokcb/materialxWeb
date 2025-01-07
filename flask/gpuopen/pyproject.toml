@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "materialx_gpuopen_app"
+version = "0.1.0"
+description = "A Flask-based application for accessing GPUOpen MaterialX materials."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Bernard Kwok", email = "kwokcb@gmail.com"}
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "flask>=2.3.2",
+    "flask-socketio>=5.3.4",
+    "argparse>=1.4.0",
+    "materialxMaterials>=0.0.1",
+]
+
+[project.scripts]
+materialx-gpuopen-app = "MaterialXGPUOpenApp:main"
+
+[tool.setuptools.packages.find]
+where = ["."]  # Look for packages in the root directory
+
+[tool.setuptools.package-data]
+"materialx_gpuopen_app" = [
+    "data/*",
+    "static/css/*",
+    "static/js/*",
+    "templates/*",
+]
