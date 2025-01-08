@@ -3,14 +3,14 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "__PYTHON_APP_NAME__"
-version = "0.1.0"
+name = "template_flask_app"
+version = "0.0.1"
 description = "__PYTHON_PROJECT_DESCRIPTION__"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {file = "LICENSE"}
 authors = [
-    {name = "__PYTHON_PROJECT_AUTHOR_NAME__", email = "__PYTHON_PROJECT_AUTHOR_NAME__"}
+    {name = "__PYTHON_PROJECT_AUTHOR_NAME__", email = "author@gmail.com"}
 ]
 classifiers = [
     "Intended Audience :: Developers",
@@ -22,18 +22,18 @@ classifiers = [
 dependencies = [
     "flask>=2.3.2",
     "flask-socketio>=5.3.4",
-    "argparse>=1.4.0",
-    "__PYTHON_PROJECT_PACKAGE_DEPENDENCIES__",
+    "argparse>=1.4.0"
+    # "__PYTHON_PROJECT_PACKAGE_DEPENDENCIES__", Add other dependencies here...
 ]
 
 [project.scripts]
-__PYTHON_APP_NAME__ = "__PYTHON_APP__:main"
+template_flask_app = "template_flask_app:main"
 
 [tool.setuptools.packages.find]
 where = ["."] 
 
 [tool.setuptools.package-data]
-"__PYTHON_APP_NAME__" = [
+"template_flask_app" = [
     "data/*",
     "static/css/*",
     "static/js/*",

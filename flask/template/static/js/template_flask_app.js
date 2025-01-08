@@ -1,6 +1,6 @@
 import { WebSocketClient,  WebSocketEventHandlers } from './WebSocketClient.js';
 
-export class __JAVASCRIPT_CLIENT__ extends WebSocketClient
+export class templateClient extends WebSocketClient
 {
     constructor(socketLibrary, server) {
         // Call parent to setup socket I/O.
@@ -33,19 +33,19 @@ export class __JAVASCRIPT_CLIENT__ extends WebSocketClient
     handleServerMessage1(data)
     {
         console.log("WEB: Receive server message 1");
-        updateStatus(data.message);
+        this.updateStatus(data.message);
     }
 
     handleServerMessage2(data)
     {
         console.log("WEB: Receive server message 2");
-        updateStatus(data.message);       
+        this.updateStatus(data.message);       
     }
 
     setupEventHandlers() {
         // Setup clear status button
         document.getElementById('clear_status').addEventListener('click', () => {
-            this.updateStatusInput('Status', true);
+            this.updateStatus('Status', true);
         });
 
         // Bind event 1 to button click

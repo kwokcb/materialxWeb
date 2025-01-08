@@ -1,5 +1,5 @@
 '''
-@file __PYTHON_APP__.py
+@file template_flask_app.py
 @brief __PYTHON_APP_DESCRIPTION__
 '''
 import argparse
@@ -51,7 +51,7 @@ class MaterialXFlaskApp:
         self.socketio.run(self.app, host, port, debug=debug)
 
 
-class __PYTHON_APP__(MaterialXFlaskApp):
+class template_flask_app(MaterialXFlaskApp):
     '''
     '''
     def __init__(self, homePage):
@@ -70,14 +70,16 @@ class __PYTHON_APP__(MaterialXFlaskApp):
         '''
         Handle event and send back server message 1
         '''
-        server_message_1 = "server handled: " + data.message
+        event_data = data.get('message', 'Message')
+        server_message_1 = "server handled: " + event_data
         emit('server_message_1', { 'message': server_message_1 }, broadcast=True)
 
     def _handle_client_event_2(self, data):
         '''
         Handle event and send back server message 2
         '''
-        server_message_2 = "server handled: " + data.message
+        event_data = data.get('message', 'Message')
+        server_message_2 = "server handled: " + event_data
         emit('server_message_1', { 'message': server_message_2 }, broadcast=True)
 
     def _setup_event_handler_map(self):
@@ -94,11 +96,11 @@ def main():
     parser = argparse.ArgumentParser(description="__PYTHON_PROJECT_DESCRIPTION__")
     parser.add_argument('--host', type=str, default='127.0.0.1', help="Host address to run the server on (default: 127.0.0.1)")
     parser.add_argument('--port', type=int, default=5001, help="Port to run the server on (default: 5001)")
-    parser.add_argument('--home', type=str, default='__PYTHON_APP__.html', help="Home page.")
+    parser.add_argument('--home', type=str, default='template_flask_app.html', help="Home page.")
 
     args = parser.parse_args()
 
-    app = __PYTHON_APP__(args.home)
+    app = template_flask_app(args.home)
     app_host = args.host
     app_port = args.port
     app.run(host=app_host, port=app_port)
