@@ -48,6 +48,13 @@ class MaterialXFlaskApp:
         for event_name, handler in self.event_handlers.items():
             self.socketio.on_event(event_name, handler)        
 
+    def run(self, host, port, debug=True):
+        """
+        Run the Flask server with SocketIO.
+        """
+        self.socketio.run(self.app, host, port, debug=debug)
+
+
 class MaterialXGPUOpenApp(MaterialXFlaskApp):
     '''
     A Flask application that connects with the GPUOpen MaterialX server to allow downloading 
@@ -149,12 +156,6 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
             'download_materialx': self.handle_download_materialx,
             'extract_material': self.handle_extract_material,
         }
-
-    def run(self, host, port, debug=True):
-        """
-        Run the Flask server with SocketIO.
-        """
-        self.socketio.run(self.app, host, port, debug=debug)
 
 # Main entry point
 def main(): 

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--StyleStart-->
+    <!-- See https://cdnjs.com/libraries/codemirror -->
+    <title id="page_title">MaterialX Conversion App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/night.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/dracula.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/json/json.min.js"></script>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>  
+    
+    <style>
+        .CodeMirror {
+            font-size: 11px;
+            border: solid thin lightskyblue;
+            height: 50em;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>  
+    <!--StyleEnd-->
+</head>
+
+<body>
+<!--Begin-->
+    <div class="container-fluid p-2">
+    <h2 id="title">MaterialX Conversion App</h2>
+
+        <p style="font-size: 12px">Sample application used to support glTF node graph / MaterialX / OpenUSD interop
+            testing and site deployment. OpenUSD conversion uses usd-core and
+            custom code to generate a simplified USD document (*). glTF Texture Procedural
+            conversion uses the library found <a href="https://github.com/KhronosGroup/glTF-MaterialX-Converter"
+            target="_blank">here</a>
+            <br>
+            <sub>(*) Note that synchronization of USD to MaterialX 1.39
+                is the target.</sub>            
+        </p>
+        <div class="row p-2">
+            <div class="col-sm p-2 border">
+                <button id="getMTLXButton" class="btn btn-sm btn-primary">Load MaterialX</button>
+                <textarea id="mtlxOutput" rows="20" cols="100%"></textarea>
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="col-sm p-2 border">
+            <button id="renderMTLXButton" class="btn btn-sm btn-primary">Render Reference Image</button>
+            <img src="" id="mtlxImage" alt="MaterialX Image" style="display:none; width: 100%">        
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="col-sm p-2 border">
+                <button id="convertToUsd" class="btn btn-sm btn-primary">Convert to USD</button>
+                <textarea id="usdOutput" rows="20" cols="80"></textarea>
+            </div>
+        </div>
+        <div class="row p-2">
+                <div class="col-sm p-2 border">
+                <button id="convertToglTF" class="btn btn-sm btn-primary">Convert to glTF Texture Procedural</button>
+                <textarea id="glTFOutput" rows="20" cols="80"></textarea>        
+            </div>
+        </div>    
+    </div>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script> -->
+    <script type="module">
+
+        import { MaterialX_Conversion_Client } from "{{ url_for('static', filename='js/MaterialXConversionApp.js') }}";
+
+        window.onload = () => {
+            document.body.setAttribute('data-bs-theme', 'dark');
+
+            // Instantiate the client
+            const client = new MaterialX_Conversion_Client("", "");
+            // Setup text formatting
+            client.setupXML();
+        };
+
+    </script>
+<!--End-->
+</body>
+</html>

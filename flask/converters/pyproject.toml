@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "materialx_conversion_app"
+version = "0.1.0"
+description = "A Flask-based application for MaterialX conversion utilities."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Bernard Kwok", email = "kwokcb@gmail.com"}
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "flask>=2.3.2",
+    "flask-socketio>=5.3.4",
+    "materialx>=1.38.9",
+    "usd-core>=24.11"
+]
+
+[project.scripts]
+materialx-conversion-app = "MaterialXConversionApp:main"
+
+[tool.setuptools.packages.find]
+where = ["."] 
+
+[tool.setuptools.package-data]
+"materialx_conversion_app" = [
+    "data/*",
+    "static/css/*",
+    "static/js/*",
+    "templates/*",
+]
+
+[project.urls]
+"Homepage" = "https://kwokcb.github.io/materialxWeb/"
+"Issues" = "https://github.com/kwokcb/materialxWeb/issues"
+"Source Code" = "https://github.com/kwokcb/materialxWeb"
+"Documentation" = "https://kwokcb.github.io/materialxWeb/"
