@@ -124,10 +124,10 @@ class MaterialXConversionApp(MaterialXFlaskApp):
         materialx_string = data.get('materialxDocument', 'MaterialX content')
         print('> Server: render_materialx event received')
 
-        # Get environment variable: MATERIALX_ILM_VIEWER
-        ilm_viewer = os.getenv('MATERIALX_ILM_VIEWER', '')
+        # Get environment variable: MATERIALX_DEFAULT_VIEWER
+        ilm_viewer = os.getenv('MATERIALX_DEFAULT_VIEWER', '')
         if len(ilm_viewer) == 0:
-            print('>> MATERIALX_ILM_VIEWER environment variable not set')
+            print('>> MATERIALX_DEFAULT_VIEWER environment variable not set')
             return
 
         doc = mx.createDocument()
