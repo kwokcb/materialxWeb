@@ -2,7 +2,7 @@
 
 This sample package shows the basic components required to connect MaterialX running in Python to a Web client running Javascript in order to access materials on the <a href="https://matlib.gpuopen.com/main/materials/all">AMD GPUOpen material site</a>.
 
-<img src="https://raw.githubusercontent.com/kwokcb/materialxWeb/refs/heads/main/flask/gpuopen/images/extract_material_1.png?token=GHSAT0AAAAAAC4WHG2LDAVWSCTF7TZSILEEZ35SK7Q" alt="Sample extracted material" width="100%">
+<img src="https://raw.githubusercontent.com/kwokcb/materialxWeb/refs/heads/main/flask/gpuopen/images/extract_material_1.png" alt="Sample extracted material" width="100%">
 
 ### Dependents
 - Usage of the `materialxMaterials` Python package
