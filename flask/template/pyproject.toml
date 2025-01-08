@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "__PYTHON_APP_NAME__"
+version = "0.1.0"
+description = "__PYTHON_PROJECT_DESCRIPTION__"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+    {name = "__PYTHON_PROJECT_AUTHOR_NAME__", email = "__PYTHON_PROJECT_AUTHOR_NAME__"}
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "flask>=2.3.2",
+    "flask-socketio>=5.3.4",
+    "argparse>=1.4.0",
+    "__PYTHON_PROJECT_PACKAGE_DEPENDENCIES__",
+]
+
+[project.scripts]
+__PYTHON_APP_NAME__ = "__PYTHON_APP__:main"
+
+[tool.setuptools.packages.find]
+where = ["."] 
+
+[tool.setuptools.package-data]
+"__PYTHON_APP_NAME__" = [
+    "data/*",
+    "static/css/*",
+    "static/js/*",
+    "templates/*",
+]
+
+[project.urls]
+"Homepage" = "__PYTHON_PROJECT_HOME_PAGE__"
+"Issues" = "__PYTHON_PROJECT_HOME_PAGE__/issues"
+"Source Code" = "__PYTHON_PROJECT_HOME_PAGE__"
+"Documentation" = "__PYTHON_PROJECT_HOME_PAGE__"
