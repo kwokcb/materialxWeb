@@ -1,11 +1,9 @@
-## GPUOpen Material Inspector
+## Sample Flask Application
 
-This sample package shows the basic components required to connect MaterialX running in Python to a Web client running Javascript in order to access materials on the <a href="https://matlib.gpuopen.com/main/materials/all">AMD GPUOpen material site</a>.
-
-<img src="https://raw.githubusercontent.com/kwokcb/materialxWeb/refs/heads/main/flask/gpuopen/images/extract_material_1.png" alt="Sample extracted material" width="100%">
+Sample template Flask App. Just sends messages back and forth between client and server
+triggered some basic UI buttons.
 
 ### Dependents
-- Usage of the `materialxMaterials` Python package
 - `flask` and `flask-socketio` Python packages
 - `socket-io` Javascript library
 
@@ -14,7 +12,7 @@ This sample package shows the basic components required to connect MaterialX run
 Either install the package from `PyPi`:
 
 ```
-pip install materialx_gpuopen_app
+pip install template_flask_app
 ```
 
 or clone the <a href="https://github.com/kwokcb/materialxWeb">materialXWeb</a>  
@@ -35,16 +33,16 @@ if planning to perform edits on the repository.
 
 Run the main package using:
 ```
-materialx-gpuopen-app
+template_flask_app
 ```
 or directly with Python:
 ```
-python MaterialXGPUOpenApp.py
+python template_flask_app.py
 ```
 
 By default the application is running a local server. To access the client page open the following in a Web browser:
 ```
-http://127.0.0.1:8080
+http://127.0.0.1:5001
 ```
 
 
