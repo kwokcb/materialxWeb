@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "materialx_gpuopen_app"
+name = "materialx_conversion_app"
 version = "0.1.0"
-description = "A Flask-based application for accessing GPUOpen MaterialX materials."
+description = "A Flask-based application for MaterialX conversion utilities."
 readme = "README.md"
 requires-python = ">=3.8"
 license = {file = "LICENSE"}
@@ -22,18 +22,18 @@ classifiers = [
 dependencies = [
     "flask>=2.3.2",
     "flask-socketio>=5.3.4",
-    "argparse>=1.4.0",
-    "materialxMaterials>=0.0.1",
+    "materialx>=1.38.9",
+    "usd-core>=24.11"
 ]
 
 [project.scripts]
-materialx-gpuopen-app = "MaterialXGPUOpenApp:main"
+materialx-conversion-app = "MaterialXConversionApp:main"
 
 [tool.setuptools.packages.find]
 where = ["."] 
 
 [tool.setuptools.package-data]
-"materialx_gpuopen_app" = [
+"materialx_conversion_app" = [
     "data/*",
     "static/css/*",
     "static/js/*",

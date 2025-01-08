@@ -1,6 +1,5 @@
 import MaterialX as mx
 from pxr import Usd, UsdShade, Sdf, UsdGeom, Gf
-#, UsdLux, Sdf, Tf, UsdGeom,  UsdShade, Gf  # noqa: E402 # type: ignore
 
 def mapMtlxToUsdShaderNotation(name):
     '''
@@ -426,4 +425,3 @@ def convertMtlxToUsd(doc, emitAllValueElements):
 
     return stageString
 
-###############################################

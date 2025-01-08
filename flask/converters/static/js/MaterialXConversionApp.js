@@ -5,17 +5,41 @@ export class MaterialX_Conversion_Client extends WebSocketClient {
         // Call parent to setup socket I/O.
         super(socketLibrary, server);
 
-        let editor = null;
-        let usdEditor = null;
-        let gltfEditor = null;
+        this.editor = null;
+        this.usdEditor = null;
+        this.gltfEditor = null;
 
         this.setupEventHandlers = this.setupEventHandlers.bind(this);
         this.setupXML = this.setupXML.bind(this);
     }
 
-    setupEventHandlers() {
-        console.log('Set up event handlers...')
+    handleImageRendered(data)
+    {
+        console.log('WEB: mtlx rendered event:', data.image ? 'Have image' : 'No image');
+        let base64String = data.image
+        if (base64String) {
+            const base64String = data.image;
 
+            // Decode Base64 to binary and create a Blob
+            const binary = atob(base64String);
+            const array = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                array[i] = binary.charCodeAt(i);
+            }
+            const blob = new Blob([array], { type: 'image/png' });
+
+            // Create a URL for the Blob and display the image
+            const url = URL.createObjectURL(blob);
+            document.getElementById('mtlxImage').src = url;
+            document.getElementById('mtlxImage').style.display = 'block';
+        }
+        else {
+            document.getElementById('mtlxImage').style.display = 'none';
+        }
+    }
+
+    setupEventHandlers() 
+    {
         let app = this;
 
         document.getElementById('getMTLXButton').addEventListener('click', function () {
@@ -42,7 +66,6 @@ export class MaterialX_Conversion_Client extends WebSocketClient {
         });
         this.socket.on('materialx_loaded', function (data) {
             console.log('WEB: materialx loaded event:') //, data.materialxDocument);
-            //console.log('Web: Emitting convert_mtlx_to_usd event');
             app.editor.setValue(data.materialxDocument);
         });
 
@@ -51,37 +74,10 @@ export class MaterialX_Conversion_Client extends WebSocketClient {
             app.socket.emit('render_materialx', { materialxDocument: document.getElementById('mtlxOutput').value });
         });
         this.socket.on('materialx_rendered', function (data) {
-            console.log('WEB: mtlx rendered event:', data.image ? 'Have image' : 'No image');
-            let base64String = data.image
-            if (base64String) {
-                const base64String = data.image;
-
-                // Decode Base64 to binary and create a Blob
-                const binary = atob(base64String); // Decode Base64 to binary
-                const array = new Uint8Array(binary.length);
-                for (let i = 0; i < binary.length; i++) {
-                    array[i] = binary.charCodeAt(i); // Convert to Uint8Array
-                }
-                const blob = new Blob([array], { type: 'image/png' }); // Create a Blob
-
-                // Create a URL for the Blob and display the image
-                const url = URL.createObjectURL(blob);
-                document.getElementById('mtlxImage').src = url;
-                document.getElementById('mtlxImage').style.display = 'block';
-            }
-            else {
-                document.getElementById('mtlxImage').style.display = 'none';
-            }
+            app.handleImageRendered(data);
         });
 
-        // Listen for the 'title_updated' event
-        // When the event is received, update the title
-        //this.socket.on('title_updated', function(data) {
-        //    console.log('WEB: title updated event:', data.updatedTitle);
-        //    document.getElementById('title').textContent = data.updatedTitle;
-        //});
-
-        // USD Handling
+        // USD Conversion
         document.getElementById('convertToUsd').addEventListener('click', function () {
             console.log('Web: Emitting convert_mtlx_to_usd event');
             app.socket.emit('convert_mtlx_to_usd', { materialxDocument: document.getElementById('mtlxOutput').value });
@@ -91,7 +87,7 @@ export class MaterialX_Conversion_Client extends WebSocketClient {
             app.usdEditor.setValue(data.usdDocument);
         });
 
-        // glTF Handling
+        // glTF Conversion
         document.getElementById('convertToglTF').addEventListener('click', function () {
             console.log('Web: Emitting convert_mtlx_to_gltf event');
             app.socket.emit('convert_mtlx_to_gltf', { materialxDocument: document.getElementById('mtlxOutput').value });
@@ -102,12 +98,13 @@ export class MaterialX_Conversion_Client extends WebSocketClient {
         });
 
         // Handle Python status messages
-        this.socket.on('python_status', function (data) {
-            console.log('WEB: python_status event:', data.status);
+        this.socket.on('materialx_version', function (data) {
+            console.log('WEB: materialx_version event:', data.status);
         });
     }
 
-    setupXML() {
+    setupXML() 
+    {
         // Initialize CodeMirror for XML syntax highlighting
         const materialXTextArea = document.getElementById('mtlxOutput');
         this.editor = CodeMirror.fromTextArea(materialXTextArea, {
@@ -128,10 +125,6 @@ export class MaterialX_Conversion_Client extends WebSocketClient {
             materialXTextArea.value = this.editor.getValue();
         });
         this.editor.setSize('auto', '300px');
-        //var pasteButton = document.getElementById('materialXTextArea_paste');
-        //if (pasteButton) {
-        //    addPasteHandler(pasteButton, editor);
-        //}            
 
         ///////////////////////////////////////////////////////////////////////////////
 
@@ -154,10 +147,6 @@ export class MaterialX_Conversion_Client extends WebSocketClient {
             usdOutput.value = this.usdEditor.getValue();
         });
         this.usdEditor.setSize('auto', '300px');
-        //var pasteButton = document.getElementById('usdOutput_paste');
-        //if (pasteButton) {
-        //    addPasteHandler(pasteButton, usdEditor);
-        //}            
 
         ///////////////////////////////////////////////////////////////////////////////
         const glTFOutput = document.getElementById('glTFOutput');
@@ -179,10 +168,5 @@ export class MaterialX_Conversion_Client extends WebSocketClient {
             glTFOutput.value = this.glTFEditor.getValue();
         });
         this.glTFEditor.setSize('auto', '300px');
-        //var pasteButton = document.getElementById('usdOutput_paste');
-        //if (pasteButton) {
-        //    addPasteHandler(pasteButton, glTFEditor);
-        //}            
-
     }
 }

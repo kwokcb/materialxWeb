@@ -1,24 +1,23 @@
-## GPUOpen Material Inspector
+## Materialx Convertors
 
-This sample package shows the basic components required to connect MaterialX running in Python to a Web client running Javascript in order to access materials on the <a href="https://matlib.gpuopen.com/main/materials/all">AMD GPUOpen material site</a>.
-
-<img src="https://raw.githubusercontent.com/kwokcb/materialxWeb/refs/heads/main/flask/gpuopen/images/extract_material_1.png?token=GHSAT0AAAAAAC4WHG2LDAVWSCTF7TZSILEEZ35SK7Q" alt="Sample extracted material" width="100%">
+This sample package shows the basic components required to connect MaterialX running in Python to a Web client running Javascript in order to run conversion or rendering applications.
 
 ### Dependents
-- Usage of the `materialxMaterials` Python package
-- `flask` and `flask-socketio` Python packages
-- `socket-io` Javascript library
+- `flask` and `flask-socketio`: Python packages for Flask support
+- `socket-io`: For Javascript WebSocket support
+- `usd-core`: for OpenUSD conversion
+- `gltf_materialx_converter`: `MaterialX glTF Convertor` Python library. Note that this is not available on `PyPi` currently so the package
+must be locally installed.
 
 ### Installation
 
 Either install the package from `PyPi`:
 
 ```
-pip install materialx_gpuopen_app
+pip install materialx_conversion_app
 ```
 
-or clone the <a href="https://github.com/kwokcb/materialxWeb">materialXWeb</a>  
-repository and install from the root folder:
+or clone the <a href="https://github.com/kwokcb/materialxWeb">materialXWeb</a> repository and install from the root folder:
 
 ```
 pip install .
@@ -35,16 +34,16 @@ if planning to perform edits on the repository.
 
 Run the main package using:
 ```
-materialx-gpuopen-app
+materialx_conversion_app
 ```
 or directly with Python:
 ```
-python MaterialXGPUOpenApp.py
+python MaterialXConversionApp.py
 ```
 
 By default the application is running a local server. To access the client page open the following in a Web browser:
 ```
-http://127.0.0.1:8080
+http://127.0.0.1:8000
 ```
 
 

@@ -5,19 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- See https://cdnjs.com/libraries/codemirror -->
     <!--StyleStart-->
-    <title id="page_title">MaterialX Python/JS Flask Test</title>
+    <!-- See https://cdnjs.com/libraries/codemirror -->
+    <title id="page_title">MaterialX Conversion App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/night.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/dracula.min.css">
 
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/monokai.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/dracula.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/material.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/material-darker.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/abbott.min.css">
-    -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/json/json.min.js"></script>   
@@ -36,27 +30,40 @@
 </head>
 
 <body>
-    <div class="container p-2">
-    <h2 id="title">MaterialX / OpenUSD / glTF Conversion</h2>
+<!--Begin-->
+    <div class="container-fluid p-2">
+    <h2 id="title">MaterialX Conversion App</h2>
 
-        <br>
-        <div class="row">
-            <div class="col-sm-6 border">
+        <p style="font-size: 12px">Sample application used to support glTF node graph / MaterialX / OpenUSD interop
+            testing and site deployment. OpenUSD conversion uses usd-core and
+            custom code to generate a simplified USD document (*). glTF Texture Procedural
+            conversion uses the library found <a href="https://github.com/KhronosGroup/glTF-MaterialX-Converter"
+            target="_blank">here</a>
+            <br>
+            <sub>(*) Note that synchronization of USD to MaterialX 1.39
+                is the target.</sub>            
+        </p>
+        <div class="row p-2">
+            <div class="col-sm p-2 border">
                 <button id="getMTLXButton" class="btn btn-sm btn-primary">Load MaterialX</button>
                 <textarea id="mtlxOutput" rows="20" cols="100%"></textarea>
             </div>
-            <div class="col border">
-                <button id="renderMTLXButton" class="btn btn-sm btn-primary">Render MaterialX</button>
-                <img src="" id="mtlxImage" alt="MaterialX Image" style="display:none; width: 100%">        
+        </div>
+        <div class="row p-2">
+            <div class="col-sm p-2 border">
+            <button id="renderMTLXButton" class="btn btn-sm btn-primary">Render Reference Image</button>
+            <img src="" id="mtlxImage" alt="MaterialX Image" style="display:none; width: 100%">        
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 border">
+        <div class="row p-2">
+            <div class="col-sm p-2 border">
                 <button id="convertToUsd" class="btn btn-sm btn-primary">Convert to USD</button>
                 <textarea id="usdOutput" rows="20" cols="80"></textarea>
             </div>
-            <div class="col border">
-                <button id="convertToglTF" class="btn btn-sm btn-primary">Convert to glTF</button>
+        </div>
+        <div class="row p-2">
+                <div class="col-sm p-2 border">
+                <button id="convertToglTF" class="btn btn-sm btn-primary">Convert to glTF Texture Procedural</button>
                 <textarea id="glTFOutput" rows="20" cols="80"></textarea>        
             </div>
         </div>    
@@ -67,22 +74,16 @@
 
         import { MaterialX_Conversion_Client } from "{{ url_for('static', filename='js/MaterialXConversionApp.js') }}";
 
-        // Emit 'page_loaded' event after the page has fully loaded
         window.onload = () => {
             document.body.setAttribute('data-bs-theme', 'dark');
-            //setupXML();
-            //socket.emit('page_loaded');
-            // Send handle_have_gltf_converter event
-            //socket.emit('query_have_gltf_converter');
-            //socket.on('have_gltf_converter', function(data) {
-            //    console.log('WEB: have_gltf_converter event:', data.have_gltf_converter);
-            //});
 
             // Instantiate the client
             const client = new MaterialX_Conversion_Client("", "");
-            client.setupXML();            
+            // Setup text formatting
+            client.setupXML();
         };
 
     </script>
+<!--End-->
 </body>
 </html>
