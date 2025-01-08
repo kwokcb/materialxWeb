@@ -1,3 +1,4 @@
 flask/gpuopen/materialx_gpuopen_app.egg-info/
 flask/gpuopen/__pycache__/
 flask/converters/__pycache__/
+flask/template/template_flask_app.egg-info/
