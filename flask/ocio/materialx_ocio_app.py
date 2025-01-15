@@ -103,7 +103,9 @@ class materialx_ocio_app(MaterialXFlaskApp):
 
         # Generate MaterialX definitions and implementations for all color spaces
         # found in the ACES Cg Config and ACES Studio Config configurations.
-        result = ''
+        nodedef_string = ''
+        impl_string = ''
+        source_string = ''
         for c in configs:
             config = configs[c][0]
             for colorSpace in config.getColorSpaces():
@@ -136,16 +138,16 @@ class materialx_ocio_app(MaterialXFlaskApp):
 
                             #filename = outputPath / mx.FilePath(definition.getName() + '.' + 'mtlx')
                             #print('Write MaterialX definition file:', filename.asString())
-                            definitionString = mx.writeToXmlString(definitionDoc)
+                            nodedef_string = mx.writeToXmlString(definitionDoc)
 
                             # Write the implementation document
                             #implFileName = outputPath / mx.FilePath('IM_' + transformName + '.' + 'mtlx')
                             #print('Write MaterialX implementation file:', implFileName.asString())
                             implementationString = mx.writeToXmlString(implDoc)
 
-                            result = definitionString + '\n' + implementationString
+                            impl_string = implementationString
 
-                            #generator.writeShaderCode(outputPath, code, transformName, extension, target)
+                            source_string = code
                     else:
                         # Generate node graph
                         outputType = 'color3'
@@ -154,27 +156,31 @@ class materialx_ocio_app(MaterialXFlaskApp):
                             transformName = generator.createTransformName(sourceColorSpace, targetColorSpace, outputType, 'mxgraph_')
                             #filename = outputPath / mx.FilePath(transformName + '.' + 'mtlx')
                             #print('Write MaterialX node graph definition file:', filename.asString())
-                            result = mx.writeToXmlString(graphDoc)
+                            nodedef_string = mx.writeToXmlString(graphDoc)
 
                 else:
-                    result = 'Could not find suitable color space name to use: ' + colorSpace.getName()
+                    print('Could not find suitable color space name to use: ' + colorSpace.getName())
         
-        return result
+        return nodedef_string, impl_string, source_string
 
     def handle_get_materialx_info(self, data):
         '''
         Handle event and send back server message 2
         '''
-        event_data = data.get('message', 'Message')
+        createGraphs = data.get('nodegraphs', 'Node Graphs')
         
         targetColorSpace = 'lin_rec709'
-        createGraphs = True
-        result = self.get_materialx_info(targetColorSpace, createGraphs)
+        #createGraphs = True
+        nodedef_string, impl_string, source_string = self.get_materialx_info(targetColorSpace, createGraphs)
 
-        print('> Generatated MaterialX', result != None)
+        print('> Generatated MaterialX', nodedef_string != None)
         
         #server_message_get_mtlx_info = 'Using OCIO Version: ' + self.OCIO_version + '. MaterialX Version: ' + self.materialx_version
-        emit('server_message_get_mtlx_info', { 'message': result }, broadcast=True)
+        emit('server_message_get_mtlx_info', 
+             {  'nodedef_string': nodedef_string,
+                'impl_string': impl_string,
+                'source_string': source_string
+              }, broadcast=True)
 
     def handle_get_version_info(self, data):
         print('> Get version information')

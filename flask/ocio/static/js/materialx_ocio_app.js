@@ -7,6 +7,8 @@ export class MaterialXOCIOClient extends WebSocketClient {
 
         // Do other setup
         this.materialXEditor = null;
+        this.materialXEditor_impl = null;
+        this.materialXEditor_source = null;
     }
 
     convertTableToBootstrapRowCol(container) {
@@ -47,10 +49,42 @@ export class MaterialXOCIOClient extends WebSocketClient {
         this.convertTableToBootstrapRowCol(configDOM);
     }
 
-    updateMaterialXInfo(message) {
-        //const materialxDOM = document.getElementById('materialX_info')
-        //materialxDOM.value = message;
-        this.materialXEditor.setValue(message);
+    updateMaterialXInfo(data) {
+        console.log('Nodedef:\n',
+            data.nodedef_string, "\nImpl: ",
+            data.impl_string, "\nSource: ",
+            data.source_string
+        );
+
+        this.materialXEditor.setValue(data.nodedef_string);
+
+        let elem = document.getElementById('materialX_impl');
+        let content = data.impl_string;
+        if (content)
+        {
+            content = content.replace(/^\s*[\r\n]+|[\r\n]+\s*$/g, '');
+            elem.style.display = 'block'
+            elem.value = content;
+            const lines = content.split(/\r?\n/);
+            elem.rows = lines.length;
+        }
+        else {
+            elem.style.display = 'none'
+        }
+
+        elem = document.getElementById('materialX_source')
+        content = data.source_string;
+        if (content)
+        {
+            content = content.replace(/^\s*[\r\n]+|[\r\n]+\s*$/g, '');
+            elem.style.display = 'block'
+            elem.value = content;
+            const lines = content.split(/\r?\n/);
+            elem.rows = lines.length;
+        }
+        else {
+            elem.style.display = 'none'
+        }
     }
 
     updateStatus(message, force = false) {
@@ -70,7 +104,12 @@ export class MaterialXOCIOClient extends WebSocketClient {
 
     getMaterialXInfo() {
         this.updateStatus("Emit client_event_get_materialx_info event");
-        this.emit('client_event_get_materialx_info', { message: "event 2" });
+        let checkbox_nodegraphs = document.getElementById('checkbox_nodegraphs').checked
+        this.emit('client_event_get_materialx_info', 
+            { 
+                nodegraphs: checkbox_nodegraphs 
+            }
+        );
     }
 
     handleServerConfigInfo(data) {
@@ -80,7 +119,7 @@ export class MaterialXOCIOClient extends WebSocketClient {
 
     handleServerMaterialXInfo(data) {
         this.updateStatus("Received server materialx info");
-        this.updateMaterialXInfo(data.message);
+        this.updateMaterialXInfo(data);
     }
 
     handleServerVersionInfo(data) {
@@ -122,23 +161,33 @@ export class MaterialXOCIOClient extends WebSocketClient {
     }
     
     setupXML() {
-        /* 
-        const materialXTextArea = document.getElementById('mtlxOutput');
-        this.editor = CodeMirror.fromTextArea(materialXTextArea, {
-            mode: 'application/json',
-            lineNumbers: true,
-            theme: 'dracula',
-        });
-        this.editor.setSize('auto', '300px');
-        */
-
         // Initialize CodeMirror for MaterialX content
-        const materialXTextArea2 = document.getElementById('materialX_info');
-        this.materialXEditor = CodeMirror.fromTextArea(materialXTextArea2, {
+        const materialX_nodedef = document.getElementById('materialX_nodedef');
+        this.materialXEditor = CodeMirror.fromTextArea(materialX_nodedef, {
             mode: 'application/xml',
             lineNumbers: true,
             theme: 'dracula',
         });
         this.materialXEditor.setSize('auto', '300px');
+
+        /*
+        const materialX_impl = document.getElementById('materialX_nodedef');
+        this.materialXEditor_impl = CodeMirror.fromTextArea(materialX_impl, {
+            mode: 'application/xml',
+            lineNumbers: true,
+            theme: 'dracula',
+        });
+        this.materialXEditor_impl.setSize('auto', '100px');
+        //this.materialXEditor_impl.setDisplay('none')
+
+        const materialx_source = document.getElementById('materialx_source');
+        this.materialXEditor_source = CodeMirror.fromTextArea(materialx_source, {
+            mode: 'application/xml',
+            lineNumbers: true,
+            theme: 'dracula',
+        });
+        this.materialXEditor_source.setSize('auto', '100px');
+        //this.materialXEditor_source.setDisplay('none')
+        */
     }
 }

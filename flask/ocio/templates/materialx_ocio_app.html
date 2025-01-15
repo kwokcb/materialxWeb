@@ -60,8 +60,13 @@
         <div class="row pb-2 pt-2">
             <div class="col-sm py-0">
                 <button id="button_event_get_materialx" class="btn btn-sm btn-primary">Generate MaterialX</button>
-                <div id="config_info" class="container-fluid mt-4">
-                    <textarea id="materialX_info" rows="10" class="form-control small_text"></textarea>
+                <input id="checkbox_nodegraphs" type="checkbox" aria-label="Checkbox for following text input">
+                    Nodegraph Definitions
+                </input>
+                <div id="materialx_info" class="container-fluid mt-4">
+                    <textarea id="materialX_nodedef" rows="10" class="form-control small_text"></textarea>
+                    <textarea id="materialX_impl" rows="10" class="form-control small_text" style="display: none"></textarea>
+                    <textarea id="materialX_source" rows="10" class="form-control small_text" style="display: none"></textarea>
                 </div>
             </div>
         </div>
