@@ -6,6 +6,10 @@ import argparse
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
+import MaterialX as mx
+import PyOpenColorIO as OCIO
+from materialxocio import core as mxocio
+
 class MaterialXFlaskApp:
     def __init__(self, home):
         self.home = home
@@ -60,6 +64,22 @@ class materialx_ocio_app(MaterialXFlaskApp):
         """
         super().__init__(homePage)
 
+        # Check OCIO version
+        self.OCIO_version = OCIO.GetVersion()
+        ocioVersion = self.OCIO_version.split('.')
+        if len(ocioVersion) < 2:
+            print('> OCIO version is not in the expected format.')
+        if int(ocioVersion[0]) < 2 or int(ocioVersion[1]) < 2:
+            print('> OCIO version 2.2 or greater is required.')
+    
+        print('> Using OCIO version:', self.OCIO_version)
+
+        self.materialx_version = mx.getVersionString()
+        print('> Using MaterialX version:', self.materialx_version)
+
+        self.generator = mxocio.OCIOMaterialaxGenerator()
+        #self.configs, self.aconfig = self.generator.getBuiltinConfigs()
+
     def _emit_status_message(self, message):
         """
         Emit a status message to the client.
@@ -71,8 +91,13 @@ class materialx_ocio_app(MaterialXFlaskApp):
         Handle event and send back server message 1
         '''
         event_data = data.get('message', 'Message')
-        server_message_1 = "server handled: " + event_data
-        emit('server_message_1', { 'message': server_message_1 }, broadcast=True)
+        #server_message_1 = "server handled: " + event_data
+
+        #self.generator = mxocio.OCIOMaterialaxGenerator()
+        self.configs, self.aconfig = self.generator.getBuiltinConfigs()
+        self.config_info = self.generator.printConfigs(self.configs)
+ 
+        emit('server_message_1', { 'message': self.config_info }, broadcast=True)
 
     def _handle_client_event_2(self, data):
         '''
@@ -80,7 +105,7 @@ class materialx_ocio_app(MaterialXFlaskApp):
         '''
         event_data = data.get('message', 'Message')
         server_message_2 = "server handled: " + event_data
-        emit('server_message_1', { 'message': server_message_2 }, broadcast=True)
+        emit('server_message_2', { 'message': server_message_2 }, broadcast=True)
 
     def _setup_event_handler_map(self):
         """

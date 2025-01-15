@@ -1,18 +1,54 @@
-import { WebSocketClient,  WebSocketEventHandlers } from './WebSocketClient.js';
+import { WebSocketClient, WebSocketEventHandlers } from './WebSocketClient.js';
 
-export class templateClient extends WebSocketClient
-{
+export class templateClient extends WebSocketClient {
     constructor(socketLibrary, server) {
         // Call parent to setup socket I/O.
         super(socketLibrary, server);
-        
+
         // Do other setup
     }
 
-    updateStatus(message, force = false) 
-    {
+    convertTableToBootstrapRowCol(container) {
+        // Modify the table to make it scrollable using Bootstrap classes
+        const tables = container.querySelectorAll('table');
+        tables.forEach(table => {
+            // Add Bootstrap table classes
+            table.classList.add('table', 'table-dark', 'table-bordered', 'table-hover', 'table-striped');
+
+            // Wrap the table in a div with Bootstrap's 'overflow-auto' class
+            const wrapperDiv = document.createElement('div');
+            wrapperDiv.classList.add('overflow-auto');
+            wrapperDiv.style.maxWidth = '100%';
+            wrapperDiv.style.maxHeight = '400px';
+
+            // Move the table inside the wrapper div
+            table.parentNode.insertBefore(wrapperDiv, table);
+            wrapperDiv.appendChild(table);
+
+            // Add a Bootstrap color class to the table header
+            const thead = table.querySelector('thead');
+            const headerColorClass = 'table-primary'; 
+            if (thead) {
+                thead.classList.add(headerColorClass);
+            } else {
+                const firstRow = table.querySelector('tr');
+                if (firstRow) {
+                    firstRow.classList.add(headerColorClass); 
+                }
+            }
+        });
+    }
+
+    updateConfigInfo(message) {
+        const html = marked.parse(message);
+        const configDOM = document.getElementById('config_info')
+        configDOM.innerHTML = html;
+        this.convertTableToBootstrapRowCol(configDOM);
+    }
+
+    updateStatus(message, force = false) {
         const inputDOM = document.getElementById('status_message');
-        if (inputDOM.value == 'Status' || force)        
+        if (inputDOM.value == 'Status' || force)
             inputDOM.value = message
         else
             inputDOM.value += '\n' + message
@@ -30,16 +66,14 @@ export class templateClient extends WebSocketClient
         this.emit('client_event_2', { message: "event 2" });
     }
 
-    handleServerMessage1(data)
-    {
+    handleServerMessage1(data) {
         console.log("WEB: Receive server message 1");
-        this.updateStatus(data.message);
+        this.updateConfigInfo(data.message);
     }
 
-    handleServerMessage2(data)
-    {
+    handleServerMessage2(data) {
         console.log("WEB: Receive server message 2");
-        this.updateStatus(data.message);       
+        this.updateStatus(data.message);
     }
 
     setupEventHandlers() {
