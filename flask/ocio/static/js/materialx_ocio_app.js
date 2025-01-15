@@ -46,6 +46,11 @@ export class templateClient extends WebSocketClient {
         this.convertTableToBootstrapRowCol(configDOM);
     }
 
+    updateMaterialXInfo(message) {
+        const materialxDOM = document.getElementById('materialX_info')
+        materialxDOM.value = message;
+    }
+
     updateStatus(message, force = false) {
         const inputDOM = document.getElementById('status_message');
         if (inputDOM.value == 'Status' || force)
@@ -56,24 +61,24 @@ export class templateClient extends WebSocketClient {
         inputDOM.scrollTop = inputDOM.scrollHeight;
     }
 
-    emitEvent1() {
-        console.log("WEB: Emitting client_event_1 event");
-        this.emit('client_event_1', { message: "event 1" });
+    emitGetConfigInfo() {
+        this.updateStatus("Emit client_event_get_config_info event");
+        this.emit('client_event_get_config_info', { message: "event 1" });
     }
 
-    emitEvent2() {
-        console.log("WEB: Emitting client_event_2 event");
-        this.emit('client_event_2', { message: "event 2" });
+    getMaterialXInfo() {
+        this.updateStatus("Emit client_event_get_materialx_info event");
+        this.emit('client_event_get_materialx_info', { message: "event 2" });
     }
 
-    handleServerMessage1(data) {
-        console.log("WEB: Receive server message 1");
+    handleServerConfigInfo(data) {
+        this.updateStatus("Received server config info");
         this.updateConfigInfo(data.message);
     }
 
-    handleServerMessage2(data) {
-        console.log("WEB: Receive server message 2");
-        this.updateStatus(data.message);
+    handleServerMaterialXInfo(data) {
+        this.updateStatus("Received server materialx info");
+        this.updateMaterialXInfo(data.message);
     }
 
     setupEventHandlers() {
@@ -82,21 +87,19 @@ export class templateClient extends WebSocketClient {
             this.updateStatus('Status', true);
         });
 
-        // Bind event 1 to button click
-        document.getElementById('button_event_1').addEventListener('click', () => {
-            this.emitEvent1();
+        document.getElementById('button_event_get_config').addEventListener('click', () => {
+            this.emitGetConfigInfo();
         });
 
-        // Bind event 2 button click
-        document.getElementById('button_event_2').addEventListener('click', () => {
-            this.emitEvent2();
+        document.getElementById('button_event_get_materialx').addEventListener('click', () => {
+            this.getMaterialXInfo();
         });
 
         // Set up socket message event handlers
         this.webSocketWrapper = new WebSocketEventHandlers(this.socket, {
             status_message: (data) => { console.log('WEB: status event:', data.message); this.updateStatus(data.message) },
-            server_message_1: (data) => { this.handleServerMessage1(data) },
-            server_message_2: (data) => { this.handleServerMessage2(data) }
+            server_message_1: (data) => { this.handleServerConfigInfo(data) },
+            server_message_2: (data) => { this.handleServerMaterialXInfo(data) }
         });
     }
 }

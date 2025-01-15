@@ -8,7 +8,7 @@
 
     <!-- See https://cdnjs.com/libraries/codemirror for other options-->
     <!--StyleStart-->
-    <title id="page_title">Sample Flask App</title>
+    <title id="page_title">MaterialX OCIO Application</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/night.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/dracula.min.css">
@@ -54,14 +54,14 @@
         </div>
         <div class="row pb-2 pt-2">
             <div class="col-sm py-0">
-                <button id="button_event_1" class="btn btn-sm btn-primary">Get Configurations</button>
+                <button id="button_event_get_config" class="btn btn-sm btn-primary">Get Configurations</button>
                 <div id="config_info" class="container-fluid mt-4"></div>
             </div>
         </div>
         <div class="row pb-2 pt-2">
             <div class="col-sm py-0">
-                <button id="button_event_2" class="btn btn-sm btn-primary">Generate MaterialX</button>
-                <div id="materialX_info" class="container-fluid mt-4"></div>
+                <button id="button_event_get_materialx" class="btn btn-sm btn-primary">Generate MaterialX</button>
+                <textarea id="materialX_info" rows="20" class="mt-4 form-control small_text"></textarea>
             </div>
         </div>
     </div>

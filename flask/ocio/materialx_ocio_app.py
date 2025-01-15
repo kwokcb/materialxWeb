@@ -86,34 +86,103 @@ class materialx_ocio_app(MaterialXFlaskApp):
         """
         emit('status_message', { 'message': message }, broadcast=True)
 
-    def _handle_client_event_1(self, data):
+    def handle_get_config_info(self, data):
         '''
-        Handle event and send back server message 1
+        Handle event and send back server information
         '''
         event_data = data.get('message', 'Message')
-        #server_message_1 = "server handled: " + event_data
-
-        #self.generator = mxocio.OCIOMaterialaxGenerator()
         self.configs, self.aconfig = self.generator.getBuiltinConfigs()
         self.config_info = self.generator.printConfigs(self.configs)
  
         emit('server_message_1', { 'message': self.config_info }, broadcast=True)
 
-    def _handle_client_event_2(self, data):
+    def get_materialx_info(self, targetColorSpace, createGraphs):
+        configs, aconfig = self.generator.getBuiltinConfigs()
+        
+        generator = self.generator
+
+        # Generate MaterialX definitions and implementations for all color spaces
+        # found in the ACES Cg Config and ACES Studio Config configurations.
+        result = ''
+        for c in configs:
+            config = configs[c][0]
+            for colorSpace in config.getColorSpaces():
+                aliases = colorSpace.getAliases()
+                trySource = ''
+                for alias in aliases:
+                    # Get alias if it does not contain a space
+                    if ' ' not in alias:
+                        trySource = alias
+                if not trySource:
+                    trySource = colorSpace.getName()
+                if trySource:
+                    sourceColorSpace = trySource
+
+                    # Skip if the source and target are the same
+                    if sourceColorSpace == targetColorSpace:
+                        continue
+
+                    #print('--- Generate transform for source color space:', trySource, '---')
+
+                    # Generate source code
+                    if not createGraphs:
+                        definitionDoc = mx.createDocument()
+                        implDoc = mx.createDocument()
+
+                        definition, transformName, code, extension, target = generator.generateOCIO(aconfig, definitionDoc, implDoc, sourceColorSpace, targetColorSpace, 'color4')
+
+                        # Write the definition, implementation and source code files 
+                        if definition:
+
+                            #filename = outputPath / mx.FilePath(definition.getName() + '.' + 'mtlx')
+                            #print('Write MaterialX definition file:', filename.asString())
+                            definitionString = mx.writeToXmlString(definitionDoc)
+
+                            # Write the implementation document
+                            #implFileName = outputPath / mx.FilePath('IM_' + transformName + '.' + 'mtlx')
+                            #print('Write MaterialX implementation file:', implFileName.asString())
+                            implementationString = mx.writeToXmlString(implDoc)
+
+                            result = definitionString + '\n' + implementationString
+
+                            #generator.writeShaderCode(outputPath, code, transformName, extension, target)
+                    else:
+                        # Generate node graph
+                        outputType = 'color3'
+                        graphDoc = generator.generateOCIOGraph(aconfig, sourceColorSpace, targetColorSpace, outputType)
+                        if graphDoc:
+                            transformName = generator.createTransformName(sourceColorSpace, targetColorSpace, outputType, 'mxgraph_')
+                            #filename = outputPath / mx.FilePath(transformName + '.' + 'mtlx')
+                            #print('Write MaterialX node graph definition file:', filename.asString())
+                            result = mx.writeToXmlString(graphDoc)
+
+                else:
+                    result = 'Could not find suitable color space name to use: ' + colorSpace.getName()
+        
+        return result
+
+    def handle_get_materialx_info(self, data):
         '''
         Handle event and send back server message 2
         '''
         event_data = data.get('message', 'Message')
-        server_message_2 = "server handled: " + event_data
-        emit('server_message_2', { 'message': server_message_2 }, broadcast=True)
+        
+        targetColorSpace = 'lin_rec709'
+        createGraphs = True
+        result = self.get_materialx_info(targetColorSpace, createGraphs)
+
+        print('> Generatated MaterialX', result != None)
+        
+        #server_message_2 = 'Using OCIO Version: ' + self.OCIO_version + '. MaterialX Version: ' + self.materialx_version
+        emit('server_message_2', { 'message': result }, broadcast=True)
 
     def _setup_event_handler_map(self):
         """
         Set up dictionary of mapping event names to their handlers
         """
         self.event_handlers = {
-            'client_event_1': self._handle_client_event_1,
-            'client_event_2': self._handle_client_event_2,
+            'client_event_get_config_info': self.handle_get_config_info,
+            'client_event_get_materialx_info': self.handle_get_materialx_info,
         }
 
 # Main entry point
