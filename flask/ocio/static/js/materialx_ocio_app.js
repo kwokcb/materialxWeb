@@ -66,7 +66,10 @@ export class MaterialXOCIOClient extends WebSocketClient {
             elem.style.display = 'block'
             elem.value = content;
             const lines = content.split(/\r?\n/);
-            elem.rows = lines.length;
+            if (lines.length < 30)
+                elem.rows = lines.length;
+            else
+                elem.rows = 30;
         }
         else {
             elem.style.display = 'none'
@@ -80,7 +83,10 @@ export class MaterialXOCIOClient extends WebSocketClient {
             elem.style.display = 'block'
             elem.value = content;
             const lines = content.split(/\r?\n/);
-            elem.rows = lines.length;
+            if (lines.length < 10)
+                elem.rows = lines.length;
+            else
+                elem.rows = 10;
         }
         else {
             elem.style.display = 'none'

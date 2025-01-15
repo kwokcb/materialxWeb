@@ -6,7 +6,7 @@ The main focus is on connection "open standards" such as `gltF`, `OCIO`, `OpenUS
 
 ## Flask Connector Examples
 
-- [GPUOpen MaterialX Materials](/flask/gpuopen/README.md)
-- [glTF and USD Convertors for MaterialX](/flask/converters/README.md)
-- OCIO to MaterialX Definition Generation (forth-coming)
-
+- [GPUOpen MaterialX Materials Inspector](./flask/gpuopen/README.md)
+- [glTF and USD Conversion from MaterialX](./flask/converters/README.md)
+- [OCIO to MaterialX Definition Generation (Alpha)](./flask/ocio/README.md)
+- [Simple template example](./flask/template/README.md)

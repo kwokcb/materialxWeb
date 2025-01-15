@@ -42,7 +42,11 @@
 
 <body>
     <div class="container-fluid p-4">
-        <h2 id="title">MaterialX OCIO Utilities</h2>
+        <h2 id="title">MaterialX OCIO Utilities (Alpha)</h2>
+        <p>This package is still work in progress for node graph generation.
+            The basics of usage are in the package and server side wrapping
+            can be examined / used.
+        </p>
         <div class="row pb-2 pt-2">
             <div class="col-sm py-0">
                 <div readonly id="ocio_version"></div>
@@ -60,7 +64,7 @@
         <div class="row pb-2 pt-2">
             <div class="col-sm py-0">
                 <button id="button_event_get_materialx" class="btn btn-sm btn-primary">Generate MaterialX</button>
-                <input id="checkbox_nodegraphs" type="checkbox" aria-label="Checkbox for following text input">
+                <input id="checkbox_nodegraphs" type="checkbox" checked="True" aria-label="Checkbox for following text input">
                     Nodegraph Definitions
                 </input>
                 <div id="materialx_info" class="container-fluid mt-4">

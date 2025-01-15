@@ -104,7 +104,9 @@ class materialx_ocio_app(MaterialXFlaskApp):
         # Generate MaterialX definitions and implementations for all color spaces
         # found in the ACES Cg Config and ACES Studio Config configurations.
         nodedef_string = ''
+        nodedef_doc = mx.createDocument()
         impl_string = ''
+        impl_doc = mx.createDocument()
         source_string = ''
         for c in configs:
             config = configs[c][0]
@@ -124,7 +126,7 @@ class materialx_ocio_app(MaterialXFlaskApp):
                     if sourceColorSpace == targetColorSpace:
                         continue
 
-                    #print('--- Generate transform for source color space:', trySource, '---')
+                    print('--- Generate transform for source color space:', trySource, '---')
 
                     # Generate source code
                     if not createGraphs:
@@ -138,29 +140,38 @@ class materialx_ocio_app(MaterialXFlaskApp):
 
                             #filename = outputPath / mx.FilePath(definition.getName() + '.' + 'mtlx')
                             #print('Write MaterialX definition file:', filename.asString())
-                            nodedef_string = mx.writeToXmlString(definitionDoc)
+                            #nodedef_string += mx.writeToXmlString(definitionDoc)
+                            nodedef_doc.copyContentFrom(definitionDoc)                                
 
                             # Write the implementation document
                             #implFileName = outputPath / mx.FilePath('IM_' + transformName + '.' + 'mtlx')
                             #print('Write MaterialX implementation file:', implFileName.asString())
-                            implementationString = mx.writeToXmlString(implDoc)
+                            nodedef_doc.copyContentFrom(implDoc)
+                            #implementationString = mx.writeToXmlString(implDoc)
 
-                            impl_string = implementationString
+                            #impl_string += implementationString
 
-                            source_string = code
+                            source_string += code
                     else:
                         # Generate node graph
                         outputType = 'color3'
                         graphDoc = generator.generateOCIOGraph(aconfig, sourceColorSpace, targetColorSpace, outputType)
                         if graphDoc:
+                            nodedef_doc.copyContentFrom(graphDoc)                                
+
                             transformName = generator.createTransformName(sourceColorSpace, targetColorSpace, outputType, 'mxgraph_')
                             #filename = outputPath / mx.FilePath(transformName + '.' + 'mtlx')
                             #print('Write MaterialX node graph definition file:', filename.asString())
-                            nodedef_string = mx.writeToXmlString(graphDoc)
+                            #nodedef_string = mx.writeToXmlString(nodedef_doc)
 
                 else:
                     print('Could not find suitable color space name to use: ' + colorSpace.getName())
         
+        nodedef_string = mx.writeToXmlString(nodedef_doc)
+        if len(impl_doc.getChildren()) > 0:
+            impl_string = mx.writeToXmlString(impl_doc)
+        else:
+            impl_string = None
         return nodedef_string, impl_string, source_string
 
     def handle_get_materialx_info(self, data):
