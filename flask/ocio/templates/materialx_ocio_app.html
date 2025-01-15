@@ -70,13 +70,14 @@
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.7.1/dist/jszip.min.js"></script>
     <script type="module">
 
-        import { templateClient } from "{{ url_for('static', filename='js/materialx_ocio_app.js') }}";
+        import { MaterialXOCIOClient } from "{{ url_for('static', filename='js/materialx_ocio_app.js') }}";
 
         document.addEventListener("DOMContentLoaded", () => {
             document.body.setAttribute('data-bs-theme', 'dark');
 
             // Instantiate the client
-            const client = new templateClient("", "");
+            const client = new MaterialXOCIOClient("", "");
+            client.setupXML();
         });
     </script>
 </body>

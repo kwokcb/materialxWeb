@@ -94,7 +94,7 @@ class materialx_ocio_app(MaterialXFlaskApp):
         self.configs, self.aconfig = self.generator.getBuiltinConfigs()
         self.config_info = self.generator.printConfigs(self.configs)
  
-        emit('server_message_1', { 'message': self.config_info }, broadcast=True)
+        emit('server_message_get_config_info', { 'message': self.config_info }, broadcast=True)
 
     def get_materialx_info(self, targetColorSpace, createGraphs):
         configs, aconfig = self.generator.getBuiltinConfigs()
@@ -173,8 +173,12 @@ class materialx_ocio_app(MaterialXFlaskApp):
 
         print('> Generatated MaterialX', result != None)
         
-        #server_message_2 = 'Using OCIO Version: ' + self.OCIO_version + '. MaterialX Version: ' + self.materialx_version
-        emit('server_message_2', { 'message': result }, broadcast=True)
+        #server_message_get_mtlx_info = 'Using OCIO Version: ' + self.OCIO_version + '. MaterialX Version: ' + self.materialx_version
+        emit('server_message_get_mtlx_info', { 'message': result }, broadcast=True)
+
+    def handle_get_version_info(self, data):
+        #server_message_get_mtlx_info = 'Using OCIO Version: ' + self.OCIO_version + '. MaterialX Version: ' + self.materialx_version
+        emit('server_message_get_mtlx_info', { 'message': result }, broadcast=True)
 
     def _setup_event_handler_map(self):
         """

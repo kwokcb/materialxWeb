@@ -1,11 +1,12 @@
 import { WebSocketClient, WebSocketEventHandlers } from './WebSocketClient.js';
 
-export class templateClient extends WebSocketClient {
+export class MaterialXOCIOClient extends WebSocketClient {
     constructor(socketLibrary, server) {
         // Call parent to setup socket I/O.
         super(socketLibrary, server);
 
         // Do other setup
+        this.materialXEditor = null;
     }
 
     convertTableToBootstrapRowCol(container) {
@@ -47,8 +48,9 @@ export class templateClient extends WebSocketClient {
     }
 
     updateMaterialXInfo(message) {
-        const materialxDOM = document.getElementById('materialX_info')
-        materialxDOM.value = message;
+        //const materialxDOM = document.getElementById('materialX_info')
+        //materialxDOM.value = message;
+        this.materialXEditor.setValue(message);
     }
 
     updateStatus(message, force = false) {
@@ -98,9 +100,29 @@ export class templateClient extends WebSocketClient {
         // Set up socket message event handlers
         this.webSocketWrapper = new WebSocketEventHandlers(this.socket, {
             status_message: (data) => { console.log('WEB: status event:', data.message); this.updateStatus(data.message) },
-            server_message_1: (data) => { this.handleServerConfigInfo(data) },
-            server_message_2: (data) => { this.handleServerMaterialXInfo(data) }
+            server_message_get_config_info: (data) => { this.handleServerConfigInfo(data) },
+            server_message_get_mtlx_info: (data) => { this.handleServerMaterialXInfo(data) }
         });
     }
-}
+    
+    setupXML() {
+        /* 
+        const materialXTextArea = document.getElementById('mtlxOutput');
+        this.editor = CodeMirror.fromTextArea(materialXTextArea, {
+            mode: 'application/json',
+            lineNumbers: true,
+            theme: 'dracula',
+        });
+        this.editor.setSize('auto', '300px');
+        */
 
+        // Initialize CodeMirror for MaterialX content
+        const materialXTextArea2 = document.getElementById('materialX_info');
+        this.materialXEditor = CodeMirror.fromTextArea(materialXTextArea2, {
+            mode: 'application/xml',
+            lineNumbers: true,
+            theme: 'dracula',
+        });
+        this.materialXEditor.setSize('auto', '300px');
+    }
+}
