@@ -11,11 +11,15 @@ Note: This is just a sample application with graph generation still in progress.
 ### Dependents
 - `flask` and `flask-socketio` Python packages
 - `socket-io` Javascript library
-- `materialxocio` MaterialX / OCIO library which contains logic for generation.
+- `materialxocio` MaterialX / OCIO library which contains logic for generation. See <a
+href="https://github.com/kwokcb/materialxocio" target="_blank">Github repository</a> for more details. This library will pull in:
+    - `Materialx` : whatever version if installed. The minimum version is 1.38.9.
+    - `opencolorio` : Version 2.2.0 is minimally required as this version includes default configurations  
+    as part of the package.
 
 ### Installation
 
-Either install the package from `PyPi`:
+Either install the package from `PyPi` (soon to be available):
 
 ```
 pip install materialx_ocio_app
@@ -48,8 +52,9 @@ python materialx_ocio_app.py
 
 By default the application is running a local server. To access the client page open the following in a Web browser:
 ```
-http://127.0.0.1:5002
+http://127.0.0.1:<port-number>
 ```
+where `<port-number>` is the chosen port to host from.
 
 
 
