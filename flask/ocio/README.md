@@ -1,5 +1,7 @@
 ## MaterialX OCIO Application
 
+<img src="./images/ocio_mtlx_convert_1.png" width="100%">
+
 MaterialX OCIO Flask App. Reads in default AcesCG config from OCIO and allows
 for generation of supported MaterialX definitions either in source code or
 graph form.
