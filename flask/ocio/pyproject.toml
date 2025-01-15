@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "materialx_ocio_app"
+version = "0.0.1"
+description = "MaterialX generation from OCIO"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Bernard Kwok", email = "kwokcb@gmail.com"}
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "flask>=2.3.2",
+    "flask-socketio>=5.3.4",
+    "argparse>=1.4.0",
+    "materialx>=1.38.9",
+    "opencolorio>=2.2.0",    
+    "materialxocio>=0.1.39.0.1"    
+]
+
+[project.scripts]
+materialx_ocio_app = "materialx_ocio_app:main"
+
+[tool.setuptools.packages.find]
+where = ["."] 
+
+[tool.setuptools.package-data]
+"materialx_ocio_app" = [
+    "data/*",
+    "static/css/*",
+    "static/js/*",
+    "templates/*",
+]
+
+[project.urls]
+"Homepage" = "https://kwokcb.github.io/materialxocio/docs/html/"
+"Issues" = "https://github.com/kwokcb/materialxocio/issues"
+"Source Code" = "https://github.com/kwokcb/materialxWeb"
+"Documentation" = "https://kwokcb.github.io/materialxocio/docs/html/"
