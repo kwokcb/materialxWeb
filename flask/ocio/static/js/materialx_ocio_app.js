@@ -20,7 +20,7 @@ export class MaterialXOCIOClient extends WebSocketClient {
             const wrapperDiv = document.createElement('div');
             wrapperDiv.classList.add('overflow-auto');
             wrapperDiv.style.maxWidth = '100%';
-            wrapperDiv.style.maxHeight = '400px';
+            wrapperDiv.style.maxHeight = '300px';
 
             // Move the table inside the wrapper div
             table.parentNode.insertBefore(wrapperDiv, table);
@@ -83,6 +83,18 @@ export class MaterialXOCIOClient extends WebSocketClient {
         this.updateMaterialXInfo(data.message);
     }
 
+    handleServerVersionInfo(data) {
+        this.updateStatus("Received server version info");
+
+        const ocio_version = document.getElementById('ocio_version');
+        const ocio_image = '<img src="https://opencolorio.org/images/ocio_m2x.png" width="48px"></img>';
+        ocio_version.innerHTML = ocio_image + ' version: ' + data.ocio_version;
+
+        const materialx_version = document.getElementById('materialx_version');
+        const mtlx_image = '<img src="https://materialx.org/LogoImages/MaterialXLogo2K.png" width="48px">';
+        materialx_version.innerHTML = mtlx_image + ' version: ' + data.materialx_version;
+    }   
+
     setupEventHandlers() {
         // Setup clear status button
         document.getElementById('clear_status').addEventListener('click', () => {
@@ -97,12 +109,16 @@ export class MaterialXOCIOClient extends WebSocketClient {
             this.getMaterialXInfo();
         });
 
+
         // Set up socket message event handlers
         this.webSocketWrapper = new WebSocketEventHandlers(this.socket, {
             status_message: (data) => { console.log('WEB: status event:', data.message); this.updateStatus(data.message) },
             server_message_get_config_info: (data) => { this.handleServerConfigInfo(data) },
-            server_message_get_mtlx_info: (data) => { this.handleServerMaterialXInfo(data) }
+            server_message_get_mtlx_info: (data) => { this.handleServerMaterialXInfo(data) },
+            server_message_version_info: (data) => { this.handleServerVersionInfo(data) }
         });
+
+        this.emit('client_event_get_version_info');
     }
     
     setupXML() {

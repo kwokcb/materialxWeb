@@ -177,21 +177,27 @@ class materialx_ocio_app(MaterialXFlaskApp):
         emit('server_message_get_mtlx_info', { 'message': result }, broadcast=True)
 
     def handle_get_version_info(self, data):
-        #server_message_get_mtlx_info = 'Using OCIO Version: ' + self.OCIO_version + '. MaterialX Version: ' + self.materialx_version
-        emit('server_message_get_mtlx_info', { 'message': result }, broadcast=True)
+        print('> Get version information')
+        emit('server_message_version_info', 
+            {   
+                'ocio_version': self.OCIO_version,
+                'materialx_version':  self.materialx_version 
+            },
+            broadcast=True)
 
     def _setup_event_handler_map(self):
         """
         Set up dictionary of mapping event names to their handlers
         """
         self.event_handlers = {
+            'client_event_get_version_info': self.handle_get_version_info,
             'client_event_get_config_info': self.handle_get_config_info,
             'client_event_get_materialx_info': self.handle_get_materialx_info,
         }
 
 # Main entry point
 def main(): 
-    parser = argparse.ArgumentParser(description="__PYTHON_PROJECT_DESCRIPTION__")
+    parser = argparse.ArgumentParser(description="Application to use the OCIO package to extract out configuration information and generate MaterialX definitions")
     parser.add_argument('--host', type=str, default='127.0.0.1', help="Host address to run the server on (default: 127.0.0.1)")
     parser.add_argument('--port', type=int, default=5002, help="Port to run the server on (default: 5002)")
     parser.add_argument('--home', type=str, default='materialx_ocio_app.html', help="Home page.")

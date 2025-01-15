@@ -8,7 +8,7 @@
 
     <!-- See https://cdnjs.com/libraries/codemirror for other options-->
     <!--StyleStart-->
-    <title id="page_title">MaterialX OCIO Application</title>
+    <title id="page_title">MaterialX OCIO Utilities</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/night.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/dracula.min.css">
@@ -42,14 +42,13 @@
 
 <body>
     <div class="container-fluid p-4">
-        <h2 id="title">MaterialX OCIO Application</h2>
+        <h2 id="title">MaterialX OCIO Utilities</h2>
         <div class="row pb-2 pt-2">
-            <div class="col-sm-11">
-                <textarea id="status_message" rows="2" readonly class="form-control small_text">Status</textarea>
-                </textarea>
+            <div class="col-sm py-0">
+                <div readonly id="ocio_version"></div>
             </div>
-            <div class="col-sm-1 py-0">
-                <button id="clear_status" class="btn btn-sm btn-secondary">Clear</button>
+            <div class="col-sm py-0">
+                <div readonly id="materialx_version"></div>
             </div>
         </div>
         <div class="row pb-2 pt-2">
@@ -61,7 +60,19 @@
         <div class="row pb-2 pt-2">
             <div class="col-sm py-0">
                 <button id="button_event_get_materialx" class="btn btn-sm btn-primary">Generate MaterialX</button>
-                <textarea id="materialX_info" rows="20" class="mt-4 form-control small_text"></textarea>
+                <div id="config_info" class="container-fluid mt-4">
+                    <textarea id="materialX_info" rows="10" class="form-control small_text"></textarea>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row pb-2 pt-2">
+            <div class="col-sm-11">
+                <textarea id="status_message" rows="1" readonly class="form-control small_text">Status</textarea>
+                </textarea>
+            </div>
+            <div class="col-sm-1 py-0">
+                <button id="clear_status" class="btn btn-sm btn-secondary">Clear</button>
             </div>
         </div>
     </div>
