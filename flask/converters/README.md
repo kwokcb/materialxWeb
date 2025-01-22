@@ -4,9 +4,9 @@ This sample package shows the basic components required to connect MaterialX run
 
 <table>
 <tr>
-<td><img src="./images/converter_render.png" width=100%>
+<td><img src="https://github.com/kwokcb/materialxWeb/blob/main/flask/converters/images/converter_render.png?raw=true" width=100%>
 Server-side rendering using <b>MaterialXView</b></td>
-<td><img src="./images/converter_usd_gltf_.png" width=100%>
+<td><img src="https://github.com/kwokcb/materialxWeb/blob/main/flask/converters/images/converter_usd_gltf_.png?raw=true" width=100%>
 Server-side conversion from MaterialX to USD and glTF (top and
 bottom respectively) 
 </td>
