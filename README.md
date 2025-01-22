@@ -4,6 +4,10 @@ This repository contains a set sample implementations that show bi-directional c
 
 The main focus is on connection "open standards" such as `gltF`, `OCIO`, `OpenUSD` with `MaterialX`.
 
+## Documentation
+
+See the <a href="https://kwokcb.github.io/materialxWeb/index.html">home page</a> for more details.
+
 ## Flask Connector Examples
 
 - [GPUOpen MaterialX Materials Inspector](./flask/gpuopen/README.md) : Download MaterialX materials from the AMD GPUOpen Materials Library and inspect contents of the materials.
