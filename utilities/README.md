@@ -4,7 +4,7 @@
 
 - Run the `build_flask.sh` script to install all packages found in the Flask folder.
 - For the OpenColorIO application the `materialxocio` package must be installed locally by cloning and installing the package found
-here<a href="https://github.com/kwokcb/materialxocio.git">repo</a>. This package is currently not published on `PyPi`.
+in this <a href="https://github.com/kwokcb/materialxocio.git">repo</a>. This package is currently not published on `PyPi`.
 
 ### Documentation
 
