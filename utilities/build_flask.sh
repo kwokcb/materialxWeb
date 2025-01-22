@@ -15,4 +15,6 @@ done
 echo "\n------------- Check package dependencies -------------"
 pip check
 echo "End building Flask applications"
+popd
+
 
