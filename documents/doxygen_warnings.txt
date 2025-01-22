@@ -1,0 +1,139 @@
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:2: warning: the name 'app.py' supplied as the argument in the \file statement is not an input file
+D:/Work/materialx/materialxWeb/flask/converters/MaterialXConversionApp.py:73: warning: Compound MaterialXConversionApp::MaterialXConversionApp is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/MaterialXConversionApp.py:29: warning: Compound MaterialXConversionApp::MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:13: warning: Compound MaterialXGPUOpenApp::MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:3: warning: Compound MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/MaterialXGPUOpenClient.js:3: warning: Compound MaterialX_GPUOpen_Client is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:1: warning: Compound WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:1: warning: Compound WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:1: warning: Compound WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:48: warning: Compound WebSocketEventHandlers is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:45: warning: Compound WebSocketEventHandlers is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:45: warning: Compound WebSocketEventHandlers is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:13: warning: Compound materialx_ocio_app::MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:58: warning: Compound materialx_ocio_app::materialx_ocio_app is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/MaterialXConversionApp.js:1: warning: Member import (variable) of file MaterialXConversionApp.js is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:216: warning: Member main() (function) of namespace materialx_ocio_app is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:39: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:43: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:36: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:40: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:36: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:40: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/MaterialXConversionApp.js:16: warning: argument 'Object' of command @param is not found in the argument list of MaterialX_Conversion_Client::constructor(socketLibrary, server)
+D:/Work/materialx/materialxWeb/flask/converters/static/js/MaterialXConversionApp.js:16: warning: argument 'string' of command @param is not found in the argument list of MaterialX_Conversion_Client::constructor(socketLibrary, server)
+D:/Work/materialx/materialxWeb/flask/converters/static/js/MaterialXConversionApp.js:16: warning: The following parameters of MaterialX_Conversion_Client::constructor(socketLibrary, server) are not documented:
+  parameter 'socketLibrary'
+  parameter 'server'
+D:/Work/materialx/materialxWeb/flask/converters/static/js/MaterialXConversionApp.js:33: warning: argument 'Object' of command @param is not found in the argument list of MaterialX_Conversion_Client::handleImageRendered(data)
+D:/Work/materialx/materialxWeb/flask/converters/static/js/MaterialXConversionApp.js:33: warning: The following parameter of MaterialX_Conversion_Client::handleImageRendered(data) is not documented:
+  parameter 'data'
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/MaterialXGPUOpenClient.js:5: warning: Member constructor(socketLibrary, server) (function) of class MaterialX_GPUOpen_Client is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/MaterialXGPUOpenClient.js:26: warning: Member findMaterialByName(name) (function) of class MaterialX_GPUOpen_Client is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/MaterialXGPUOpenClient.js:45: warning: Member updateStatusInput(message, force=false) (function) of class MaterialX_GPUOpen_Client is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/MaterialXGPUOpenClient.js:56: warning: Member handleMaterialXDownLoad(data) (function) of class MaterialX_GPUOpen_Client is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/MaterialXGPUOpenClient.js:88: warning: Member handleMaterialXExtract(data) (function) of class MaterialX_GPUOpen_Client is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/MaterialXGPUOpenClient.js:176: warning: Member extractMaterials() (function) of class MaterialX_GPUOpen_Client is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/MaterialXGPUOpenClient.js:183: warning: Member downloadMaterials() (function) of class MaterialX_GPUOpen_Client is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/MaterialXGPUOpenClient.js:188: warning: Member setupEventHandlers() (function) of class MaterialX_GPUOpen_Client is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/MaterialXGPUOpenClient.js:219: warning: Member setupXML() (function) of class MaterialX_GPUOpen_Client is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/MaterialXGPUOpenClient.js:239: warning: Member populateForm(data) (function) of class MaterialX_GPUOpen_Client is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:39: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:43: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:36: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:40: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:36: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:40: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:4: warning: Member constructor(socketLibrary, server) (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:14: warning: Member convertTableToBootstrapRowCol(container) (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:45: warning: Member updateConfigInfo(message) (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:52: warning: Member updateMaterialXInfo(data) (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:96: warning: Member updateStatus(message, force=false) (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:106: warning: Member emitGetConfigInfo() (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:111: warning: Member getMaterialXInfo() (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:121: warning: Member handleServerConfigInfo(data) (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:126: warning: Member handleServerMaterialXInfo(data) (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:131: warning: Member handleServerVersionInfo(data) (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:143: warning: Member setupEventHandlers() (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/materialx_ocio_app.js:169: warning: Member setupXML() (function) of class MaterialXOCIOClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:39: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:43: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:36: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:40: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:36: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:40: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:39: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:43: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:36: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:40: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:3: warning: Member constructor(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:8: warning: Member initialize(socketLibrary, server) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:36: warning: Member setupEventHandlers() (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:40: warning: Member emit(message, data) (function) of class WebSocketClient is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:49: warning: Member constructor(socket, eventHandlers) (function) of class WebSocketEventHandlers is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/static/js/WebSocketClient.js:56: warning: Member setupEventListeners() (function) of class WebSocketEventHandlers is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:46: warning: Member constructor(socket, eventHandlers) (function) of class WebSocketEventHandlers is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/static/js/WebSocketClient.js:53: warning: Member setupEventListeners() (function) of class WebSocketEventHandlers is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:46: warning: Member constructor(socket, eventHandlers) (function) of class WebSocketEventHandlers is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/static/js/WebSocketClient.js:53: warning: Member setupEventListeners() (function) of class WebSocketEventHandlers is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:99: warning: Member get_materialx_info(self, targetColorSpace, createGraphs) (function) of class materialx_ocio_app.materialx_ocio_app is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:196: warning: Member handle_get_version_info(self, data) (function) of class materialx_ocio_app.materialx_ocio_app is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:68: warning: Member OCIO_version (variable) of class materialx_ocio_app.materialx_ocio_app is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:77: warning: Member materialx_version (variable) of class materialx_ocio_app.materialx_ocio_app is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:80: warning: Member generator (variable) of class materialx_ocio_app.materialx_ocio_app is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:94: warning: Member configs (variable) of class materialx_ocio_app.materialx_ocio_app is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:94: warning: Member aconfig (variable) of class materialx_ocio_app.materialx_ocio_app is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:95: warning: Member config_info (variable) of class materialx_ocio_app.materialx_ocio_app is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:209: warning: Member event_handlers (variable) of class materialx_ocio_app.materialx_ocio_app is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:15: warning: Member home (variable) of class materialx_ocio_app.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:18: warning: Member app (variable) of class materialx_ocio_app.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:19: warning: Member socketio (variable) of class materialx_ocio_app.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:14: warning: Member __init__(self, home) (function) of class materialx_ocio_app.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:15: warning: Member home (variable) of class materialx_ocio_app.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:18: warning: Member app (variable) of class materialx_ocio_app.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/ocio/materialx_ocio_app.py:19: warning: Member socketio (variable) of class materialx_ocio_app.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/MaterialXConversionApp.py:89: warning: Member event_handlers (variable) of class MaterialXConversionApp.MaterialXConversionApp is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/MaterialXConversionApp.py:31: warning: Member home (variable) of class MaterialXConversionApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/MaterialXConversionApp.py:34: warning: Member app (variable) of class MaterialXConversionApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/MaterialXConversionApp.py:35: warning: Member socketio (variable) of class MaterialXConversionApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/MaterialXConversionApp.py:30: warning: Member __init__(self, home) (function) of class MaterialXConversionApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/MaterialXConversionApp.py:31: warning: Member home (variable) of class MaterialXConversionApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/MaterialXConversionApp.py:34: warning: Member app (variable) of class MaterialXConversionApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/converters/MaterialXConversionApp.py:35: warning: Member socketio (variable) of class MaterialXConversionApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:14: warning: Member __init__(self, home) (function) of class MaterialXGPUOpenApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:15: warning: Member home (variable) of class MaterialXGPUOpenApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:18: warning: Member app (variable) of class MaterialXGPUOpenApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:19: warning: Member socketio (variable) of class MaterialXGPUOpenApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:70: warning: Member loader (variable) of class MaterialXGPUOpenApp.MaterialXGPUOpenApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:71: warning: Member materials (variable) of class MaterialXGPUOpenApp.MaterialXGPUOpenApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:72: warning: Member material_names (variable) of class MaterialXGPUOpenApp.MaterialXGPUOpenApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:73: warning: Member material_count (variable) of class MaterialXGPUOpenApp.MaterialXGPUOpenApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:96: warning: Member material_count (variable) of class MaterialXGPUOpenApp.MaterialXGPUOpenApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:155: warning: Member event_handlers (variable) of class MaterialXGPUOpenApp.MaterialXGPUOpenApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:15: warning: Member home (variable) of class MaterialXGPUOpenApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:18: warning: Member app (variable) of class MaterialXGPUOpenApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/flask/gpuopen/MaterialXGPUOpenApp.py:19: warning: Member socketio (variable) of class MaterialXGPUOpenApp.MaterialXFlaskApp is not documented.
+D:/Work/materialx/materialxWeb/README.md:12: warning: unable to resolve reference to 'D:/Work/materialx/materialxWeb/flask/template/README.md' for \ref command
+D:/Work/materialx/materialxWeb/README.md:14: warning: unable to resolve reference to 'D:/Work/materialx/materialxWeb/utilities/README.md' for \ref command
