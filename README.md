@@ -15,4 +15,4 @@ See the <a href="https://kwokcb.github.io/materialxWeb/index.html">home page</a>
 - [OCIO to MaterialX Definition Generation (Alpha)](./flask/ocio/README.md) : Use the OpenColorIO package to query for color space transforms and create MaterialX node definitions.
 - [Simple template example](./flask/template/README.md) : A simple "template" application that can be copied and modified as desired.
 
-See build instructions found in [utilities](utilities/README.md).
+See build instructions found <a href="https://github.com/kwokcb/materialxWeb/blob/main/utilities/README.md">here</a>.
