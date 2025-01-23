@@ -26,9 +26,9 @@ var NAVTREE =
 [
   [ "MaterialXWeb", "index.html", [
     [ "Welcome to materialxWeb", "index.html", "index" ],
-    [ "Materialx Conversion Application", "md__d_1_2_work_2materialx_2materialx_web_2flask_2converters_2_r_e_a_d_m_e.html", null ],
-    [ "GPUOpen Material Inspector", "md__d_1_2_work_2materialx_2materialx_web_2flask_2gpuopen_2_r_e_a_d_m_e.html", null ],
-    [ "MaterialX OCIO Application", "md__d_1_2_work_2materialx_2materialx_web_2flask_2ocio_2_r_e_a_d_m_e.html", null ],
+    [ "Materialx Conversion Application", "md__d_1_2work_2materialx_2materialx_web_2flask_2converters_2_r_e_a_d_m_e.html", null ],
+    [ "GPUOpen Material Inspector", "md__d_1_2work_2materialx_2materialx_web_2flask_2gpuopen_2_r_e_a_d_m_e.html", null ],
+    [ "MaterialX OCIO Application", "md__d_1_2work_2materialx_2materialx_web_2flask_2ocio_2_r_e_a_d_m_e.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -46,7 +46,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_material_x_conversion_app_8py_source.html"
+"_material_x_conversion_app_8js_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

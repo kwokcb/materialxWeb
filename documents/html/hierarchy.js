@@ -8,6 +8,7 @@ var hierarchy =
     ] ],
     [ "WebSocketClient", "class_web_socket_client.html", [
       [ "MaterialXOCIOClient", "class_material_x_o_c_i_o_client.html", null ],
+      [ "MaterialX_Conversion_Client", "class_material_x___conversion___client.html", null ],
       [ "MaterialX_GPUOpen_Client", "class_material_x___g_p_u_open___client.html", null ]
     ] ],
     [ "WebSocketEventHandlers", "class_web_socket_event_handlers.html", null ]
