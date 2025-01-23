@@ -124,7 +124,7 @@ export class MaterialX_Conversion_Client extends WebSocketClient {
             // Copy the content from CodeMirror back to the textarea
             materialXTextArea.value = this.editor.getValue();
         });
-        this.editor.setSize('auto', '40em');
+        this.editor.setSize('auto', '300px');
 
         ///////////////////////////////////////////////////////////////////////////////
 

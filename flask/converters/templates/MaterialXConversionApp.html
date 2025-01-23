@@ -22,7 +22,7 @@
         .CodeMirror {
             font-size: 11px;
             border: solid thin lightskyblue;
-            height: 50em;
+            height: 20em;
         }
     </style>
 
@@ -46,9 +46,9 @@
 
         /* Resizer element */
         .resizer {
-            width: 10px;
+            width: 5px;
             cursor: ew-resize;
-            background-color: #dbdbdb;
+            background-color: #2d85ea;
             position: relative;
         }
 
@@ -59,7 +59,7 @@
             top: 0;
             bottom: 0;
             left: 50%;
-            border-left: 1px solid #ccc;
+            border-left: 1px solid #2d85ea;
         }
     </style>
 
@@ -70,7 +70,7 @@
 
 <body>
     <!--Begin-->
-    <div class="container-fluid p-4">
+    <div class="container-fluid pt-2 px-4">
         <h2 id="title">MaterialX Server Rendering</h2>
         <p style="font-size: 12px">
             Sample showing rendering of the document using the C++ MaterialxView
@@ -105,26 +105,22 @@
 
     </div>
 
-    <div class="container-fluid p-4">
-        <h2 id="title">MaterialX Conversion</h2>
+    <div class="container-fluid pt-2 px-4">
+        <h2 id="title">MaterialX Server Conversion</h2>
 
-        <p style="font-size: 12px">Sample showing support for glTF Texture Procedural, MaterialX, and OpenUSD interop
-            OpenUSD conversion uses the <code>usd-core</code> Python package with
-            custom code to generate a simplified USD document (*). glTF Texture Procedural
-            conversion uses the Python library found <a href="https://github.com/KhronosGroup/glTF-MaterialX-Converter"
-                target="_blank">here</a>
-            <br>
-            <sub>(*) Note that synchronization of USD to MaterialX 1.39
-                is the target.</sub>
-        </p>
+        <sub>Sample support for glTF Texture Procedural, MaterialX, and OpenUSD interop
+            OpenUSD uses the latest <code>usd-core</code> custom generation of simplified USD. glTF 
+            uses  <a href="https://github.com/KhronosGroup/glTF-MaterialX-Converter"
+                target="_blank">this</a> library.
+        </sub>
 
         <div class="row p-2">
-            <div class="col-sm p-2 border">
+            <div class="col-sm-6 p-2 border">
                 <button id="convertToUsd" class="btn btn-sm btn-primary">Convert to USD</button>
                 <textarea id="usdOutput" rows="20" cols="80"></textarea>
             </div>
-            <div class="col-sm p-2 border">
-                <button id="convertToglTF" class="btn btn-sm btn-primary">Convert to glTF Texture Procedural</button>
+            <div id="glTF_container" class="col-sm-6 p-2 border">
+                <button id="convertToglTF" class="btn btn-sm btn-primary">Convert to glTF</button>
                 <textarea id="glTFOutput" rows="20" cols="80"></textarea>
             </div>
         </div>
@@ -201,20 +197,18 @@
                 const resizableElements = resizableContainer.querySelectorAll('[id$="_RS"]');
                 resizableElements.forEach(element => {
                     element.id = element.id.replace('_RS', '');
-                    console.log('RS element.id', element.id);
+                    //console.log('RS element.id', element.id);
                 });
-
 
                 // Initialize the resizer
                 initializeResizer();
-            } else {
-                console.log('>>>>>>>>>>>>>>>>> Non resizable mode');
-
+            } 
+            else {
                 // Find all elements with an ID that ends with "Resizable"
                 const resizableElements = nonResizableContainer.querySelectorAll('[id$="_NR"]');
                 resizableElements.forEach(element => {
                     element.id = element.id.replace('_NR', '');
-                    console.log('NR element.id', element.id);
+                    //console.log('NR element.id', element.id);
                 });
 
                 // Show non-resizable container and hide resizable container
@@ -232,6 +226,14 @@
             toggleResizableMode(true);
         } else {
             toggleResizableMode(false);
+        }
+
+        const wantgltf = urlParams.get('hidegltf');        
+        const glTF_container = document.getElementById('glTF_container');
+        if (hidegltf=='true' || hidegltf=='1') {
+            glTF_container.style.display = 'none';
+        } else {
+            glTF_container.style.display = 'block';
         }
     </script>
 
