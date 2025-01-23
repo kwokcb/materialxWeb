@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MaterialXWeb: Class Index</title>
+<title>MaterialXWeb: MaterialX OCIO Application</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -72,7 +72,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('classes.html',''); initResizable(true); });
+$(function(){initNavTree('md__d_1_2work_2materialx_2materialx_web_2flask_2ocio_2_r_e_a_d_m_e.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -97,20 +97,44 @@ $(function(){initNavTree('classes.html',''); initResizable(true); });
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">Class Index</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">MaterialX OCIO Application</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="qindex"><a class="qindex" href="#letter_M">M</a>&#160;|&#160;<a class="qindex" href="#letter_W">W</a></div>
-<div class="classindex">
-<dl class="classindex even">
-<dt class="alphachar"><a id="letter_M" name="letter_M">M</a></dt>
-<dd><a class="el" href="class_material_x___conversion___client.html">MaterialX_Conversion_Client</a></dd><dd><a class="el" href="class_material_x___g_p_u_open___client.html">MaterialX_GPUOpen_Client</a></dd><dd><a class="el" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html">MaterialXConversionApp</a> (MaterialXConversionApp)</dd><dd><a class="el" href="class_material_x_conversion_app_1_1_material_x_flask_app.html">MaterialXFlaskApp</a> (MaterialXConversionApp)</dd><dd><a class="el" href="class_material_x_g_p_u_open_app_1_1_material_x_flask_app.html">MaterialXFlaskApp</a> (MaterialXGPUOpenApp)</dd><dd><a class="el" href="class_material_x_g_p_u_open_app_1_1_material_x_g_p_u_open_app.html">MaterialXGPUOpenApp</a> (MaterialXGPUOpenApp)</dd><dd><a class="el" href="class_material_x_o_c_i_o_client.html">MaterialXOCIOClient</a></dd></dl>
-<dl class="classindex odd">
-<dt class="alphachar"><a id="letter_W" name="letter_W">W</a></dt>
-<dd><a class="el" href="class_web_socket_client.html">WebSocketClient</a></dd><dd><a class="el" href="class_web_socket_event_handlers.html">WebSocketEventHandlers</a></dd></dl>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p><a class="anchor" id="autotoc_md12"></a></p>
+<p><img src="./images/ocio_mtlx_convert_1.png" alt="" width="100%" class="inline"/></p>
+<p>MaterialX OCIO Flask App. Reads in default AcesCG config from OCIO and allows for generation of supported MaterialX definitions either in source code or graph form.</p>
+<p>Note: This is just a sample application with graph generation still in progress.</p>
+<h2><a class="anchor" id="autotoc_md13"></a>
+Dependents</h2>
+<ul>
+<li><code>flask</code> and <code>flask-socketio</code> Python packages</li>
+<li><code>socket-io</code> Javascript library</li>
+<li><code>materialxocio</code> MaterialX / OCIO library which contains logic for generation. See <a href="https://github.com/kwokcb/materialxocio" target="_blank">Github repository</a> for more details. This library will pull in:<ul>
+<li><code>Materialx</code> : whatever version if installed. The minimum version is 1.38.9.</li>
+<li><code>opencolorio</code> : Version 2.2.0 is minimally required as this version includes default configurations <br  />
+ as part of the package.</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md14"></a>
+Installation</h2>
+<p>Either install the package from <code>PyPi</code> (soon to be available):</p>
+<div class="fragment"><div class="line">pip install materialx_ocio_app</div>
+</div><!-- fragment --><p>or clone the <a href="https://github.com/kwokcb/materialxWeb">materialXWeb</a> <br  />
+ repository and install from the <code>flast/ocio</code> folder under the root:</p>
+<div class="fragment"><div class="line">pip install .</div>
+</div><!-- fragment --><p>or</p>
+<div class="fragment"><div class="line">pip install -e .</div>
+</div><!-- fragment --><p> if planning to perform edits on the repository.</p>
+<h2><a class="anchor" id="autotoc_md15"></a>
+Execution</h2>
+<p>Run the main package using: </p><div class="fragment"><div class="line">materialx_ocio_app</div>
+</div><!-- fragment --><p> or directly with Python: </p><div class="fragment"><div class="line">python materialx_ocio_app.py</div>
+</div><!-- fragment --><p>By default the application is running a local server. To access the client page open the following in a Web browser: </p><div class="fragment"><div class="line">http://127.0.0.1:&lt;port-number&gt;</div>
+</div><!-- fragment --><p> where <code>&lt;port-number&gt;</code> is the chosen port to host from. </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

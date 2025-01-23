@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MaterialXWeb: Class Index</title>
+<title>MaterialXWeb: Materialx Conversion Application</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -72,7 +72,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('classes.html',''); initResizable(true); });
+$(function(){initNavTree('md__d_1_2work_2materialx_2materialx_web_2flask_2converters_2_r_e_a_d_m_e.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -97,20 +97,43 @@ $(function(){initNavTree('classes.html',''); initResizable(true); });
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">Class Index</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">Materialx Conversion Application</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="qindex"><a class="qindex" href="#letter_M">M</a>&#160;|&#160;<a class="qindex" href="#letter_W">W</a></div>
-<div class="classindex">
-<dl class="classindex even">
-<dt class="alphachar"><a id="letter_M" name="letter_M">M</a></dt>
-<dd><a class="el" href="class_material_x___conversion___client.html">MaterialX_Conversion_Client</a></dd><dd><a class="el" href="class_material_x___g_p_u_open___client.html">MaterialX_GPUOpen_Client</a></dd><dd><a class="el" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html">MaterialXConversionApp</a> (MaterialXConversionApp)</dd><dd><a class="el" href="class_material_x_conversion_app_1_1_material_x_flask_app.html">MaterialXFlaskApp</a> (MaterialXConversionApp)</dd><dd><a class="el" href="class_material_x_g_p_u_open_app_1_1_material_x_flask_app.html">MaterialXFlaskApp</a> (MaterialXGPUOpenApp)</dd><dd><a class="el" href="class_material_x_g_p_u_open_app_1_1_material_x_g_p_u_open_app.html">MaterialXGPUOpenApp</a> (MaterialXGPUOpenApp)</dd><dd><a class="el" href="class_material_x_o_c_i_o_client.html">MaterialXOCIOClient</a></dd></dl>
-<dl class="classindex odd">
-<dt class="alphachar"><a id="letter_W" name="letter_W">W</a></dt>
-<dd><a class="el" href="class_web_socket_client.html">WebSocketClient</a></dd><dd><a class="el" href="class_web_socket_event_handlers.html">WebSocketEventHandlers</a></dd></dl>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p><a class="anchor" id="autotoc_md0"></a></p>
+<p>This sample package shows the basic components required to connect MaterialX running in Python to a Web client running Javascript in order to run conversion or rendering applications.</p>
+<table class="doxtable">
+<tr>
+<td><img src="https://github.com/kwokcb/materialxWeb/blob/main/flask/converters/images/converter_render.png?raw=true" alt="" width="100%" class="inline"/> Server-side rendering using <b>MaterialXView</b> </td><td><img src="https://github.com/kwokcb/materialxWeb/blob/main/flask/converters/images/converter_usd_gltf_.png?raw=true" alt="" width="100%" class="inline"/> Server-side conversion from MaterialX to USD and glTF (top and bottom respectively)   </td></tr>
+</table>
+<h2><a class="anchor" id="autotoc_md1"></a>
+Dependents</h2>
+<p>The following packages are installed by default as part of the <code>pip</code> installation.</p>
+<ul>
+<li><code>flask</code> and <code>flask-socketio</code>: Python packages for Flask support</li>
+<li><code>socket-io</code>: For Javascript WebSocket support</li>
+<li><code>usd-core</code>: for OpenUSD conversion. Different versions can be downloaded explicitly from <a href="https://pypi.org/project/usd-core/" target="_blank">PyPi</a>. The assumed minimum version is 24.11.</li>
+<li><code>MaterialX</code> : Different versions can be downloaded explicitly from <a href="https://pypi.org/project/MaterialX/" target="_blank">PyPi</a>. The assumed minimum version is 1.38.10.</li>
+<li><code>gltf_materialx_converter</code>: <code>MaterialX glTF Convertor</code> Python library. Note that this is not available on <code>PyPi</code> currently so the <a href="https://github.com/KhronosGroup/glTF-MaterialX-Converter" target="_blank">Github repository</a> must be cloned and the packagelocally installed.</li>
+</ul>
+<p>Rendering depends on the environment variable: <code>MATERIALX_DEFAULT_VIEWER</code> being set to the location of the MaterialXView binary. This is part of the MaterialX release distribution as found <a href="https://github.com/AcademySoftwareFoundation/MaterialX/releases" target="_blank">here</a></p>
+<h2><a class="anchor" id="autotoc_md2"></a>
+Installation</h2>
+<p>Either install the package from <code>PyPi</code>:</p>
+<div class="fragment"><div class="line">pip install materialx_conversion_app</div>
+</div><!-- fragment --><p>or clone the <a href="https://github.com/kwokcb/materialxWeb">materialXWeb</a> repository and install from the root folder:</p>
+<div class="fragment"><div class="line">pip install .</div>
+</div><!-- fragment --><p>or</p>
+<div class="fragment"><div class="line">pip install -e .</div>
+</div><!-- fragment --><p> if planning to perform edits on the repository.</p>
+<h2><a class="anchor" id="autotoc_md3"></a>
+Execution</h2>
+<p>Run the main package using: </p><div class="fragment"><div class="line">materialx_conversion_app</div>
+</div><!-- fragment --><p> or directly with Python: </p><div class="fragment"><div class="line">python MaterialXConversionApp.py</div>
+</div><!-- fragment --><p>By default the application is running a local server. To access the client page open the following in a Web browser: </p><div class="fragment"><div class="line">http://127.0.0.1:8000</div>
+</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
