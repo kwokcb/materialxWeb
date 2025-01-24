@@ -1,5 +1,7 @@
 var hierarchy =
 [
+    [ "AmbientCGLoader", "class_ambient_c_g_loader.html", null ],
+    [ "JsGPUOpenMaterialLoader", "class_js_g_p_u_open_material_loader.html", null ],
     [ "MaterialXConversionApp.MaterialXFlaskApp", "class_material_x_conversion_app_1_1_material_x_flask_app.html", [
       [ "MaterialXConversionApp.MaterialXConversionApp", "class_material_x_conversion_app_1_1_material_x_conversion_app.html", null ]
     ] ],

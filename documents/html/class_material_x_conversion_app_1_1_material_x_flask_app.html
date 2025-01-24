@@ -6,6 +6,7 @@
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>MaterialXWeb: MaterialXConversionApp.MaterialXFlaskApp Class Reference</title>
+<link rel="icon" href="toon_sphere.png" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -27,10 +28,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="MX_LAB.svg"/></td>
   <td id="projectalign">
-   <div id="projectname">MaterialXWeb<span id="projectnumber">&#160;0.0.1</span>
+   <div id="projectname">MaterialXWeb<span id="projectnumber">&#160;0.0.2</span>
    </div>
-   <div id="projectbrief">Utilities for using MaterialX Python packages with a Web client</div>
+   <div id="projectbrief">Utilities for using MaterialX Packages with Web clients</div>
   </td>
  </tr>
  </tbody>
@@ -120,9 +122,9 @@ Inheritance diagram for MaterialXConversionApp.MaterialXFlaskApp:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a73075640afce57b0bcafa12a1bdc6f1b" id="r_a73075640afce57b0bcafa12a1bdc6f1b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73075640afce57b0bcafa12a1bdc6f1b">__init__</a> (self, home)</td></tr>
 <tr class="separator:a73075640afce57b0bcafa12a1bdc6f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94f82748908eb13ea1cdeeb4e7f0c5b5" id="r_a94f82748908eb13ea1cdeeb4e7f0c5b5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94f82748908eb13ea1cdeeb4e7f0c5b5">run</a> (self, host, port, debug=True)</td></tr>
-<tr class="memdesc:a94f82748908eb13ea1cdeeb4e7f0c5b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the Flask server with SocketIO.  <br /></td></tr>
-<tr class="separator:a94f82748908eb13ea1cdeeb4e7f0c5b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7cf40c6c2a490bc4ec1d4410eaed74c" id="r_ab7cf40c6c2a490bc4ec1d4410eaed74c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7cf40c6c2a490bc4ec1d4410eaed74c">run</a> (self, host, port, deployment_platform, debug=True)</td></tr>
+<tr class="memdesc:ab7cf40c6c2a490bc4ec1d4410eaed74c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the Flask server with SocketIO.  <br /></td></tr>
+<tr class="separator:ab7cf40c6c2a490bc4ec1d4410eaed74c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -132,6 +134,10 @@ Public Attributes</h2></td></tr>
 <tr class="separator:aa56d34d8759f591ec89c68b390a9d58b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f6093ed2a4b57a9b81a3771aa20c239" id="r_a6f6093ed2a4b57a9b81a3771aa20c239"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f6093ed2a4b57a9b81a3771aa20c239">socketio</a> = SocketIO(self.app)</td></tr>
 <tr class="separator:a6f6093ed2a4b57a9b81a3771aa20c239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49636fc09c190bc32afeb8b29442ce9f" id="r_a49636fc09c190bc32afeb8b29442ce9f"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49636fc09c190bc32afeb8b29442ce9f">deployment_platform</a> = 'Local'</td></tr>
+<tr class="separator:a49636fc09c190bc32afeb8b29442ce9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8327a34e67b52e57dc2841e57f89690d" id="r_a8327a34e67b52e57dc2841e57f89690d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8327a34e67b52e57dc2841e57f89690d">os_details</a> = get_os_details()</td></tr>
+<tr class="separator:a8327a34e67b52e57dc2841e57f89690d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -147,7 +153,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00029">29</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00037">37</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a73075640afce57b0bcafa12a1bdc6f1b" name="a73075640afce57b0bcafa12a1bdc6f1b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a73075640afce57b0bcafa12a1bdc6f1b">&#9670;&#160;</a></span>__init__()</h2>
@@ -170,19 +176,26 @@ Protected Member Functions</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a8a5121ce3f8857ad7e3d2ff85888ebef">MaterialXConversionApp.MaterialXConversionApp</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00030">30</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   30</span>    <span class="keyword">def </span>__init__(self, home):</div>
-<div class="line"><span class="lineno">   31</span>        self.home = home</div>
-<div class="line"><span class="lineno">   32</span> </div>
-<div class="line"><span class="lineno">   33</span>        <span class="comment"># Initialize Flask and SocketIO</span></div>
-<div class="line"><span class="lineno">   34</span>        self.app = Flask(__name__)</div>
-<div class="line"><span class="lineno">   35</span>        self.socketio = SocketIO(self.app)</div>
-<div class="line"><span class="lineno">   36</span> </div>
-<div class="line"><span class="lineno">   37</span>        <span class="comment"># Register routes and events</span></div>
-<div class="line"><span class="lineno">   38</span>        self._register_routes()</div>
-<div class="line"><span class="lineno">   39</span>        self._setup_event_handler_map()</div>
-<div class="line"><span class="lineno">   40</span>        self._register_socket_events()</div>
-<div class="line"><span class="lineno">   41</span> </div>
+<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00038">38</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   38</span>    <span class="keyword">def </span>__init__(self, home):</div>
+<div class="line"><span class="lineno">   39</span>        self.home = home</div>
+<div class="line"><span class="lineno">   40</span> </div>
+<div class="line"><span class="lineno">   41</span>        <span class="comment"># Initialize Flask and SocketIO</span></div>
+<div class="line"><span class="lineno">   42</span>        self.app = Flask(__name__)</div>
+<div class="line"><span class="lineno">   43</span>        self.socketio = SocketIO(self.app)</div>
+<div class="line"><span class="lineno">   44</span> </div>
+<div class="line"><span class="lineno">   45</span>        <span class="comment"># Register routes and events</span></div>
+<div class="line"><span class="lineno">   46</span>        self._register_routes()</div>
+<div class="line"><span class="lineno">   47</span>        self._setup_event_handler_map()</div>
+<div class="line"><span class="lineno">   48</span>        self._register_socket_events()</div>
+<div class="line"><span class="lineno">   49</span> </div>
+<div class="line"><span class="lineno">   50</span>        self.deployment_platform = <span class="stringliteral">&#39;Local&#39;</span></div>
+<div class="line"><span class="lineno">   51</span>        print(f<span class="stringliteral">&#39;* Initialized on deployment plaform: {self.deployment_platform}&#39;</span>)</div>
+<div class="line"><span class="lineno">   52</span>        self.os_details = get_os_details()</div>
+<div class="line"><span class="lineno">   53</span>        print(f<span class="stringliteral">&quot;  * OS: {self.os_details[&#39;os&#39;]}&quot;</span>)</div>
+<div class="line"><span class="lineno">   54</span>        print(f<span class="stringliteral">&quot;  * Release: {self.os_details[&#39;release&#39;]}&quot;</span>)</div>
+<div class="line"><span class="lineno">   55</span>        print(f<span class="stringliteral">&quot;  * Architecture: {self.os_details[&#39;architecture&#39;]}&quot;</span>)</div>
+<div class="line"><span class="lineno">   56</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -212,20 +225,20 @@ Protected Member Functions</h2></td></tr>
 
 <p>Register HTTP routes. </p>
 
-<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00042">42</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>    <span class="keyword">def </span>_register_routes(self):</div>
-<div class="line"><span class="lineno">   43</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno">   44</span><span class="stringliteral">        Register HTTP routes.</span></div>
-<div class="line"><span class="lineno">   45</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno">   46</span>        <span class="preprocessor">@self.app.route(&#39;/&#39;)</span></div>
-<div class="line"><span class="lineno">   47</span>        <span class="keyword">def </span>home():</div>
-<div class="line"><span class="lineno">   48</span>            <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno">   49</span><span class="stringliteral">            Render the home page.</span></div>
-<div class="line"><span class="lineno">   50</span><span class="stringliteral">            &#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno">   51</span>            <span class="comment">#status_message = f&#39;Startup: Using MaterialX version: {mx.getVersionString()}&#39;</span></div>
-<div class="line"><span class="lineno">   52</span>            <span class="comment">#self._emit_status_message(status_message)</span></div>
-<div class="line"><span class="lineno">   53</span>            <span class="keywordflow">return</span> render_template(self.home)</div>
-<div class="line"><span class="lineno">   54</span> </div>
+<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00057">57</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   57</span>    <span class="keyword">def </span>_register_routes(self):</div>
+<div class="line"><span class="lineno">   58</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno">   59</span><span class="stringliteral">        Register HTTP routes.</span></div>
+<div class="line"><span class="lineno">   60</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno">   61</span>        <span class="preprocessor">@self.app.route(&#39;/&#39;)</span></div>
+<div class="line"><span class="lineno">   62</span>        <span class="keyword">def </span>home():</div>
+<div class="line"><span class="lineno">   63</span>            <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno">   64</span><span class="stringliteral">            Render the home page.</span></div>
+<div class="line"><span class="lineno">   65</span><span class="stringliteral">            &#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno">   66</span>            <span class="comment">#status_message = f&#39;Startup: Using MaterialX version: {mx.getVersionString()}&#39;</span></div>
+<div class="line"><span class="lineno">   67</span>            <span class="comment">#self._emit_status_message(status_message)</span></div>
+<div class="line"><span class="lineno">   68</span>            <span class="keywordflow">return</span> render_template(self.home)</div>
+<div class="line"><span class="lineno">   69</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -254,15 +267,15 @@ Protected Member Functions</h2></td></tr>
 
 <p>Register SocketIO events. </p>
 
-<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00059">59</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>    <span class="keyword">def </span>_register_socket_events(self):</div>
-<div class="line"><span class="lineno">   60</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno">   61</span><span class="stringliteral">        Register SocketIO events.</span></div>
-<div class="line"><span class="lineno">   62</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno">   63</span>        <span class="comment"># Dynamically register event handlers</span></div>
-<div class="line"><span class="lineno">   64</span>        <span class="keywordflow">for</span> event_name, handler <span class="keywordflow">in</span> self.event_handlers.items():</div>
-<div class="line"><span class="lineno">   65</span>            self.socketio.on_event(event_name, handler)        </div>
-<div class="line"><span class="lineno">   66</span> </div>
+<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00074">74</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   74</span>    <span class="keyword">def </span>_register_socket_events(self):</div>
+<div class="line"><span class="lineno">   75</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno">   76</span><span class="stringliteral">        Register SocketIO events.</span></div>
+<div class="line"><span class="lineno">   77</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno">   78</span>        <span class="comment"># Dynamically register event handlers</span></div>
+<div class="line"><span class="lineno">   79</span>        <span class="keywordflow">for</span> event_name, handler <span class="keywordflow">in</span> self.event_handlers.items():</div>
+<div class="line"><span class="lineno">   80</span>            self.socketio.on_event(event_name, handler)        </div>
+<div class="line"><span class="lineno">   81</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -293,16 +306,16 @@ Protected Member Functions</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a4da3def415ff2c6eb8f926335e75c0d5">MaterialXConversionApp.MaterialXConversionApp</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00055">55</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>    <span class="keyword">def </span>_setup_event_handler_map(self):</div>
-<div class="line"><span class="lineno">   56</span>        <span class="stringliteral">&#39;&#39;&#39;Pure virtual method: Must be implemented by subclasses.&#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno">   57</span>        <span class="keywordflow">raise</span> NotImplementedError(<span class="stringliteral">&quot;Subclasses must implement _setup_event_handler_map&quot;</span>)</div>
-<div class="line"><span class="lineno">   58</span> </div>
+<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00070">70</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   70</span>    <span class="keyword">def </span>_setup_event_handler_map(self):</div>
+<div class="line"><span class="lineno">   71</span>        <span class="stringliteral">&#39;&#39;&#39;Pure virtual method: Must be implemented by subclasses.&#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno">   72</span>        <span class="keywordflow">raise</span> NotImplementedError(<span class="stringliteral">&quot;Subclasses must implement _setup_event_handler_map&quot;</span>)</div>
+<div class="line"><span class="lineno">   73</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a94f82748908eb13ea1cdeeb4e7f0c5b5" name="a94f82748908eb13ea1cdeeb4e7f0c5b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94f82748908eb13ea1cdeeb4e7f0c5b5">&#9670;&#160;</a></span>run()</h2>
+<a id="ab7cf40c6c2a490bc4ec1d4410eaed74c" name="ab7cf40c6c2a490bc4ec1d4410eaed74c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7cf40c6c2a490bc4ec1d4410eaed74c">&#9670;&#160;</a></span>run()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -325,6 +338,11 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>deployment_platform</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>debug</em></span><span class="paramdefsep"> = </span><span class="paramdefval">True</span>&#160;)</td>
         </tr>
       </table>
@@ -332,13 +350,14 @@ Protected Member Functions</h2></td></tr>
 
 <p>Run the Flask server with SocketIO. </p>
 
-<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00067">67</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   67</span>    <span class="keyword">def </span>run(self, host, port, debug=True):</div>
-<div class="line"><span class="lineno">   68</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno">   69</span><span class="stringliteral">        Run the Flask server with SocketIO.</span></div>
-<div class="line"><span class="lineno">   70</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><span class="lineno">   71</span>        self.socketio.run(self.app, host, port, debug=debug)</div>
-<div class="line"><span class="lineno">   72</span> </div>
+<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00082">82</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   82</span>    <span class="keyword">def </span>run(self, host, port, deployment_platform, debug=True):</div>
+<div class="line"><span class="lineno">   83</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno">   84</span><span class="stringliteral">        Run the Flask server with SocketIO.</span></div>
+<div class="line"><span class="lineno">   85</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><span class="lineno">   86</span>        self.deployment_platform = deployment_platform</div>
+<div class="line"><span class="lineno">   87</span>        self.socketio.run(self.app, host, port, debug=debug)</div>
+<div class="line"><span class="lineno">   88</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -355,7 +374,23 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00034">34</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00042">42</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
+
+</div>
+</div>
+<a id="a49636fc09c190bc32afeb8b29442ce9f" name="a49636fc09c190bc32afeb8b29442ce9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49636fc09c190bc32afeb8b29442ce9f">&#9670;&#160;</a></span>deployment_platform</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">str MaterialXConversionApp.MaterialXFlaskApp.deployment_platform = 'Local'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00050">50</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
 
 </div>
 </div>
@@ -371,7 +406,23 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00031">31</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00039">39</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
+
+</div>
+</div>
+<a id="a8327a34e67b52e57dc2841e57f89690d" name="a8327a34e67b52e57dc2841e57f89690d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8327a34e67b52e57dc2841e57f89690d">&#9670;&#160;</a></span>os_details</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MaterialXConversionApp.MaterialXFlaskApp.os_details = get_os_details()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00052">52</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
 
 </div>
 </div>
@@ -387,7 +438,7 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00035">35</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_material_x_conversion_app_8py_source.html#l00043">43</a> of file <a class="el" href="_material_x_conversion_app_8py_source.html">MaterialXConversionApp.py</a>.</p>
 
 </div>
 </div>

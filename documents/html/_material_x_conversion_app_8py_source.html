@@ -6,6 +6,7 @@
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>MaterialXWeb: MaterialXConversionApp.py Source File</title>
+<link rel="icon" href="toon_sphere.png" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -27,10 +28,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="MX_LAB.svg"/></td>
   <td id="projectalign">
-   <div id="projectname">MaterialXWeb<span id="projectnumber">&#160;0.0.1</span>
+   <div id="projectname">MaterialXWeb<span id="projectnumber">&#160;0.0.2</span>
    </div>
-   <div id="projectbrief">Utilities for using MaterialX Python packages with a Web client</div>
+   <div id="projectbrief">Utilities for using MaterialX Packages with Web clients</div>
   </td>
  </tr>
  </tbody>
@@ -105,295 +107,335 @@ $(function(){initNavTree('_material_x_conversion_app_8py_source.html',''); initR
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">import</span> os</div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">import</span> argparse</div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">import</span> datetime</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, render_template</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">from</span> flask_socketio <span class="keyword">import</span> SocketIO, emit</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">import</span> MaterialX <span class="keyword">as</span> mx</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"># Try to import usdmtlx. If cannot, set flag to False</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"># -- Not really required as part of Python package requirements</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keyword">from</span> usdmtlx <span class="keyword">import</span> convertMtlxToUsd</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    have_usd_converter = <span class="keyword">True</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    print(<span class="stringliteral">&#39;Cannot import usdmtlx&#39;</span>)</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    have_usd_converter = <span class="keyword">False</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"># Try to import gltf_materialx_converter. If cannot, set flag to False</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">from</span> gltf_materialx_converter <span class="keyword">import</span> converter <span class="keyword">as</span> MxGLTFPT</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">from</span> gltf_materialx_converter <span class="keyword">import</span> utilities <span class="keyword">as</span> MxGLTFPTUtil</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    have_gltf_converter = <span class="keyword">True</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    print(<span class="stringliteral">&#39;Cannot import gltf_materialx_converter&#39;</span>)</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    have_gltf_converter = <span class="keyword">False</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="foldopen" id="foldopen00029" data-start="" data-end="">
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_flask_app.html">   29</a></span><span class="keyword">class </span><a class="code hl_class" href="class_material_x_conversion_app_1_1_material_x_flask_app.html">MaterialXFlaskApp</a>:</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">def </span>__init__(self, home):</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a98a533e05e560a14f7b85cd1fbfa31d5">home</a> = home</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="comment"># Initialize Flask and SocketIO</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#aa56d34d8759f591ec89c68b390a9d58b">app</a> = Flask(__name__)</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a6f6093ed2a4b57a9b81a3771aa20c239">socketio</a> = SocketIO(self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#aa56d34d8759f591ec89c68b390a9d58b">app</a>)</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">import</span> platform</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, render_template</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">from</span> flask_socketio <span class="keyword">import</span> SocketIO, emit</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">import</span> MaterialX <span class="keyword">as</span> mx</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"># Try to import usdmtlx. If cannot, set flag to False</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"># -- Not really required as part of Python package requirements</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keyword">from</span> usdmtlx <span class="keyword">import</span> convertMtlxToUsd</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    have_usd_converter = <span class="keyword">True</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    print(<span class="stringliteral">&#39;Cannot import usdmtlx&#39;</span>)</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    have_usd_converter = <span class="keyword">False</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"># Try to import gltf_materialx_converter. If cannot, set flag to False</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">from</span> gltf_materialx_converter <span class="keyword">import</span> converter <span class="keyword">as</span> MxGLTFPT</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">from</span> gltf_materialx_converter <span class="keyword">import</span> utilities <span class="keyword">as</span> MxGLTFPTUtil</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    have_gltf_converter = <span class="keyword">True</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    print(<span class="stringliteral">&#39;Cannot import gltf_materialx_converter&#39;</span>)</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    have_gltf_converter = <span class="keyword">False</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">def </span>get_os_details():</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">return</span> {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="stringliteral">&#39;os&#39;</span>: platform.system(),</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="stringliteral">&#39;release&#39;</span>: platform.release(),</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="stringliteral">&#39;architecture&#39;</span>: platform.machine()</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    }</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="comment"># Register routes and events</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf77ecb28fa2c2f659c1a6377104b288">_register_routes</a>()</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a97b6516ecdb8fa722648126199478a49">_setup_event_handler_map</a>()</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf2eef1fa0823cb663cffd07841e3480">_register_socket_events</a>()</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="foldopen" id="foldopen00042" data-start="" data-end="">
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf77ecb28fa2c2f659c1a6377104b288">   42</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf77ecb28fa2c2f659c1a6377104b288">_register_routes</a>(self):</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="stringliteral">        Register HTTP routes.</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="preprocessor">@self.app.route(&#39;/&#39;)</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keyword">def </span>home():</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="stringliteral">            Render the home page.</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="stringliteral">            &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            <span class="comment">#status_message = f&#39;Startup: Using MaterialX version: {mx.getVersionString()}&#39;</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <span class="comment">#self._emit_status_message(status_message)</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            <span class="keywordflow">return</span> render_template(self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a98a533e05e560a14f7b85cd1fbfa31d5">home</a>)</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="foldopen" id="foldopen00037" data-start="" data-end="">
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_flask_app.html">   37</a></span><span class="keyword">class </span><a class="code hl_class" href="class_material_x_conversion_app_1_1_material_x_flask_app.html">MaterialXFlaskApp</a>:</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">def </span>__init__(self, home):</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a98a533e05e560a14f7b85cd1fbfa31d5">home</a> = home</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="comment"># Initialize Flask and SocketIO</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#aa56d34d8759f591ec89c68b390a9d58b">app</a> = Flask(__name__)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a6f6093ed2a4b57a9b81a3771aa20c239">socketio</a> = SocketIO(self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#aa56d34d8759f591ec89c68b390a9d58b">app</a>)</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="comment"># Register routes and events</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf77ecb28fa2c2f659c1a6377104b288">_register_routes</a>()</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a97b6516ecdb8fa722648126199478a49">_setup_event_handler_map</a>()</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf2eef1fa0823cb663cffd07841e3480">_register_socket_events</a>()</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a49636fc09c190bc32afeb8b29442ce9f">deployment_platform</a> = <span class="stringliteral">&#39;Local&#39;</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        print(f<span class="stringliteral">&#39;* Initialized on deployment plaform: {self.deployment_platform}&#39;</span>)</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a8327a34e67b52e57dc2841e57f89690d">os_details</a> = get_os_details()</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        print(f<span class="stringliteral">&quot;  * OS: {self.os_details[&#39;os&#39;]}&quot;</span>)</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        print(f<span class="stringliteral">&quot;  * Release: {self.os_details[&#39;release&#39;]}&quot;</span>)</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        print(f<span class="stringliteral">&quot;  * Architecture: {self.os_details[&#39;architecture&#39;]}&quot;</span>)</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="foldopen" id="foldopen00057" data-start="" data-end="">
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf77ecb28fa2c2f659c1a6377104b288">   57</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf77ecb28fa2c2f659c1a6377104b288">_register_routes</a>(self):</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="stringliteral">        Register HTTP routes.</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="preprocessor">@self.app.route(&#39;/&#39;)</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keyword">def </span>home():</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="stringliteral">            Render the home page.</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="stringliteral">            &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            <span class="comment">#status_message = f&#39;Startup: Using MaterialX version: {mx.getVersionString()}&#39;</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            <span class="comment">#self._emit_status_message(status_message)</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            <span class="keywordflow">return</span> render_template(self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a98a533e05e560a14f7b85cd1fbfa31d5">home</a>)</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
 </div>
-<div class="foldopen" id="foldopen00055" data-start="" data-end="">
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a97b6516ecdb8fa722648126199478a49">   55</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a97b6516ecdb8fa722648126199478a49">_setup_event_handler_map</a>(self):</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="stringliteral">&#39;&#39;&#39;Pure virtual method: Must be implemented by subclasses.&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">raise</span> NotImplementedError(<span class="stringliteral">&quot;Subclasses must implement _setup_event_handler_map&quot;</span>)</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="foldopen" id="foldopen00070" data-start="" data-end="">
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a97b6516ecdb8fa722648126199478a49">   70</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a97b6516ecdb8fa722648126199478a49">_setup_event_handler_map</a>(self):</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="stringliteral">&#39;&#39;&#39;Pure virtual method: Must be implemented by subclasses.&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">raise</span> NotImplementedError(<span class="stringliteral">&quot;Subclasses must implement _setup_event_handler_map&quot;</span>)</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
 </div>
-<div class="foldopen" id="foldopen00059" data-start="" data-end="">
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf2eef1fa0823cb663cffd07841e3480">   59</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf2eef1fa0823cb663cffd07841e3480">_register_socket_events</a>(self):</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="stringliteral">        Register SocketIO events.</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="comment"># Dynamically register event handlers</span></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordflow">for</span> event_name, handler <span class="keywordflow">in</span> self.event_handlers.items():</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a6f6093ed2a4b57a9b81a3771aa20c239">socketio</a>.on_event(event_name, handler)        </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-</div>
-<div class="foldopen" id="foldopen00067" data-start="" data-end="">
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a94f82748908eb13ea1cdeeb4e7f0c5b5">   67</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a94f82748908eb13ea1cdeeb4e7f0c5b5">run</a>(self, host, port, debug=True):</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="stringliteral">        Run the Flask server with SocketIO.</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a6f6093ed2a4b57a9b81a3771aa20c239">socketio</a>.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a94f82748908eb13ea1cdeeb4e7f0c5b5">run</a>(self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#aa56d34d8759f591ec89c68b390a9d58b">app</a>, host, port, debug=debug)</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-</div>
-</div>
-<div class="foldopen" id="foldopen00073" data-start="" data-end="">
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html">   73</a></span><span class="keyword">class </span><a class="code hl_class" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html">MaterialXConversionApp</a>(<a class="code hl_class" href="class_material_x_conversion_app_1_1_material_x_flask_app.html">MaterialXFlaskApp</a>):</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="foldopen" id="foldopen00076" data-start="" data-end="">
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a8a5121ce3f8857ad7e3d2ff85888ebef">   76</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a8a5121ce3f8857ad7e3d2ff85888ebef">__init__</a>(self, homePage):</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="stringliteral">        Constructor</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        super().<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a8a5121ce3f8857ad7e3d2ff85888ebef">__init__</a>(homePage)</div>
+<div class="foldopen" id="foldopen00074" data-start="" data-end="">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf2eef1fa0823cb663cffd07841e3480">   74</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf2eef1fa0823cb663cffd07841e3480">_register_socket_events</a>(self):</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="stringliteral">        Register SocketIO events.</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="comment"># Dynamically register event handlers</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordflow">for</span> event_name, handler <span class="keywordflow">in</span> self.event_handlers.items():</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a6f6093ed2a4b57a9b81a3771aa20c239">socketio</a>.on_event(event_name, handler)        </div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
 </div>
 <div class="foldopen" id="foldopen00082" data-start="" data-end="">
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a4da3def415ff2c6eb8f926335e75c0d5">   82</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a4da3def415ff2c6eb8f926335e75c0d5">_setup_event_handler_map</a>(self):</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#ab7cf40c6c2a490bc4ec1d4410eaed74c">   82</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#ab7cf40c6c2a490bc4ec1d4410eaed74c">run</a>(self, host, port, deployment_platform, debug=True):</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="stringliteral">        Set up dictionary of mapping event names to their handlers</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="stringliteral">        Run the Flask server with SocketIO.</span></div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        event_map = {}</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        event_map[<span class="stringliteral">&#39;page_loaded&#39;</span>] = self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a661a04128b5209c97065e621f7e4d55a">handle_page_loaded</a></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a49636fc09c190bc32afeb8b29442ce9f">deployment_platform</a> = deployment_platform</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a6f6093ed2a4b57a9b81a3771aa20c239">socketio</a>.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#ab7cf40c6c2a490bc4ec1d4410eaed74c">run</a>(self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_flask_app.html#aa56d34d8759f591ec89c68b390a9d58b">app</a>, host, port, debug=debug)</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a783e2ba65d2611737e6a5718b7fe9088">event_handlers</a> = {</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            <span class="stringliteral">&#39;page_loaded&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a661a04128b5209c97065e621f7e4d55a">handle_page_loaded</a>,</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            <span class="stringliteral">&#39;load_materialx&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a68cd482e9d2ec73b54211cd25ee9dd92">handle_load_materialx</a>,</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            <span class="stringliteral">&#39;render_materialx&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ab3052edf298905c0d68f3b9a1a3f8992">handle_render_materialx</a>, </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            <span class="stringliteral">&#39;convert_mtlx_to_usd&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a9f92380e253bf362e9342fd6063b4039">handle_convert_to_usd</a>,</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="stringliteral">&#39;convert_mtlx_to_gltf&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a2c9b1d68dff35003ca4fcf9acaff0adb">handle_convert_to_glTF</a>,</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <span class="stringliteral">&#39;query_have_gltf_converter&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ae42c69f0173a0ac466498b0205da67b3">handle_have_gltf_converter</a>,</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        }</div>
+</div>
+</div>
+<div class="foldopen" id="foldopen00089" data-start="" data-end="">
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html">   89</a></span><span class="keyword">class </span><a class="code hl_class" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html">MaterialXConversionApp</a>(<a class="code hl_class" href="class_material_x_conversion_app_1_1_material_x_flask_app.html">MaterialXFlaskApp</a>):</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="stringliteral">    &#39;&#39;&#39;</span></div>
+<div class="foldopen" id="foldopen00092" data-start="" data-end="">
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a8a5121ce3f8857ad7e3d2ff85888ebef">   92</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a8a5121ce3f8857ad7e3d2ff85888ebef">__init__</a>(self, homePage):</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="stringliteral">        Constructor</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        super().<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a8a5121ce3f8857ad7e3d2ff85888ebef">__init__</a>(homePage)</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
 </div>
 <div class="foldopen" id="foldopen00098" data-start="" data-end="">
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a661a04128b5209c97065e621f7e4d55a">   98</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a661a04128b5209c97065e621f7e4d55a">handle_page_loaded</a>(self, data):</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a4da3def415ff2c6eb8f926335e75c0d5">   98</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a4da3def415ff2c6eb8f926335e75c0d5">_setup_event_handler_map</a>(self):</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="stringliteral">        Handle page load / startup feedback</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="stringliteral">        Set up dictionary of mapping event names to their handlers</span></div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        status = <span class="stringliteral">&#39;&gt; Using MaterialX version: &#39;</span> + mx.getVersionString()</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        emit(<span class="stringliteral">&#39;materialx_version&#39;</span>, {<span class="stringliteral">&#39;status&#39;</span>: status}, broadcast=<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        event_map = {}</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        event_map[<span class="stringliteral">&#39;page_loaded&#39;</span>] = self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a661a04128b5209c97065e621f7e4d55a">handle_page_loaded</a></div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        self.<a class="code hl_variable" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a783e2ba65d2611737e6a5718b7fe9088">event_handlers</a> = {</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <span class="stringliteral">&#39;page_loaded&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a661a04128b5209c97065e621f7e4d55a">handle_page_loaded</a>,</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            <span class="stringliteral">&#39;load_materialx&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a68cd482e9d2ec73b54211cd25ee9dd92">handle_load_materialx</a>,</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            <span class="stringliteral">&#39;render_materialx&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ab3052edf298905c0d68f3b9a1a3f8992">handle_render_materialx</a>, </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            <span class="stringliteral">&#39;convert_mtlx_to_usd&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a9f92380e253bf362e9342fd6063b4039">handle_convert_to_usd</a>,</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            <span class="stringliteral">&#39;convert_mtlx_to_gltf&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a2c9b1d68dff35003ca4fcf9acaff0adb">handle_convert_to_glTF</a>,</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            <span class="stringliteral">&#39;query_have_gltf_converter&#39;</span>: self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ae42c69f0173a0ac466498b0205da67b3">handle_have_gltf_converter</a>,</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
 </div>
-<div class="foldopen" id="foldopen00105" data-start="" data-end="">
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a68cd482e9d2ec73b54211cd25ee9dd92">  105</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a68cd482e9d2ec73b54211cd25ee9dd92">handle_load_materialx</a>(self, data):</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="stringliteral">        Handle loading in of MaterialX document</span></div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        materialx_file = data.get(<span class="stringliteral">&#39;materialxFile&#39;</span>, <span class="stringliteral">&#39;Default MaterialX File&#39;</span>)</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        print(<span class="stringliteral">&#39;&gt; Server: load materialx event received. File:&#39;</span>, materialx_file)</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        materialx_content = data.get(<span class="stringliteral">&#39;content&#39;</span>, <span class="stringliteral">&#39;MaterialX content&#39;</span>)</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        doc = mx.createDocument()</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="keywordflow">if</span> len(materialx_content) == 0:</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <span class="keywordflow">return</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        mx.readFromXmlString(doc, materialx_content)</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        print(<span class="stringliteral">&#39;&gt;&gt; MaterialX Document loaded&#39;</span>)</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        doc_string = mx.writeToXmlString(doc)</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        emit(<span class="stringliteral">&#39;materialx_loaded&#39;</span>, {<span class="stringliteral">&#39;materialxDocument&#39;</span>: doc_string}, broadcast=<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="foldopen" id="foldopen00114" data-start="" data-end="">
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a661a04128b5209c97065e621f7e4d55a">  114</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a661a04128b5209c97065e621f7e4d55a">handle_page_loaded</a>(self, data):</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="stringliteral">        Handle page load / startup feedback</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        status = <span class="stringliteral">&#39;&gt; Using MaterialX version: &#39;</span> + mx.getVersionString()</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        emit(<span class="stringliteral">&#39;materialx_version&#39;</span>, {<span class="stringliteral">&#39;status&#39;</span>: status}, broadcast=<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
 </div>
-<div class="foldopen" id="foldopen00120" data-start="" data-end="">
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ab3052edf298905c0d68f3b9a1a3f8992">  120</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ab3052edf298905c0d68f3b9a1a3f8992">handle_render_materialx</a>(self, data):</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="stringliteral">        Handle request to render MaterialX document</span></div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        materialx_string = data.get(<span class="stringliteral">&#39;materialxDocument&#39;</span>, <span class="stringliteral">&#39;MaterialX content&#39;</span>)</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        print(<span class="stringliteral">&#39;&gt; Server: render_materialx event received&#39;</span>)</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="comment"># Get environment variable: MATERIALX_DEFAULT_VIEWER</span></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        ilm_viewer = os.getenv(<span class="stringliteral">&#39;MATERIALX_DEFAULT_VIEWER&#39;</span>, <span class="stringliteral">&#39;&#39;</span>)</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <span class="keywordflow">if</span> len(ilm_viewer) == 0:</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            print(<span class="stringliteral">&#39;&gt;&gt; MATERIALX_DEFAULT_VIEWER environment variable not set&#39;</span>)</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            <span class="keywordflow">return</span></div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        doc = mx.createDocument()</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="keywordflow">if</span> len(materialx_string) == 0:</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            <span class="keywordflow">return</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        stdlib = mx.createDocument()</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        mx.loadLibraries(mx.getDefaultDataLibraryFolders(), mx.getDefaultDataSearchPath(), stdlib)</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        doc.importLibrary(stdlib)</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        mx.readFromXmlString(doc, materialx_string)</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="comment"># Get platform temporary folder location</span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        temp_location = os.getenv(<span class="stringliteral">&#39;TEMP&#39;</span>, <span class="stringliteral">&#39;/tmp&#39;</span>)</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(temp_location):</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>            temp_location = <span class="stringliteral">&#39;/tmp&#39;</span></div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="comment"># Generate a temp file name based on the current date and time</span></div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        temp_name = datetime.datetime.now().strftime(<span class="stringliteral">&#39;%Y%m%d%H%M%S&#39;</span>) + <span class="stringliteral">&#39;.mtlx&#39;</span></div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        temp_file = f<span class="stringliteral">&#39;{temp_location}/{temp_name}&#39;</span></div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        mx.writeToXmlFile(doc, temp_file)</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        capture_filename = temp_file.replace(<span class="stringliteral">&quot;.mtlx&quot;</span>, <span class="stringliteral">&quot;.png&quot;</span>)</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        cmd = f<span class="stringliteral">&#39;{ilm_viewer} --screenWidth 512 --screenHeight 512 &#39;</span></div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        cmd += f<span class="stringliteral">&#39; --captureFilename {capture_filename} --material {temp_file}&#39;</span></div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        print(<span class="stringliteral">&#39;&gt;&gt; Rendering:&#39;</span>, cmd)</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        os.system(cmd)</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <span class="comment"># Delete the temp files</span></div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        os.remove(temp_file)</div>
+<div class="foldopen" id="foldopen00121" data-start="" data-end="">
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a68cd482e9d2ec73b54211cd25ee9dd92">  121</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a68cd482e9d2ec73b54211cd25ee9dd92">handle_load_materialx</a>(self, data):</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="stringliteral">        Handle loading in of MaterialX document</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        materialx_file = data.get(<span class="stringliteral">&#39;materialxFile&#39;</span>, <span class="stringliteral">&#39;Default MaterialX File&#39;</span>)</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        print(<span class="stringliteral">&#39;&gt; Server: load materialx event received. File:&#39;</span>, materialx_file)</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        materialx_content = data.get(<span class="stringliteral">&#39;content&#39;</span>, <span class="stringliteral">&#39;MaterialX content&#39;</span>)</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        doc = mx.createDocument()</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <span class="keywordflow">if</span> len(materialx_content) == 0:</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            <span class="keywordflow">return</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        mx.readFromXmlString(doc, materialx_content)</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        print(<span class="stringliteral">&#39;&gt;&gt; MaterialX Document loaded&#39;</span>)</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        doc_string = mx.writeToXmlString(doc)</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        emit(<span class="stringliteral">&#39;materialx_loaded&#39;</span>, {<span class="stringliteral">&#39;materialxDocument&#39;</span>: doc_string}, broadcast=<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+</div>
+<div class="foldopen" id="foldopen00136" data-start="" data-end="">
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ab3052edf298905c0d68f3b9a1a3f8992">  136</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ab3052edf298905c0d68f3b9a1a3f8992">handle_render_materialx</a>(self, data):</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="stringliteral">        Handle request to render MaterialX document</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        materialx_string = data.get(<span class="stringliteral">&#39;materialxDocument&#39;</span>, <span class="stringliteral">&#39;MaterialX content&#39;</span>)</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        print(<span class="stringliteral">&#39;&gt; Server: render_materialx event received&#39;</span>)</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        <span class="comment"># Get environment variable: MATERIALX_DEFAULT_VIEWER</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        ilm_viewer = os.getenv(<span class="stringliteral">&#39;MATERIALX_DEFAULT_VIEWER&#39;</span>, <span class="stringliteral">&#39;&#39;</span>)</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        <span class="keywordflow">if</span> len(ilm_viewer) == 0:</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            print(<span class="stringliteral">&#39;&gt;&gt; MATERIALX_DEFAULT_VIEWER environment variable not set&#39;</span>)</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            <span class="keywordflow">return</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        doc = mx.createDocument()</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <span class="keywordflow">if</span> len(materialx_string) == 0:</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            <span class="keywordflow">return</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        stdlib = mx.createDocument()</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        mx.loadLibraries(mx.getDefaultDataLibraryFolders(), mx.getDefaultDataSearchPath(), stdlib)</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        doc.importLibrary(stdlib)</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        mx.readFromXmlString(doc, materialx_string)</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        image_base64 = self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ad3c996f93010e92107504bbb038676fc">convert_png_to_base64</a>(capture_filename)</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        os.remove(capture_filename)</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        print(<span class="stringliteral">&#39;&gt;&gt; Emit materialx_rendered event&#39;</span>)</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        emit(<span class="stringliteral">&#39;materialx_rendered&#39;</span>, {<span class="stringliteral">&#39;image&#39;</span>: image_base64}, broadcast=<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <span class="comment"># Get platform temporary folder location</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        temp_location = os.getenv(<span class="stringliteral">&#39;TEMP&#39;</span>, <span class="stringliteral">&#39;/tmp&#39;</span>)</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(temp_location):</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            temp_location = <span class="stringliteral">&#39;/tmp&#39;</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <span class="comment"># Generate a temp file name based on the current date and time</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        temp_name = datetime.datetime.now().strftime(<span class="stringliteral">&#39;%Y%m%d%H%M%S&#39;</span>) + <span class="stringliteral">&#39;.mtlx&#39;</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        temp_file = f<span class="stringliteral">&#39;{temp_location}/{temp_name}&#39;</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        mx.writeToXmlFile(doc, temp_file)</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        capture_filename = temp_file.replace(<span class="stringliteral">&quot;.mtlx&quot;</span>, <span class="stringliteral">&quot;.png&quot;</span>)</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        cmd = f<span class="stringliteral">&#39;{ilm_viewer} --screenWidth 512 --screenHeight 512 &#39;</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        cmd += f<span class="stringliteral">&#39; --captureFilename {capture_filename} --material {temp_file}&#39;</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        print(<span class="stringliteral">&#39;&gt;&gt; Rendering:&#39;</span>, cmd)</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        os.system(cmd)</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        <span class="comment"># Delete the temp files</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        os.remove(temp_file)</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        image_base64 = self.<a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ad3c996f93010e92107504bbb038676fc">convert_png_to_base64</a>(capture_filename)</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        os.remove(capture_filename)</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        print(<span class="stringliteral">&#39;&gt;&gt; Emit materialx_rendered event&#39;</span>)</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        emit(<span class="stringliteral">&#39;materialx_rendered&#39;</span>, {<span class="stringliteral">&#39;image&#39;</span>: image_base64}, broadcast=<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
 </div>
-<div class="foldopen" id="foldopen00163" data-start="" data-end="">
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a9f92380e253bf362e9342fd6063b4039">  163</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a9f92380e253bf362e9342fd6063b4039">handle_convert_to_usd</a>(self, data):</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="stringliteral">        Handle request to convert MaterialX to USD</span></div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> have_usd_converter:</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            emit(<span class="stringliteral">&#39;usd_converted&#39;</span>, {<span class="stringliteral">&#39;usdDocument&#39;</span>: <span class="stringliteral">&#39;&#39;</span>}, broadcast=<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            <span class="keywordflow">return</span></div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        materialx_string = data.get(<span class="stringliteral">&#39;materialxDocument&#39;</span>, <span class="stringliteral">&#39;&#39;</span>)</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        print(<span class="stringliteral">&#39;&gt; Server: convert-to-usd event received&#39;</span>)</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        doc = mx.createDocument()</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <span class="keywordflow">if</span> len(materialx_string) == 0:</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>            <span class="keywordflow">return</span></div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            mx.readFromXmlString(doc, materialx_string)</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            print(<span class="stringliteral">&#39;&gt;&gt; MaterialX document loaded&#39;</span>)</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>            stage_string = convertMtlxToUsd(doc, <span class="keyword">True</span>)</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>            print(<span class="stringliteral">&#39;&gt;&gt; USD stage created.&#39;</span>)</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            emit(<span class="stringliteral">&#39;usd_converted&#39;</span>, {<span class="stringliteral">&#39;usdDocument&#39;</span>: stage_string}, broadcast=<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>            print(f<span class="stringliteral">&#39;&gt;&gt; Error during USD conversion: {e}&#39;</span>)</div>
+<div class="foldopen" id="foldopen00179" data-start="" data-end="">
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a9f92380e253bf362e9342fd6063b4039">  179</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a9f92380e253bf362e9342fd6063b4039">handle_convert_to_usd</a>(self, data):</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="stringliteral">        Handle request to convert MaterialX to USD</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> have_usd_converter:</div>
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>            emit(<span class="stringliteral">&#39;usd_converted&#39;</span>, {<span class="stringliteral">&#39;usdDocument&#39;</span>: <span class="stringliteral">&#39;&#39;</span>}, broadcast=<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>            <span class="keywordflow">return</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        materialx_string = data.get(<span class="stringliteral">&#39;materialxDocument&#39;</span>, <span class="stringliteral">&#39;&#39;</span>)</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        print(<span class="stringliteral">&#39;&gt; Server: convert-to-usd event received&#39;</span>)</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        doc = mx.createDocument()</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        <span class="keywordflow">if</span> len(materialx_string) == 0:</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>            <span class="keywordflow">return</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>            mx.readFromXmlString(doc, materialx_string)</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            print(<span class="stringliteral">&#39;&gt;&gt; MaterialX document loaded&#39;</span>)</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>            stage_string = convertMtlxToUsd(doc, <span class="keyword">True</span>)</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            print(<span class="stringliteral">&#39;&gt;&gt; USD stage created.&#39;</span>)</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            emit(<span class="stringliteral">&#39;usd_converted&#39;</span>, {<span class="stringliteral">&#39;usdDocument&#39;</span>: stage_string}, broadcast=<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>            print(f<span class="stringliteral">&#39;&gt;&gt; Error during USD conversion: {e}&#39;</span>)</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>            emit(<span class="stringliteral">&#39;usd_converted&#39;</span>, {<span class="stringliteral">&#39;usdDocument&#39;</span>: <span class="stringliteral">&#39;&#39;</span>}, broadcast=<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
 </div>
-<div class="foldopen" id="foldopen00186" data-start="" data-end="">
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a2c9b1d68dff35003ca4fcf9acaff0adb">  186</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a2c9b1d68dff35003ca4fcf9acaff0adb">handle_convert_to_glTF</a>(self, data):</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span><span class="stringliteral">        Handle request to convert MaterialX to glTF Texture Procedural</span></div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="stringliteral">        graph</span></div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> have_gltf_converter:</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>            emit(<span class="stringliteral">&#39;gltf_converted&#39;</span>, {<span class="stringliteral">&#39;document&#39;</span>: <span class="stringliteral">&#39;{}&#39;</span>}, broadcast=<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>            <span class="keywordflow">return</span></div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        materialx_string = data.get(<span class="stringliteral">&#39;materialxDocument&#39;</span>, <span class="stringliteral">&#39;&#39;</span>)</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        print(<span class="stringliteral">&#39;&gt; Server: convert_to_glTF event received&#39;</span>)</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        stdlib, _ = MxGLTFPTUtil.load_standard_libraries()</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        doc = MxGLTFPTUtil.create_working_document([stdlib])</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        <span class="keywordflow">if</span> len(materialx_string) == 0:</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>            <span class="keywordflow">return</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        mx.readFromXmlString(doc, materialx_string)</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        print(<span class="stringliteral">&#39;&gt;&gt; MaterialX document loaded&#39;</span>)</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        converter = MxGLTFPT.glTFMaterialXConverter()</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        json_string, status = converter.materialX_to_glTF(doc)</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> json_string:</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>            print(<span class="stringliteral">&#39;&gt;&gt; Error converting to glTF:&#39;</span>, status)</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            json_string = <span class="stringliteral">&#39;{}&#39;</span></div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        print(<span class="stringliteral">&#39;&gt;&gt; glTF JSON created:&#39;</span>)</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        emit(<span class="stringliteral">&#39;gltf_converted&#39;</span>, {<span class="stringliteral">&#39;document&#39;</span>: json_string}, broadcast=<span class="keyword">True</span>)</div>
+<div class="foldopen" id="foldopen00202" data-start="" data-end="">
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a2c9b1d68dff35003ca4fcf9acaff0adb">  202</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a2c9b1d68dff35003ca4fcf9acaff0adb">handle_convert_to_glTF</a>(self, data):</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="stringliteral">        Handle request to convert MaterialX to glTF Texture Procedural</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="stringliteral">        graph</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> have_gltf_converter:</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            emit(<span class="stringliteral">&#39;gltf_converted&#39;</span>, {<span class="stringliteral">&#39;document&#39;</span>: <span class="stringliteral">&#39;{}&#39;</span>}, broadcast=<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>            <span class="keywordflow">return</span></div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
-</div>
-<div class="foldopen" id="foldopen00211" data-start="" data-end="">
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ae42c69f0173a0ac466498b0205da67b3">  211</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ae42c69f0173a0ac466498b0205da67b3">handle_have_gltf_converter</a>(self):</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="stringliteral">        Handle query to see if glTF converter is available</span></div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        emit(<span class="stringliteral">&#39;have_gltf_converter&#39;</span>, {<span class="stringliteral">&#39;have_gltf_converter&#39;</span>: have_gltf_converter}, broadcast=<span class="keyword">True</span>)</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
-</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    <span class="preprocessor">@staticmethod</span></div>
-<div class="foldopen" id="foldopen00218" data-start="" data-end="">
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ad3c996f93010e92107504bbb038676fc">  218</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ad3c996f93010e92107504bbb038676fc">convert_png_to_base64</a>(file_path):</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span><span class="stringliteral">        Utility to load in png image from disk and return Base64 </span></div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span><span class="stringliteral">        representation</span></div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        <span class="keyword">with</span> open(file_path, <span class="stringliteral">&quot;rb&quot;</span>) <span class="keyword">as</span> image_file:</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            binary_data = image_file.read()</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            <span class="keywordflow">return</span> base64.b64encode(binary_data).decode(<span class="stringliteral">&#39;utf-8&#39;</span>)</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        materialx_string = data.get(<span class="stringliteral">&#39;materialxDocument&#39;</span>, <span class="stringliteral">&#39;&#39;</span>)</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        print(<span class="stringliteral">&#39;&gt; Server: convert_to_glTF event received&#39;</span>)</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        stdlib, _ = MxGLTFPTUtil.load_standard_libraries()</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        doc = MxGLTFPTUtil.create_working_document([stdlib])</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        <span class="keywordflow">if</span> len(materialx_string) == 0:</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>            <span class="keywordflow">return</span></div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        mx.readFromXmlString(doc, materialx_string)</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        print(<span class="stringliteral">&#39;&gt;&gt; MaterialX document loaded&#39;</span>)</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        converter = MxGLTFPT.glTFMaterialXConverter()</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>        json_string, status = converter.materialX_to_glTF(doc)</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> json_string:</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>            print(<span class="stringliteral">&#39;&gt;&gt; Error converting to glTF:&#39;</span>, status)</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            json_string = <span class="stringliteral">&#39;{}&#39;</span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>        print(<span class="stringliteral">&#39;&gt;&gt; glTF JSON created:&#39;</span>)</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        emit(<span class="stringliteral">&#39;gltf_converted&#39;</span>, {<span class="stringliteral">&#39;document&#39;</span>: json_string}, broadcast=<span class="keyword">True</span>)</div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
 </div>
+<div class="foldopen" id="foldopen00227" data-start="" data-end="">
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ae42c69f0173a0ac466498b0205da67b3">  227</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ae42c69f0173a0ac466498b0205da67b3">handle_have_gltf_converter</a>(self):</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span><span class="stringliteral">        Handle query to see if glTF converter is available</span></div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        emit(<span class="stringliteral">&#39;have_gltf_converter&#39;</span>, {<span class="stringliteral">&#39;have_gltf_converter&#39;</span>: have_gltf_converter}, broadcast=<span class="keyword">True</span>)</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
 </div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="keyword">def </span>main():</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span><span class="stringliteral">    Main command line interface</span></div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    parser = argparse.ArgumentParser(description=<span class="stringliteral">&quot;GPUOpen MaterialX Application&quot;</span>)</div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    parser.add_argument(<span class="stringliteral">&#39;--host&#39;</span>, type=str, default=<span class="stringliteral">&#39;127.0.0.1&#39;</span>, help=<span class="stringliteral">&quot;Host address to run the server on (default: 127.0.0.1)&quot;</span>)</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    parser.add_argument(<span class="stringliteral">&#39;--port&#39;</span>, type=int, default=8001, help=<span class="stringliteral">&quot;Port to run the server on (default: 8000)&quot;</span>)</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    parser.add_argument(<span class="stringliteral">&#39;--home&#39;</span>, type=str, default=<span class="stringliteral">&#39;MaterialXConversionApp.html&#39;</span>, help=<span class="stringliteral">&quot;Home page.&quot;</span>)</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    args = parser.parse_args()</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    app = <a class="code hl_class" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html">MaterialXConversionApp</a>(args.home)</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    app_host = args.host</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    app_port = args.port</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    app.run(host=app_host, port=app_port)</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    <span class="preprocessor">@staticmethod</span></div>
+<div class="foldopen" id="foldopen00234" data-start="" data-end="">
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno"><a class="line" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ad3c996f93010e92107504bbb038676fc">  234</a></span>    <span class="keyword">def </span><a class="code hl_function" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ad3c996f93010e92107504bbb038676fc">convert_png_to_base64</a>(file_path):</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="stringliteral">        Utility to load in png image from disk and return Base64 </span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="stringliteral">        representation</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        <span class="keyword">with</span> open(file_path, <span class="stringliteral">&quot;rb&quot;</span>) <span class="keyword">as</span> image_file:</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>            binary_data = image_file.read()</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>            <span class="keywordflow">return</span> base64.b64encode(binary_data).decode(<span class="stringliteral">&#39;utf-8&#39;</span>)</div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    main()</div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html">MaterialXConversionApp.MaterialXConversionApp</a></div><div class="ttdef"><b>Definition</b> <a href="#l00073">MaterialXConversionApp.py:73</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a2c9b1d68dff35003ca4fcf9acaff0adb"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a2c9b1d68dff35003ca4fcf9acaff0adb">MaterialXConversionApp.MaterialXConversionApp.handle_convert_to_glTF</a></div><div class="ttdeci">handle_convert_to_glTF(self, data)</div><div class="ttdoc">Handle request to convert MaterialX to glTF Texture Procedural graph.</div><div class="ttdef"><b>Definition</b> <a href="#l00186">MaterialXConversionApp.py:186</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a4da3def415ff2c6eb8f926335e75c0d5"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a4da3def415ff2c6eb8f926335e75c0d5">MaterialXConversionApp.MaterialXConversionApp._setup_event_handler_map</a></div><div class="ttdeci">_setup_event_handler_map(self)</div><div class="ttdoc">Set up dictionary of mapping event names to their handlers.</div><div class="ttdef"><b>Definition</b> <a href="#l00082">MaterialXConversionApp.py:82</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a661a04128b5209c97065e621f7e4d55a"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a661a04128b5209c97065e621f7e4d55a">MaterialXConversionApp.MaterialXConversionApp.handle_page_loaded</a></div><div class="ttdeci">handle_page_loaded(self, data)</div><div class="ttdoc">Handle page load / startup feedback.</div><div class="ttdef"><b>Definition</b> <a href="#l00098">MaterialXConversionApp.py:98</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a68cd482e9d2ec73b54211cd25ee9dd92"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a68cd482e9d2ec73b54211cd25ee9dd92">MaterialXConversionApp.MaterialXConversionApp.handle_load_materialx</a></div><div class="ttdeci">handle_load_materialx(self, data)</div><div class="ttdoc">Handle loading in of MaterialX document.</div><div class="ttdef"><b>Definition</b> <a href="#l00105">MaterialXConversionApp.py:105</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a783e2ba65d2611737e6a5718b7fe9088"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a783e2ba65d2611737e6a5718b7fe9088">MaterialXConversionApp.MaterialXConversionApp.event_handlers</a></div><div class="ttdeci">dict event_handlers</div><div class="ttdef"><b>Definition</b> <a href="#l00089">MaterialXConversionApp.py:89</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a8a5121ce3f8857ad7e3d2ff85888ebef"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a8a5121ce3f8857ad7e3d2ff85888ebef">MaterialXConversionApp.MaterialXConversionApp.__init__</a></div><div class="ttdeci">__init__(self, homePage)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition</b> <a href="#l00076">MaterialXConversionApp.py:76</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a9f92380e253bf362e9342fd6063b4039"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a9f92380e253bf362e9342fd6063b4039">MaterialXConversionApp.MaterialXConversionApp.handle_convert_to_usd</a></div><div class="ttdeci">handle_convert_to_usd(self, data)</div><div class="ttdoc">Handle request to convert MaterialX to USD.</div><div class="ttdef"><b>Definition</b> <a href="#l00163">MaterialXConversionApp.py:163</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_ab3052edf298905c0d68f3b9a1a3f8992"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ab3052edf298905c0d68f3b9a1a3f8992">MaterialXConversionApp.MaterialXConversionApp.handle_render_materialx</a></div><div class="ttdeci">handle_render_materialx(self, data)</div><div class="ttdoc">Handle request to render MaterialX document.</div><div class="ttdef"><b>Definition</b> <a href="#l00120">MaterialXConversionApp.py:120</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_ad3c996f93010e92107504bbb038676fc"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ad3c996f93010e92107504bbb038676fc">MaterialXConversionApp.MaterialXConversionApp.convert_png_to_base64</a></div><div class="ttdeci">convert_png_to_base64(file_path)</div><div class="ttdoc">Utility to load in png image from disk and return Base64 representation.</div><div class="ttdef"><b>Definition</b> <a href="#l00218">MaterialXConversionApp.py:218</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_ae42c69f0173a0ac466498b0205da67b3"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ae42c69f0173a0ac466498b0205da67b3">MaterialXConversionApp.MaterialXConversionApp.handle_have_gltf_converter</a></div><div class="ttdeci">handle_have_gltf_converter(self)</div><div class="ttdoc">Handle query to see if glTF converter is available.</div><div class="ttdef"><b>Definition</b> <a href="#l00211">MaterialXConversionApp.py:211</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html">MaterialXConversionApp.MaterialXFlaskApp</a></div><div class="ttdef"><b>Definition</b> <a href="#l00029">MaterialXConversionApp.py:29</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_a6f6093ed2a4b57a9b81a3771aa20c239"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a6f6093ed2a4b57a9b81a3771aa20c239">MaterialXConversionApp.MaterialXFlaskApp.socketio</a></div><div class="ttdeci">socketio</div><div class="ttdef"><b>Definition</b> <a href="#l00035">MaterialXConversionApp.py:35</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_a94f82748908eb13ea1cdeeb4e7f0c5b5"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a94f82748908eb13ea1cdeeb4e7f0c5b5">MaterialXConversionApp.MaterialXFlaskApp.run</a></div><div class="ttdeci">run(self, host, port, debug=True)</div><div class="ttdoc">Run the Flask server with SocketIO.</div><div class="ttdef"><b>Definition</b> <a href="#l00067">MaterialXConversionApp.py:67</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_a97b6516ecdb8fa722648126199478a49"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a97b6516ecdb8fa722648126199478a49">MaterialXConversionApp.MaterialXFlaskApp._setup_event_handler_map</a></div><div class="ttdeci">_setup_event_handler_map(self)</div><div class="ttdoc">Pure virtual method: Must be implemented by subclasses.</div><div class="ttdef"><b>Definition</b> <a href="#l00055">MaterialXConversionApp.py:55</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_a98a533e05e560a14f7b85cd1fbfa31d5"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a98a533e05e560a14f7b85cd1fbfa31d5">MaterialXConversionApp.MaterialXFlaskApp.home</a></div><div class="ttdeci">home</div><div class="ttdef"><b>Definition</b> <a href="#l00031">MaterialXConversionApp.py:31</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_aa56d34d8759f591ec89c68b390a9d58b"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#aa56d34d8759f591ec89c68b390a9d58b">MaterialXConversionApp.MaterialXFlaskApp.app</a></div><div class="ttdeci">app</div><div class="ttdef"><b>Definition</b> <a href="#l00034">MaterialXConversionApp.py:34</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_abf2eef1fa0823cb663cffd07841e3480"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf2eef1fa0823cb663cffd07841e3480">MaterialXConversionApp.MaterialXFlaskApp._register_socket_events</a></div><div class="ttdeci">_register_socket_events(self)</div><div class="ttdoc">Register SocketIO events.</div><div class="ttdef"><b>Definition</b> <a href="#l00059">MaterialXConversionApp.py:59</a></div></div>
-<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_abf77ecb28fa2c2f659c1a6377104b288"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf77ecb28fa2c2f659c1a6377104b288">MaterialXConversionApp.MaterialXFlaskApp._register_routes</a></div><div class="ttdeci">_register_routes(self)</div><div class="ttdoc">Register HTTP routes.</div><div class="ttdef"><b>Definition</b> <a href="#l00042">MaterialXConversionApp.py:42</a></div></div>
+</div>
+</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="keyword">def </span>deployment_platform():</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="comment"># Small detection setup to determine the platform</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="comment"># More can be added as needed</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="keywordflow">if</span> os.environ.get(<span class="stringliteral">&#39;RENDER_SERVICE_ID&#39;</span>):</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Render&quot;</span></div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <span class="keywordflow">elif</span> os.environ.get(<span class="stringliteral">&#39;HEROKU&#39;</span>):</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Heroku&quot;</span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <span class="keywordflow">elif</span> os.environ.get(<span class="stringliteral">&#39;AWS_EXECUTION_ENV&#39;</span>):</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;AWS&quot;</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    <span class="keywordflow">else</span>:</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        <span class="comment"># Assume running local</span></div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Local&quot;</span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="keyword">def </span>main():</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>    <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="stringliteral">    Main command line interface</span></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span><span class="stringliteral">    &#39;&#39;&#39;</span></div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    parser = argparse.ArgumentParser(description=<span class="stringliteral">&quot;GPUOpen MaterialX Application&quot;</span>)</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    parser.add_argument(<span class="stringliteral">&#39;--host&#39;</span>, type=str, default=<span class="stringliteral">&#39;127.0.0.1&#39;</span>, help=<span class="stringliteral">&quot;Host address to run the server on (default: 127.0.0.1)&quot;</span>)</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    parser.add_argument(<span class="stringliteral">&#39;--port&#39;</span>, type=int, default=<span class="keywordtype">None</span>, help=<span class="stringliteral">&quot;Port to run the server on (default: 8000)&quot;</span>)</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    parser.add_argument(<span class="stringliteral">&#39;--home&#39;</span>, type=str, default=<span class="stringliteral">&#39;MaterialXConversionApp.html&#39;</span>, help=<span class="stringliteral">&quot;Home page.&quot;</span>)</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    args = parser.parse_args()</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span> </div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    app_host = args.host</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    deploy_platform = deployment_platform()</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="keywordflow">if</span> deployment_platform() == <span class="stringliteral">&quot;Render&quot;</span>:</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        <span class="comment"># Enforce this for Render deployments</span></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        app_host = <span class="stringliteral">&#39;0.0.0.0&#39;</span></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="comment"># Get the port from the environment or fallback to args</span></div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    app_port = int(os.environ.get(<span class="stringliteral">&#39;PORT&#39;</span>, 8080))  </div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <span class="keywordflow">if</span> args.port <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        app_port = args.port</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span> </div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    app = <a class="code hl_class" href="class_material_x_conversion_app_1_1_material_x_conversion_app.html">MaterialXConversionApp</a>(args.home)</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    app.run(host=app_host, port=app_port, deployment_platform=deployment_platform)</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span><span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    main()</div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html">MaterialXConversionApp.MaterialXConversionApp</a></div><div class="ttdef"><b>Definition</b> <a href="#l00089">MaterialXConversionApp.py:89</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a2c9b1d68dff35003ca4fcf9acaff0adb"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a2c9b1d68dff35003ca4fcf9acaff0adb">MaterialXConversionApp.MaterialXConversionApp.handle_convert_to_glTF</a></div><div class="ttdeci">handle_convert_to_glTF(self, data)</div><div class="ttdoc">Handle request to convert MaterialX to glTF Texture Procedural graph.</div><div class="ttdef"><b>Definition</b> <a href="#l00202">MaterialXConversionApp.py:202</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a4da3def415ff2c6eb8f926335e75c0d5"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a4da3def415ff2c6eb8f926335e75c0d5">MaterialXConversionApp.MaterialXConversionApp._setup_event_handler_map</a></div><div class="ttdeci">_setup_event_handler_map(self)</div><div class="ttdoc">Set up dictionary of mapping event names to their handlers.</div><div class="ttdef"><b>Definition</b> <a href="#l00098">MaterialXConversionApp.py:98</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a661a04128b5209c97065e621f7e4d55a"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a661a04128b5209c97065e621f7e4d55a">MaterialXConversionApp.MaterialXConversionApp.handle_page_loaded</a></div><div class="ttdeci">handle_page_loaded(self, data)</div><div class="ttdoc">Handle page load / startup feedback.</div><div class="ttdef"><b>Definition</b> <a href="#l00114">MaterialXConversionApp.py:114</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a68cd482e9d2ec73b54211cd25ee9dd92"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a68cd482e9d2ec73b54211cd25ee9dd92">MaterialXConversionApp.MaterialXConversionApp.handle_load_materialx</a></div><div class="ttdeci">handle_load_materialx(self, data)</div><div class="ttdoc">Handle loading in of MaterialX document.</div><div class="ttdef"><b>Definition</b> <a href="#l00121">MaterialXConversionApp.py:121</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a783e2ba65d2611737e6a5718b7fe9088"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a783e2ba65d2611737e6a5718b7fe9088">MaterialXConversionApp.MaterialXConversionApp.event_handlers</a></div><div class="ttdeci">dict event_handlers</div><div class="ttdef"><b>Definition</b> <a href="#l00105">MaterialXConversionApp.py:105</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a8a5121ce3f8857ad7e3d2ff85888ebef"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a8a5121ce3f8857ad7e3d2ff85888ebef">MaterialXConversionApp.MaterialXConversionApp.__init__</a></div><div class="ttdeci">__init__(self, homePage)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition</b> <a href="#l00092">MaterialXConversionApp.py:92</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_a9f92380e253bf362e9342fd6063b4039"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#a9f92380e253bf362e9342fd6063b4039">MaterialXConversionApp.MaterialXConversionApp.handle_convert_to_usd</a></div><div class="ttdeci">handle_convert_to_usd(self, data)</div><div class="ttdoc">Handle request to convert MaterialX to USD.</div><div class="ttdef"><b>Definition</b> <a href="#l00179">MaterialXConversionApp.py:179</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_ab3052edf298905c0d68f3b9a1a3f8992"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ab3052edf298905c0d68f3b9a1a3f8992">MaterialXConversionApp.MaterialXConversionApp.handle_render_materialx</a></div><div class="ttdeci">handle_render_materialx(self, data)</div><div class="ttdoc">Handle request to render MaterialX document.</div><div class="ttdef"><b>Definition</b> <a href="#l00136">MaterialXConversionApp.py:136</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_ad3c996f93010e92107504bbb038676fc"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ad3c996f93010e92107504bbb038676fc">MaterialXConversionApp.MaterialXConversionApp.convert_png_to_base64</a></div><div class="ttdeci">convert_png_to_base64(file_path)</div><div class="ttdoc">Utility to load in png image from disk and return Base64 representation.</div><div class="ttdef"><b>Definition</b> <a href="#l00234">MaterialXConversionApp.py:234</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_conversion_app_html_ae42c69f0173a0ac466498b0205da67b3"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_conversion_app.html#ae42c69f0173a0ac466498b0205da67b3">MaterialXConversionApp.MaterialXConversionApp.handle_have_gltf_converter</a></div><div class="ttdeci">handle_have_gltf_converter(self)</div><div class="ttdoc">Handle query to see if glTF converter is available.</div><div class="ttdef"><b>Definition</b> <a href="#l00227">MaterialXConversionApp.py:227</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html">MaterialXConversionApp.MaterialXFlaskApp</a></div><div class="ttdef"><b>Definition</b> <a href="#l00037">MaterialXConversionApp.py:37</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_a49636fc09c190bc32afeb8b29442ce9f"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a49636fc09c190bc32afeb8b29442ce9f">MaterialXConversionApp.MaterialXFlaskApp.deployment_platform</a></div><div class="ttdeci">str deployment_platform</div><div class="ttdef"><b>Definition</b> <a href="#l00050">MaterialXConversionApp.py:50</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_a6f6093ed2a4b57a9b81a3771aa20c239"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a6f6093ed2a4b57a9b81a3771aa20c239">MaterialXConversionApp.MaterialXFlaskApp.socketio</a></div><div class="ttdeci">socketio</div><div class="ttdef"><b>Definition</b> <a href="#l00043">MaterialXConversionApp.py:43</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_a8327a34e67b52e57dc2841e57f89690d"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a8327a34e67b52e57dc2841e57f89690d">MaterialXConversionApp.MaterialXFlaskApp.os_details</a></div><div class="ttdeci">os_details</div><div class="ttdef"><b>Definition</b> <a href="#l00052">MaterialXConversionApp.py:52</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_a97b6516ecdb8fa722648126199478a49"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a97b6516ecdb8fa722648126199478a49">MaterialXConversionApp.MaterialXFlaskApp._setup_event_handler_map</a></div><div class="ttdeci">_setup_event_handler_map(self)</div><div class="ttdoc">Pure virtual method: Must be implemented by subclasses.</div><div class="ttdef"><b>Definition</b> <a href="#l00070">MaterialXConversionApp.py:70</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_a98a533e05e560a14f7b85cd1fbfa31d5"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#a98a533e05e560a14f7b85cd1fbfa31d5">MaterialXConversionApp.MaterialXFlaskApp.home</a></div><div class="ttdeci">home</div><div class="ttdef"><b>Definition</b> <a href="#l00039">MaterialXConversionApp.py:39</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_aa56d34d8759f591ec89c68b390a9d58b"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#aa56d34d8759f591ec89c68b390a9d58b">MaterialXConversionApp.MaterialXFlaskApp.app</a></div><div class="ttdeci">app</div><div class="ttdef"><b>Definition</b> <a href="#l00042">MaterialXConversionApp.py:42</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_ab7cf40c6c2a490bc4ec1d4410eaed74c"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#ab7cf40c6c2a490bc4ec1d4410eaed74c">MaterialXConversionApp.MaterialXFlaskApp.run</a></div><div class="ttdeci">run(self, host, port, deployment_platform, debug=True)</div><div class="ttdoc">Run the Flask server with SocketIO.</div><div class="ttdef"><b>Definition</b> <a href="#l00082">MaterialXConversionApp.py:82</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_abf2eef1fa0823cb663cffd07841e3480"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf2eef1fa0823cb663cffd07841e3480">MaterialXConversionApp.MaterialXFlaskApp._register_socket_events</a></div><div class="ttdeci">_register_socket_events(self)</div><div class="ttdoc">Register SocketIO events.</div><div class="ttdef"><b>Definition</b> <a href="#l00074">MaterialXConversionApp.py:74</a></div></div>
+<div class="ttc" id="aclass_material_x_conversion_app_1_1_material_x_flask_app_html_abf77ecb28fa2c2f659c1a6377104b288"><div class="ttname"><a href="class_material_x_conversion_app_1_1_material_x_flask_app.html#abf77ecb28fa2c2f659c1a6377104b288">MaterialXConversionApp.MaterialXFlaskApp._register_routes</a></div><div class="ttdeci">_register_routes(self)</div><div class="ttdoc">Register HTTP routes.</div><div class="ttdef"><b>Definition</b> <a href="#l00057">MaterialXConversionApp.py:57</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

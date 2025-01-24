@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['convert_5fpng_5fto_5fbase64_0',['convert_png_to_base64',['../class_material_x_conversion_app_1_1_material_x_conversion_app.html#ad3c996f93010e92107504bbb038676fc',1,'MaterialXConversionApp::MaterialXConversionApp']]]
+  ['addcomment_0',['addComment',['../class_ambient_c_g_loader.html#a56b4f76c538080a090c5b454602ba477',1,'AmbientCGLoader']]]
 ];

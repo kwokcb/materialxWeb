@@ -1,4 +1,4 @@
-## GPUOpen Material Inspector
+## Python GPUOpen Material Inspector 
 
 This sample package shows the basic components required to connect MaterialX running in Python to a Web client running Javascript in order to access materials on the <a href="https://matlib.gpuopen.com/main/materials/all">AMD GPUOpen material site</a>.
 

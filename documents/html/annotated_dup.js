@@ -8,6 +8,8 @@ var annotated_dup =
       [ "MaterialXFlaskApp", "class_material_x_g_p_u_open_app_1_1_material_x_flask_app.html", "class_material_x_g_p_u_open_app_1_1_material_x_flask_app" ],
       [ "MaterialXGPUOpenApp", "class_material_x_g_p_u_open_app_1_1_material_x_g_p_u_open_app.html", "class_material_x_g_p_u_open_app_1_1_material_x_g_p_u_open_app" ]
     ] ],
+    [ "AmbientCGLoader", "class_ambient_c_g_loader.html", "class_ambient_c_g_loader" ],
+    [ "JsGPUOpenMaterialLoader", "class_js_g_p_u_open_material_loader.html", "class_js_g_p_u_open_material_loader" ],
     [ "MaterialX_Conversion_Client", "class_material_x___conversion___client.html", null ],
     [ "MaterialX_GPUOpen_Client", "class_material_x___g_p_u_open___client.html", null ],
     [ "MaterialXOCIOClient", "class_material_x_o_c_i_o_client.html", null ],

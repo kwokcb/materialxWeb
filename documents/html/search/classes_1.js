@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['websocketclient_0',['WebSocketClient',['../class_web_socket_client.html',1,'']]],
-  ['websocketeventhandlers_1',['WebSocketEventHandlers',['../class_web_socket_event_handlers.html',1,'']]]
+  ['jsgpuopenmaterialloader_0',['JsGPUOpenMaterialLoader',['../class_js_g_p_u_open_material_loader.html',1,'']]]
 ];
