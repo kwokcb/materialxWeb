@@ -1,4 +1,4 @@
-## MaterialX OCIO Application
+## Python MaterialX OCIO Application
 
 <img src="./images/ocio_mtlx_convert_1.png" width="100%">
 

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ocio_20application_0',['MaterialX OCIO Application',['../md__d_1_2work_2materialx_2materialx_web_2flask_2ocio_2_r_e_a_d_m_e.html',1,'']]]
+  ['jsgpuopenmaterialloader_0',['JsGPUOpenMaterialLoader',['../class_js_g_p_u_open_material_loader.html',1,'']]]
 ];

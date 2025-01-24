@@ -5,7 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MaterialXWeb: Materialx Conversion Application</title>
+<title>MaterialXWeb: Python Materialx Conversion Application</title>
+<link rel="icon" href="MX_LAB.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -27,10 +28,11 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="MX_LAB.svg"/></td>
   <td id="projectalign">
-   <div id="projectname">MaterialXWeb<span id="projectnumber">&#160;0.0.1</span>
+   <div id="projectname">MaterialXWeb<span id="projectnumber">&#160;0.0.2</span>
    </div>
-   <div id="projectbrief">Utilities for using MaterialX Python packages with a Web client</div>
+   <div id="projectbrief">Utilities for using MaterialX Packages with Web clients</div>
   </td>
  </tr>
  </tbody>
@@ -98,7 +100,7 @@ $(function(){initNavTree('md__d_1_2_work_2materialx_2materialx_web_2flask_2conve
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">Materialx Conversion Application</div></div>
+  <div class="headertitle"><div class="title">Python Materialx Conversion Application</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="autotoc_md0"></a></p>
@@ -115,7 +117,7 @@ Dependents</h2>
 <li><code>socket-io</code>: For Javascript WebSocket support</li>
 <li><code>usd-core</code>: for OpenUSD conversion. Different versions can be downloaded explicitly from <a href="https://pypi.org/project/usd-core/" target="_blank">PyPi</a>. The assumed minimum version is 24.11.</li>
 <li><code>MaterialX</code> : Different versions can be downloaded explicitly from <a href="https://pypi.org/project/MaterialX/" target="_blank">PyPi</a>. The assumed minimum version is 1.38.10.</li>
-<li><code>gltf_materialx_converter</code>: <code>MaterialX glTF Convertor</code> Python library. Note that this is not available on <code>PyPi</code> currently so the <a href="https://github.com/KhronosGroup/glTF-MaterialX-Converter" target="_blank">Github repository</a> must be cloned and the packagelocally installed.</li>
+<li><code>gltf_materialx_converter</code>: <code>MaterialX glTF Convertor</code> Python library. Note that this is not available on <code>PyPi</code> currently so the <a href="https://github.com/KhronosGroup/glTF-MaterialX-Converter" target="_blank">Github repository</a> must be cloned and the package locally installed.</li>
 </ul>
 <p>Rendering depends on the environment variable: <code>MATERIALX_DEFAULT_VIEWER</code> being set to the location of the MaterialXView binary. This is part of the MaterialX release distribution as found <a href="https://github.com/AcademySoftwareFoundation/MaterialX/releases" target="_blank">here</a></p>
 <h2><a class="anchor" id="autotoc_md2"></a>
@@ -131,8 +133,11 @@ Installation</h2>
 Execution</h2>
 <p>Run the main package using: </p><div class="fragment"><div class="line">materialx_conversion_app</div>
 </div><!-- fragment --><p> or directly with Python: </p><div class="fragment"><div class="line">python MaterialXConversionApp.py</div>
-</div><!-- fragment --><p>By default the application is running a local server. To access the client page open the following in a Web browser: </p><div class="fragment"><div class="line">http://127.0.0.1:8000</div>
-</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- fragment --><p>By default the application is running a local server. To access the client page open the following in a Web browser: </p><div class="fragment"><div class="line">http://127.0.0.1:8080</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md4"></a>
+Deployment</h2>
+<p>This application is not currently deployed on any platform, though it should run properly with the exception of rendering in a <code>Render</code> container. </p>
+</div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->

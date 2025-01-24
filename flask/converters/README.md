@@ -1,4 +1,4 @@
-## Materialx Conversion Application
+## Python Materialx Conversion Application
 
 This sample package shows the basic components required to connect MaterialX running in Python to a Web client running Javascript in order to run conversion or rendering applications.
 

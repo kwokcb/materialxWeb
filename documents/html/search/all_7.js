@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['handle_5fconvert_5fto_5fgltf_0',['handle_convert_to_glTF',['../class_material_x_conversion_app_1_1_material_x_conversion_app.html#a2c9b1d68dff35003ca4fcf9acaff0adb',1,'MaterialXConversionApp::MaterialXConversionApp']]],
-  ['handle_5fconvert_5fto_5fusd_1',['handle_convert_to_usd',['../class_material_x_conversion_app_1_1_material_x_conversion_app.html#a9f92380e253bf362e9342fd6063b4039',1,'MaterialXConversionApp::MaterialXConversionApp']]],
-  ['handle_5fdownload_5fmaterialx_2',['handle_download_materialx',['../class_material_x_g_p_u_open_app_1_1_material_x_g_p_u_open_app.html#a63b9c70cfda647bc972455ce9c6957cd',1,'MaterialXGPUOpenApp::MaterialXGPUOpenApp']]],
-  ['handle_5fextract_5fmaterial_3',['handle_extract_material',['../class_material_x_g_p_u_open_app_1_1_material_x_g_p_u_open_app.html#a401744980ba750f6753ecd64e4d85356',1,'MaterialXGPUOpenApp::MaterialXGPUOpenApp']]],
-  ['handle_5fhave_5fgltf_5fconverter_4',['handle_have_gltf_converter',['../class_material_x_conversion_app_1_1_material_x_conversion_app.html#ae42c69f0173a0ac466498b0205da67b3',1,'MaterialXConversionApp::MaterialXConversionApp']]],
-  ['handle_5fload_5fmaterialx_5',['handle_load_materialx',['../class_material_x_conversion_app_1_1_material_x_conversion_app.html#a68cd482e9d2ec73b54211cd25ee9dd92',1,'MaterialXConversionApp::MaterialXConversionApp']]],
-  ['handle_5fpage_5floaded_6',['handle_page_loaded',['../class_material_x_conversion_app_1_1_material_x_conversion_app.html#a661a04128b5209c97065e621f7e4d55a',1,'MaterialXConversionApp::MaterialXConversionApp']]],
-  ['handle_5frender_5fmaterialx_7',['handle_render_materialx',['../class_material_x_conversion_app_1_1_material_x_conversion_app.html#ab3052edf298905c0d68f3b9a1a3f8992',1,'MaterialXConversionApp::MaterialXConversionApp']]]
+  ['getdatabase_0',['getDataBase',['../class_ambient_c_g_loader.html#a9e7d585d7053f7904c7a21590713e949',1,'AmbientCGLoader']]],
+  ['getdatabasemateriallist_1',['getDataBaseMaterialList',['../class_ambient_c_g_loader.html#a3af6a0c68b3121b9bf6928aa44443152',1,'AmbientCGLoader']]],
+  ['getdownloadedmaterialinformation_2',['getDownloadedMaterialInformation',['../class_ambient_c_g_loader.html#a65c65117bd5d046334826a356cd27804',1,'AmbientCGLoader']]],
+  ['getmateriallist_3',['getMaterialList',['../class_js_g_p_u_open_material_loader.html#a4b3ee53434e8ea43ed0a5b7d0e215778',1,'JsGPUOpenMaterialLoader']]],
+  ['getmaterialnames_4',['getMaterialNames',['../class_ambient_c_g_loader.html#ab78e9a2f1e3729f77812a83d72f1a945',1,'AmbientCGLoader::getMaterialNames()'],['../class_js_g_p_u_open_material_loader.html#a9cff1950acf5cb3057088b562ad3353c',1,'JsGPUOpenMaterialLoader::getMaterialNames()']]],
+  ['getmaterials_5',['getMaterials',['../class_js_g_p_u_open_material_loader.html#a0ab9a9768584167afa02afa0b9755632',1,'JsGPUOpenMaterialLoader']]],
+  ['getmaterialxstring_6',['getMaterialXString',['../class_ambient_c_g_loader.html#a8ba83539a06f0cf5bd9043ffada57495',1,'AmbientCGLoader']]],
+  ['gpuopen_20material_20inspector_7',['Python GPUOpen Material Inspector',['../md__d_1_2_work_2materialx_2materialx_web_2flask_2gpuopen_2_r_e_a_d_m_e.html',1,'']]]
 ];

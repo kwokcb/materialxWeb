@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['to_20materialxweb_0',['Welcome to materialxWeb',['../index.html',1,'']]]
+  ['to_20materialx_20web_0',['Welcome to Materialx Web',['../index.html',1,'']]]
 ];

@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['websocketclient_0',['WebSocketClient',['../class_web_socket_client.html',1,'']]],
-  ['websocketeventhandlers_1',['WebSocketEventHandlers',['../class_web_socket_event_handlers.html',1,'']]],
-  ['welcome_20to_20materialxweb_2',['Welcome to materialxWeb',['../index.html',1,'']]]
+  ['ocio_20application_0',['Python MaterialX OCIO Application',['../md__d_1_2_work_2materialx_2materialx_web_2flask_2ocio_2_r_e_a_d_m_e.html',1,'']]]
 ];

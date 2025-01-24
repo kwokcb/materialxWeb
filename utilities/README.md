@@ -2,8 +2,12 @@
 
 ### Flask Application Building
 
-- Run the <a href="https://github.com/kwokcb/materialxWeb/blob/main/utilities/build_flask.sh">build_flask.sh</a> script to install all packages found in the Flask folder.
+- Run the <a href="https://github.com/kwokcb/materialxWeb/blob/main/utilities/build_flask.sh">build_flask.sh</a> script to install all packages found in the `flask` folder.
 - For the OpenColorIO application the `materialxocio` package must be installed locally by cloning and installing the package found in this <a href="https://github.com/kwokcb/materialxocio.git">repo</a>. This package is currently not published on `PyPi`.
+
+### NodeJS Application Building
+
+- Run the <a href="https://github.com/kwokcb/materialxWeb/blob/main/utilities/build_flask.sh">build_nodejs.sh</a> script to install all packages found in the `nodejs` folder.
 
 ### Documentation
 
