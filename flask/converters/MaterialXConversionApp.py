@@ -2,6 +2,7 @@ import base64
 import os
 import argparse
 import datetime
+import platform
 
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
@@ -26,6 +27,13 @@ except ImportError:
     print('Cannot import gltf_materialx_converter')
     have_gltf_converter = False
 
+def get_os_details():
+    return {
+        'os': platform.system(),
+        'release': platform.release(),
+        'architecture': platform.machine()
+    }
+
 class MaterialXFlaskApp:
     def __init__(self, home):
         self.home = home
@@ -38,6 +46,13 @@ class MaterialXFlaskApp:
         self._register_routes()
         self._setup_event_handler_map()
         self._register_socket_events()
+
+        self.deployment_platform = 'Local'
+        print(f'* Initialized on deployment plaform: {self.deployment_platform}')
+        self.os_details = get_os_details()
+        print(f"  * OS: {self.os_details['os']}")
+        print(f"  * Release: {self.os_details['release']}")
+        print(f"  * Architecture: {self.os_details['architecture']}")
 
     def _register_routes(self):
         '''
@@ -64,10 +79,11 @@ class MaterialXFlaskApp:
         for event_name, handler in self.event_handlers.items():
             self.socketio.on_event(event_name, handler)        
 
-    def run(self, host, port, debug=True):
+    def run(self, host, port, deployment_platform, debug=True):
         '''
         Run the Flask server with SocketIO.
         '''
+        self.deployment_platform = deployment_platform
         self.socketio.run(self.app, host, port, debug=debug)
 
 class MaterialXConversionApp(MaterialXFlaskApp):
@@ -224,21 +240,43 @@ class MaterialXConversionApp(MaterialXFlaskApp):
             binary_data = image_file.read()
             return base64.b64encode(binary_data).decode('utf-8')
 
+def deployment_platform():
+    # Small detection setup to determine the platform
+    # More can be added as needed
+    if os.environ.get('RENDER_SERVICE_ID'):
+        return "Render"
+    elif os.environ.get('HEROKU'):
+        return "Heroku"
+    elif os.environ.get('AWS_EXECUTION_ENV'):
+        return "AWS"
+    else:
+        # Assume running local
+        return "Local"
+
 def main():
     '''
     Main command line interface
     '''
     parser = argparse.ArgumentParser(description="GPUOpen MaterialX Application")
     parser.add_argument('--host', type=str, default='127.0.0.1', help="Host address to run the server on (default: 127.0.0.1)")
-    parser.add_argument('--port', type=int, default=8001, help="Port to run the server on (default: 8000)")
+    parser.add_argument('--port', type=int, default=None, help="Port to run the server on (default: 8000)")
     parser.add_argument('--home', type=str, default='MaterialXConversionApp.html', help="Home page.")
 
     args = parser.parse_args()
 
-    app = MaterialXConversionApp(args.home)
     app_host = args.host
-    app_port = args.port
-    app.run(host=app_host, port=app_port)
+    deploy_platform = deployment_platform()
+    if deployment_platform() == "Render":
+        # Enforce this for Render deployments
+        app_host = '0.0.0.0'
+
+    # Get the port from the environment or fallback to args
+    app_port = int(os.environ.get('PORT', 8080))  
+    if args.port is not None:
+        app_port = args.port
+
+    app = MaterialXConversionApp(args.home)
+    app.run(host=app_host, port=app_port, deployment_platform=deployment_platform)
 
 if __name__ == "__main__":
     main()

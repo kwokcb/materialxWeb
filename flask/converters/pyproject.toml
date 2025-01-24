@@ -22,8 +22,8 @@ classifiers = [
 dependencies = [
     "flask>=2.3.2",
     "flask-socketio>=5.3.4",
-    "materialx>=1.38.9",
-    "usd-core>=24.11"
+    "materialx>=1.39.2",
+    "usd-core>=25.2"
 ]
 
 [project.scripts]

@@ -23,7 +23,7 @@ The following packages are installed by default as part of the `pip` installatio
 explicitly from <a href="https://pypi.org/project/usd-core/" target="_blank">PyPi</a>. The assumed minimum version is 24.11.
 - `MaterialX` : Different versions can be downloaded explicitly from <a href="https://pypi.org/project/MaterialX/" target="_blank">PyPi</a>. The assumed minimum version is 1.38.10.
 
-- `gltf_materialx_converter`: `MaterialX glTF Convertor` Python library. Note that this is not available on `PyPi` currently so the <a href="https://github.com/KhronosGroup/glTF-MaterialX-Converter" target="_blank">Github repository</a> must be cloned and the packagelocally installed.
+- `gltf_materialx_converter`: `MaterialX glTF Convertor` Python library. Note that this is not available on `PyPi` currently so the <a href="https://github.com/KhronosGroup/glTF-MaterialX-Converter" target="_blank">Github repository</a> must be cloned and the package locally installed.
 
 Rendering depends on the environment variable: `MATERIALX_DEFAULT_VIEWER` being set to the location of the MaterialXView binary. This is part of the MaterialX release distribution as found <a href="https://github.com/AcademySoftwareFoundation/MaterialX/releases" target="_blank">here</a>
 
@@ -61,8 +61,13 @@ python MaterialXConversionApp.py
 
 By default the application is running a local server. To access the client page open the following in a Web browser:
 ```
-http://127.0.0.1:8000
+http://127.0.0.1:8080
 ```
+
+### Deployment
+
+This application is not currently deployed on any platform, though it should
+run properly with the exception of rendering in a `Render` container.
 
 
 
