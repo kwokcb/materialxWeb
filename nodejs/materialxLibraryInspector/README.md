@@ -11,4 +11,4 @@ Note that some packages may take some time to download / preview due to the time
 | Package | Download |
 | :--: | :--: |
 | AmbientCG Tile |  <img src="https://github.com/kwokcb/materialxWeb/blob/main/nodejs/materialxLibraryInspector/public/images/ambientCg_download_2.png?raw=true" width=100%> |
-| GPUOpen  |  <img src="ttps://github.com/kwokcb/materialxWeb/blob/main/nodejs/materialxLibraryInspector/public/images/ambientCg_download_2gpuOpen_download_1.png?raw=true" width=100%> |
+| GPUOpen  |  <img src="https://github.com/kwokcb/materialxWeb/blob/main/nodejs/materialxLibraryInspector/public/images/gpuOpen_download_1.png?raw=true" width=100%> |
