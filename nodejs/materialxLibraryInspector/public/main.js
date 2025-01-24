@@ -1,5 +1,12 @@
+// File: main.js
+// Description: Client-side JavaScript for the MaterialX Material Server
+//
 let extractedEditor = null;
-
+ 
+// @brief Update the status input with a message
+// @param message: The message to display
+// @param force: Replace vs append to the existing message
+//
 function updateStatusInput(message, force = false) {
     const inputDOM = document.getElementById('status_message');
     if (inputDOM.value == 'Status' || force)
@@ -10,6 +17,9 @@ function updateStatusInput(message, force = false) {
     inputDOM.scrollTop = inputDOM.scrollHeight;
 }
 
+// @brief Fetch materials from the appropriate server
+// @param source: Material server identifier
+//
 async function fetchMaterials(source) {
     try {
         updateStatusInput('- Client: Fetching materials...');
@@ -33,6 +43,7 @@ async function fetchMaterials(source) {
 // ambientCG Handlers
 //////////////////////////////////////////////////////////
 
+// @brief Fetch materials from AmbientCG and displays the material list
 async function fetchAmbientCGMaterials() 
 {
     let query = '/api/materials?source=AmbientCG'
@@ -56,6 +67,7 @@ async function fetchAmbientCGMaterials()
     displayAmbientCGMaterials(materials);
 }
 
+// @brief Display the AmbientCG materials in a table
 function displayAmbientCGMaterials(materials) {
 
     if (!Array.isArray(materials)) {
@@ -72,7 +84,7 @@ function displayAmbientCGMaterials(materials) {
     tbl.style.fontSize = '10px';
 
     // Update status (assuming updateStatusInput is a defined function)
-    updateStatusInput('Display material list...');
+    updateStatusInput('- Server: Display material list...');
 
     // Iterate through the materials list
     let tblFragment = document.createDocumentFragment();
@@ -111,6 +123,11 @@ function displayAmbientCGMaterials(materials) {
     convertTableToBootstrapRowCol(contentDiv);
 }
 
+// @brief Download an AmbientCG material package
+// @param assetId: The asset ID of the material
+// @param imageFormat: The image format to download. Default is 'PNG'
+// @param imageResolution: The image resolution to download. Default is 1
+// @return None
 async function downloadAmbientCGPackage(assetId, imageFormat = 'PNG', imageResolution = '1') {
     try {
         let query = '/api/downloadAmbientCGPackage?' +                 
@@ -125,7 +142,7 @@ async function downloadAmbientCGPackage(assetId, imageFormat = 'PNG', imageResol
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        await displayResponse(response);
+        await displayMaterialPackage(response);
 
     } catch (error) {
         console.error('Error downloading package:', error);
@@ -136,6 +153,8 @@ async function downloadAmbientCGPackage(assetId, imageFormat = 'PNG', imageResol
 // GPUOpen Handlers
 //////////////////////////////////////////////////////////
 
+// @breif Fetch materials from GPUOpen and display the material list
+//
 async function fetchGPUOpenMaterials() 
 {
     let query = '/api/materials?source=GPUOpen'
@@ -159,6 +178,9 @@ async function fetchGPUOpenMaterials()
     displayGPUOpenMaterials(materials);
 }
 
+// @brief Display the GPUOpen materials in a table
+// @param materials: The materials list to display
+//
 function displayGPUOpenMaterials(materials) {
     const contentDiv = document.getElementById('content');
     contentDiv.innerHTML = '';
@@ -167,7 +189,7 @@ function displayGPUOpenMaterials(materials) {
     tbl.classList.add('table');
     tbl.style.fontSize = '10px';
 
-    updateStatusInput('Display material list...');
+    updateStatusInput('- Server: Display material list...');
     let tblFragment = document.createDocumentFragment();
     materials.forEach((materialList, listNumber) => {
         materialList.results.forEach((material, materialNumber) => {
@@ -189,7 +211,10 @@ function displayGPUOpenMaterials(materials) {
     convertTableToBootstrapRowCol(contentDiv);
 }
 
-async function displayResponse(response) {
+// @brief Display unzipped data found in the response for a query
+// @param response: The response object from the fetch query
+// @return None
+async function displayMaterialPackage(response) {
     // Extract the title from the custom header
     const title = response.headers.get('X-File-Title');
     downloaded_material_name = document.getElementById('downloaded_material_name');
@@ -296,129 +321,6 @@ async function displayResponse(response) {
     updateStatusInput('- Client: Display Unpacked Data....done: ' + title);
 }
 
-async function displayResponse_jszip(response) {
-    // Extract the title from the custom header
-    const title = response.headers.get('X-File-Title');
-    downloaded_material_name = document.getElementById('downloaded_material_name');
-    downloaded_material_name.innerText = title;
-
-    downloaded_materialx_filename = document.getElementById('downloaded_materialx_filename');
-
-    // Convert the response to an ArrayBuffer
-    const arrayBuffer = await response.arrayBuffer();
-
-    // Create a Blob from the ArrayBuffer
-    const blob = new Blob([arrayBuffer], { type: 'application/zip' });
-
-    // Create a URL for the Blob
-    const url = window.URL.createObjectURL(blob);
-
-    updateStatusInput('- Client: Save download: ' + title)
-    // Create a temporary <a> element to trigger the download
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = title;
-    document.body.appendChild(a); // Append the <a> element to the DOM
-    a.click(); // Trigger the download
-
-    // Clean up
-    window.URL.revokeObjectURL(url); // Release the Blob URL
-    document.body.removeChild(a); // Remove the <a> element from the DOM    
-
-    ///////////////////////////////////////////////////////
-    updateStatusInput('- Client: Display Unpacked Data....: ' + title)
-
-    const imageDOM = document.getElementById('extracted_images');
-    imageDOM.innerHTML = ''; // Clear existing images
-    const mtlxDOM = document.getElementById('extracted_mtlx');
-    mtlxDOM.value = '';
-    extractedEditor.setValue('');
-
-    // Get zip contents from arrayBuffer
-    const zip = new JSZip();
-    const zipContents = await zip.loadAsync(arrayBuffer);
-    const zipFiles = Object.keys(zipContents.files);
-    //updateStatusInput('- Client: Zip contents: ' + zipFiles.join(', '));
-    // Traverse the zip contents and pull out ".mtlx" files as text
-    // and ".png" files as data URLs
-    for (const zipFile of zipFiles) {
-        const file = zipContents.files[zipFile];
-        if (file.dir) {
-            //updateStatusInput('- Client: Directory: ' + zipFile);
-        } else {
-            const extension = zipFile.split('.').pop();
-            if (extension === 'mtlx') 
-            {
-                updateStatusInput('- Client: Extract MTLX file: ' + file.name);
-                const text = await file.async('text');
-                mtlxDOM.value = text;
-                downloaded_materialx_filename.innerText = file.name;
-                extractedEditor.setValue(text);
-            } 
-            else if (extension === 'png' || extension === 'jpg') {
-                // Extract out the image to show in an img element
-                // Get image size
-                const size = file._data.uncompressedSize;
-                updateStatusInput('- Client: Extract image file: ' + file.name + ", size: " + size);
-
-                /* SLOW 
-                let img = document.createElement('img');
-                let url = 'data:image/png;base64,' + await file.async('base64');
-                */
-
-                // Get the file as an ArrayBuffer
-                const arrayBuffer = await file.async('arraybuffer');
-                
-                // Create a Blob from the ArrayBuffer
-                const blob = new Blob([arrayBuffer], { type: `image/${extension}` });
-                
-                // Create a Blob URL
-                const url = URL.createObjectURL(blob);
-                
-                // Create an image element and set its source to the Blob URL
-                //let img = document.createElement('img');
-                //img.src = blobUrl;                
-
-                // Create a container for the image and label
-                const imageContainer = document.createElement('div');
-                imageContainer.classList.add('col-sm');
-                imageContainer.style.display = 'inline-block';
-                imageContainer.style.margin = '10px';
-                imageContainer.style.textAlign = 'center'; // Center the label under the image
-
-                // Create the image element
-                const key = file.name;
-                const img = document.createElement('img');
-                img.loading = 'lazy'; 
-                img.src = url;
-                img.width = 128;
-                img.alt = key;
-
-                // Add the key as a tooltip
-                img.title = key;
-
-                // Create a label for the image
-                const label = document.createElement('div');
-                label.innerText = key;
-                label.style.fontSize = '0.8rem';
-                //label.style.color = '#FFF'; // 
-
-                // Append the image and label to the container
-                imageContainer.appendChild(img);
-                imageContainer.appendChild(label);
-
-                // Append the container to the image DOM
-                imageDOM.appendChild(imageContainer);
-
-            } else {
-                updateStatusInput('- Client: Ignore unpacking file: ' + file.name);
-            }
-        }
-    }
-
-    updateStatusInput('- Client: Display Unpacked Data....done: ' + title)
-}
-
 async function downloadGPUOpenPackage(listNumber, materialNumber) {
     try {
         let query = '/api/downloadGPUOpenPackage?listNumber=' +
@@ -432,7 +334,7 @@ async function downloadGPUOpenPackage(listNumber, materialNumber) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        await displayResponse(response);
+        await displayMaterialPackage(response);
 
     } catch (error) {
         console.error('Error downloading package:', error);
@@ -539,7 +441,7 @@ async function createAndDownloadZip() {
         URL.revokeObjectURL(url);
         document.body.removeChild(a);
 
-        updateStatusInput('- Client: ZIP file downloaded successfully.');
+        updateStatusInput('- Client: Created ZIP file. Ready for download.');
     } catch (error) {
         console.error('Error creating ZIP file:', error);
         updateStatusInput('- Client: Failed to create ZIP file.');
@@ -557,11 +459,28 @@ function setupXML() {
     extractedEditor.setSize('auto', '200px');
 }
 
+function setupLibrarySelector() {
+
+    document.getElementById('gpuopen_source').addEventListener('click', function () {
+        selectSource('GPUOpen');
+    });
+    document.getElementById('ambientcg_source').addEventListener('click', function () {
+        selectSource('AmbientCG');
+    });
+
+    function selectSource(source) {
+        document.getElementById('dropdownMenuButton').innerText = source;
+        document.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('active'));
+        document.querySelector(`#${source.toLowerCase().replace(' ', '')}_source`).classList.add('active');
+    }
+    selectSource('GPUOpen');
+}
+
 function main() 
 {
-    // Fetch materials when the page loads
-    //fetchMaterials();
     setupXML();
+
+    setupLibrarySelector()
 
     document.getElementById('clear_status').addEventListener('click', () => {
         updateStatusInput('Status', true);

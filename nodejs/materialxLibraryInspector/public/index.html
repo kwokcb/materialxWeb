@@ -99,28 +99,13 @@
                 </div>
             </div>
         </div>
+        <!-- fflate seems to provide reasonable performance for zip operations 
+            if this is changed then the server zip logic also needs to be changed -->
         <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.3/umd/index.min.js"></script>
-        <!-- <script src="https://cdn.jsdelivr.net/npm/jszip@3.7.1/dist/jszip.min.js"></script> -->
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 document.body.setAttribute('data-bs-theme', 'dark');
-
-                document.getElementById('gpuopen_source').addEventListener('click', function () {
-                    selectSource('GPUOpen');
-                });
-
-                document.getElementById('ambientcg_source').addEventListener('click', function () {
-                    selectSource('AmbientCG');
-                });
-
-                function selectSource(source) {
-                    document.getElementById('dropdownMenuButton').innerText = source;
-                    document.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('active'));
-                    document.querySelector(`#${source.toLowerCase().replace(' ', '')}_source`).classList.add('active');
-                }
-                selectSource('GPUOpen');
             });
-
         </script>
         <script src="main.js"></script>
 </body>
