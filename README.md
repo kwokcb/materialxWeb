@@ -4,6 +4,9 @@ This repository contains a set sample implementations that show bi-directional c
 
 The main focus is on connection "open standards" such as `gltF`, `OCIO`, `OpenUSD` with `MaterialX`.
 
+This is part of the set of tools available from <a href="https://kwokcb.github.io/MaterialXLab/" target="_blank">
+<img src="https://kwokcb.github.io/MaterialXLab/documents/icons/teapot_logo.svg" width=32px>MaterialX Lab</a>
+
 ## Documentation
 
 See the <a href="https://kwokcb.github.io/materialxWeb/index.html">home page</a> for more details.
@@ -22,3 +25,8 @@ See the <a href="https://kwokcb.github.io/materialxWeb/index.html">home page</a>
 <hr>
 
 See build instructions found <a href="https://github.com/kwokcb/materialxWeb/blob/main/utilities/README.md">here</a>.
+
+## GitHub Repository
+
+<a href="https://github.com/kwokcb/materialxWeb">materialXWeb</a>
+
