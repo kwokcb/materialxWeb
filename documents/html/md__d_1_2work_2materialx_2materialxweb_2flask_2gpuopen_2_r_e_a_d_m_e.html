@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MaterialXWeb: Welcome to Materialx Web</title>
+<title>MaterialXWeb: Python GPUOpen Material Inspector</title>
 <link rel="icon" href="toon_sphere.png" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <!-- Font Awesome CDN -->
@@ -79,7 +79,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('index.html',''); initResizable(true); });
+$(function(){initNavTree('md__d_1_2work_2materialx_2materialxweb_2flask_2gpuopen_2_r_e_a_d_m_e.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -105,37 +105,36 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">Welcome to Materialx Web </div></div>
+  <div class="headertitle"><div class="title">Python GPUOpen Material Inspector</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md__d_1_2work_2materialx_2materialxweb_2_r_e_a_d_m_e"></a></p>
-<p>This repository contains a set sample implementations that show bi-directional communication between Python and Javascript logic.</p>
-<p>The main focus is on connection "open standards" such as <code>gltF</code>, <code>OCIO</code>, <code>OpenUSD</code> with <code>MaterialX</code>.</p>
-<p>This is part of the set of tools available from <a href="https://kwokcb.github.io/MaterialXLab/" target="_blank"><img src="https://kwokcb.github.io/MaterialXLab/documents/icons/teapot_logo.svg" alt="" style="pointer-events: none;" width="32px" class="inline"/>MaterialX Lab</a></p>
-<h1><a class="anchor" id="autotoc_md19"></a>
-Documentation</h1>
-<p>See the <a href="https://kwokcb.github.io/materialxWeb/index.html">home page</a> for more details.</p>
-<h1><a class="anchor" id="autotoc_md20"></a>
-Python Flask Connector Examples</h1>
+<div class="textblock"><p><a class="anchor" id="autotoc_md9"></a></p>
+<p>This sample package shows the basic components required to connect MaterialX running in Python to a Web client running Javascript in order to access materials on the <a href="https://matlib.gpuopen.com/main/materials/all">AMD GPUOpen material site</a>.</p>
+<p><img src="https://raw.githubusercontent.com/kwokcb/materialxWeb/refs/heads/main/flask/gpuopen/images/extract_material_1.png" alt="Sample extracted material" width="100%" class="inline"/></p>
+<h2><a class="anchor" id="autotoc_md10"></a>
+Dependents</h2>
 <ul>
-<li><a class="el" href="md__d_1_2work_2materialx_2materialxweb_2flask_2gpuopen_2_r_e_a_d_m_e.html">GPUOpen MaterialX Materials Inspector</a> : Download MaterialX materials from the AMD GPUOpen Materials Library and inspect contents of the materials.</li>
-<li><a class="el" href="md__d_1_2work_2materialx_2materialxweb_2flask_2converters_2_r_e_a_d_m_e.html">glTF and USD Conversion from MaterialX</a> : Convert a MaterialX document to a USD or glTF Texture Procedural document.</li>
-<li><a class="el" href="md__d_1_2work_2materialx_2materialxweb_2flask_2ocio_2_r_e_a_d_m_e.html">OCIO to MaterialX Definition Generation (Alpha)</a> : Use the OpenColorIO package to query for color space transforms and create MaterialX node definitions.</li>
-<li>Simple template example : A simple "template" application that can be copied and modified as desired.</li>
+<li>Usage of the <code>materialxMaterials</code> Python package</li>
+<li><code>flask</code> and <code>flask-socketio</code> Python packages</li>
+<li><code>socket-io</code> Javascript library</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md21"></a>
-NodeJS Express Examples</h1>
-<ul>
-<li><a class="el" href="md__d_1_2work_2materialx_2materialxweb_2nodejs_2materialx_library_inspector_2_r_e_a_d_m_e.html">General MaterialX Library Inspecter</a> : Common interface to access remove MaterialX material libraries such as <code>GPUOpen</code> and <code>AmbientCG</code>.</li>
-</ul>
-<hr  />
-<p>See build instructions found <a href="https://github.com/kwokcb/materialxWeb/blob/main/utilities/README.md">here</a>.</p>
-<h1><a class="anchor" id="autotoc_md22"></a>
-GitHub Repository</h1>
-<p><a href="https://github.com/kwokcb/materialxWeb">materialXWeb</a> </p>
-</div></div><!-- PageDoc -->
-<a href="doxygen_crawl.html"></a>
-</div><!-- contents -->
+<h2><a class="anchor" id="autotoc_md11"></a>
+Installation</h2>
+<p>Either install the package from <code>PyPi</code>:</p>
+<div class="fragment"><div class="line">pip install materialx_gpuopen_app</div>
+</div><!-- fragment --><p>or clone the <a href="https://github.com/kwokcb/materialxWeb">materialXWeb</a> <br  />
+ repository and install from the root folder:</p>
+<div class="fragment"><div class="line">pip install .</div>
+</div><!-- fragment --><p>or</p>
+<div class="fragment"><div class="line">pip install -e .</div>
+</div><!-- fragment --><p> if planning to perform edits on the repository.</p>
+<h2><a class="anchor" id="autotoc_md12"></a>
+Execution</h2>
+<p>Run the main package using: </p><div class="fragment"><div class="line">materialx-gpuopen-app</div>
+</div><!-- fragment --><p> or directly with Python: </p><div class="fragment"><div class="line">python MaterialXGPUOpenApp.py</div>
+</div><!-- fragment --><p>By default the application is running a local server. To access the client page open the following in a Web browser: </p><div class="fragment"><div class="line">http://127.0.0.1:8080</div>
+</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.12.0-->
 <!-- start footer part -->

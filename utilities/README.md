@@ -7,7 +7,7 @@
 
 ### NodeJS Application Building
 
-- Run the <a href="https://github.com/kwokcb/materialxWeb/blob/main/utilities/build_flask.sh">build_nodejs.sh</a> script to install all packages found in the `nodejs` folder.
+- Run the <a href="https://github.com/kwokcb/materialxWeb/blob/main/utilities/build_nodejs.sh">build_nodejs.sh</a> script to install all packages found in the `nodejs` folder.
 
 ### Documentation
 
