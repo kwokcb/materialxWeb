@@ -29,4 +29,3 @@ See build instructions found <a href="https://github.com/kwokcb/materialxWeb/blo
 ## GitHub Repository
 
 <a href="https://github.com/kwokcb/materialxWeb">materialXWeb</a>
-

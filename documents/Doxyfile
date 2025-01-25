@@ -965,16 +965,14 @@ WARN_LOGFILE           = doxygen_warnings.txt
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = \
-                        ../flask/converters \
-                        ../flask/converters/static/js \
-                        ../flask/gpuopen \
-                        ../flask/gpuopen/static/js \
-                        ../flask/ocio \
-                        ../flask/ocio/static/js \
-                        ../nodejs/materialxLibraryInspector \
-                        ..
-
+INPUT                  = ../flask/converters \
+                         ../flask/converters/static/js \
+                         ../flask/gpuopen \
+                         ../flask/gpuopen/static/js \
+                         ../flask/ocio \
+                         ../flask/ocio/static/js \
+                         ../nodejs/materialxLibraryInspector \
+                         ..
 
 # This tag can be used to specify the character encoding of the source files
 # that Doxygen parses. Internally Doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1283,46 +1281,6 @@ USE_HTAGS              = NO
 
 VERBATIM_HEADERS       = YES
 
-# If the CLANG_ASSISTED_PARSING tag is set to YES then Doxygen will use the
-# clang parser (see:
-# http://clang.llvm.org/) for more accurate parsing at the cost of reduced
-# performance. This can be particularly helpful with template rich C++ code for
-# which Doxygen's built-in parser lacks the necessary type information.
-# Note: The availability of this option depends on whether or not Doxygen was
-# generated with the -Duse_libclang=ON option for CMake.
-# The default value is: NO.
-
-CLANG_ASSISTED_PARSING = NO
-
-# If the CLANG_ASSISTED_PARSING tag is set to YES and the CLANG_ADD_INC_PATHS
-# tag is set to YES then Doxygen will add the directory of each input to the
-# include path.
-# The default value is: YES.
-# This tag requires that the tag CLANG_ASSISTED_PARSING is set to YES.
-
-CLANG_ADD_INC_PATHS    = YES
-
-# If clang assisted parsing is enabled you can provide the compiler with command
-# line options that you would normally use when invoking the compiler. Note that
-# the include paths will already be set by Doxygen for the files and directories
-# specified with INPUT and INCLUDE_PATH.
-# This tag requires that the tag CLANG_ASSISTED_PARSING is set to YES.
-
-CLANG_OPTIONS          =
-
-# If clang assisted parsing is enabled you can provide the clang parser with the
-# path to the directory containing a file called compile_commands.json. This
-# file is the compilation database (see:
-# http://clang.llvm.org/docs/HowToSetupToolingForLLVM.html) containing the
-# options used when the source files were built. This is equivalent to
-# specifying the -p option to a clang tool, such as clang-check. These options
-# will then be passed to the parser. Any options specified with CLANG_OPTIONS
-# will be added as well.
-# Note: The availability of this option depends on whether or not Doxygen was
-# generated with the -Duse_libclang=ON option for CMake.
-
-CLANG_DATABASE_PATH    =
-
 #---------------------------------------------------------------------------
 # Configuration options related to the alphabetical class index
 #---------------------------------------------------------------------------
@@ -1385,7 +1343,7 @@ HTML_FILE_EXTENSION    = .html
 # of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_HEADER            =
+HTML_HEADER            = header.html
 
 # The HTML_FOOTER tag can be used to specify a user-defined HTML footer for each
 # generated HTML page. If the tag is left blank Doxygen will generate a standard
@@ -1395,7 +1353,7 @@ HTML_HEADER            =
 # that Doxygen normally uses.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_FOOTER            =
+HTML_FOOTER            = footer.html
 
 # The HTML_STYLESHEET tag can be used to specify a user-defined cascading style
 # sheet that is used by each HTML page. It can be used to fine-tune the look of
@@ -1407,7 +1365,7 @@ HTML_FOOTER            =
 # obsolete.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_STYLESHEET        =
+HTML_STYLESHEET        = stylesheet.css
 
 # The HTML_EXTRA_STYLESHEET tag can be used to specify additional user-defined
 # cascading style sheets that are included after the standard style sheets
@@ -2475,8 +2433,8 @@ SEARCH_INCLUDES        = YES
 # This tag requires that the tag SEARCH_INCLUDES is set to YES.
 
 INCLUDE_PATH           = ../flask/converters \
-                        ../flask/gpuopen \
-                        ../flask/ocio \
+                         ../flask/gpuopen \
+                         ../flask/ocio \
                          ..
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard
