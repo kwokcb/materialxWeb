@@ -305,6 +305,8 @@ async function displayMaterialPackage(response) {
             // Create a label for the image
             const label = document.createElement('div');
             label.innerText = filename;
+            // Replace "/" with " / " for better display
+            //label.innerText = label.innerText.replace(/\//g, ' / ');
             label.style.fontSize = '0.8rem';
 
             // Append the image and label to the container
