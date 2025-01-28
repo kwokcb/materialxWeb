@@ -25,11 +25,11 @@
 var NAVTREE =
 [
   [ "MaterialXWeb", "index.html", [
-    [ "Welcome to Materialx Web", "index.html", "index" ],
-    [ "Python Materialx Conversion Application", "md__d_1_2work_2materialx_2materialxweb_2flask_2converters_2_r_e_a_d_m_e.html", null ],
-    [ "Python GPUOpen Material Inspector", "md__d_1_2work_2materialx_2materialxweb_2flask_2gpuopen_2_r_e_a_d_m_e.html", null ],
-    [ "Python MaterialX OCIO Application", "md__d_1_2work_2materialx_2materialxweb_2flask_2ocio_2_r_e_a_d_m_e.html", null ],
-    [ "NodeJs MaterialX Library Inspector", "md__d_1_2work_2materialx_2materialxweb_2nodejs_2materialx_library_inspector_2_r_e_a_d_m_e.html", null ],
+    [ "Welcome to Materialx Web", "index.html", null ],
+    [ "Python Materialx Conversion Application", "md__d_1_2_work_2materialx_2materialx_web_2flask_2converters_2_r_e_a_d_m_e.html", null ],
+    [ "Python GPUOpen Material Inspector", "md__d_1_2_work_2materialx_2materialx_web_2flask_2gpuopen_2_r_e_a_d_m_e.html", null ],
+    [ "Python MaterialX OCIO Application", "md__d_1_2_work_2materialx_2materialx_web_2flask_2ocio_2_r_e_a_d_m_e.html", null ],
+    [ "NodeJs MaterialX Library Inspector", "md__d_1_2_work_2materialx_2materialx_web_2nodejs_2materialx_library_inspector_2_r_e_a_d_m_e.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
