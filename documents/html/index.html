@@ -108,31 +108,44 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Welcome to Materialx Web </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md__d_1_2work_2materialx_2materialxweb_2_r_e_a_d_m_e"></a></p>
-<p>This repository contains a set sample implementations that show bi-directional communication between Python and Javascript logic.</p>
-<p>The main focus is on connection "open standards" such as <code>gltF</code>, <code>OCIO</code>, <code>OpenUSD</code> with <code>MaterialX</code>.</p>
+<div class="textblock"><p><a class="anchor" id="md__d_1_2_work_2materialx_2materialx_web_2_r_e_a_d_m_e"></a></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadCenter" colspan="4"></th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"><img src="https://raw.githubusercontent.com/kwokcb/materialxWeb/refs/heads/main/flask/gpuopen/images/extract_material_1.png" alt="" width="100%" class="inline"/>   </td><td class="markdownTableBodyCenter"><img src="https://github.com/kwokcb/materialxWeb/blob/main/flask/converters/images/render_converter_2.png?raw=true" alt="" width="100%" class="inline"/>   </td><td class="markdownTableBodyCenter"><img src="https://github.com/kwokcb/materialxWeb/raw/main/flask/ocio/images/ocio_mtlx_convert_1.png" alt="" width="100%" class="inline"/>   </td><td class="markdownTableBodyCenter"><img src="https://github.com/kwokcb/materialxWeb/blob/main/nodejs/materialxLibraryInspector/public/images/ambientCg_download.png?raw=true" alt="" width="100%" class="inline"/>   </td></tr>
+</table>
+<p>This repository contains a set sample implementations demonstrate bi-directional communication between backends using Python and NodeJS and front ends using Javascript .</p>
+<p>The primary focus is on connection "open standards" such as <code>gltF</code>, <code>OCIO</code>, <code>OpenUSD</code> with <code>MaterialX</code>.</p>
 <p>This is part of the set of tools available from <a href="https://kwokcb.github.io/MaterialXLab/" target="_blank"><img src="https://kwokcb.github.io/MaterialXLab/documents/icons/teapot_logo.svg" alt="" style="pointer-events: none;" width="32px" class="inline"/>MaterialX Lab</a></p>
-<h1><a class="anchor" id="autotoc_md19"></a>
-Documentation</h1>
-<p>See the <a href="https://kwokcb.github.io/materialxWeb/index.html">home page</a> for more details.</p>
-<h1><a class="anchor" id="autotoc_md20"></a>
-Python Flask Connector Examples</h1>
+<h2><a class="anchor" id="autotoc_md19"></a>
+Documentation</h2>
+<p>See the <a href="https://kwokcb.github.io/materialxWeb/index.html">h ome page</a> for more details.</p>
+<h2><a class="anchor" id="autotoc_md20"></a>
+Python Flask Connector Examples</h2>
 <ul>
-<li><a class="el" href="md__d_1_2work_2materialx_2materialxweb_2flask_2gpuopen_2_r_e_a_d_m_e.html">GPUOpen MaterialX Materials Inspector</a> : Download MaterialX materials from the AMD GPUOpen Materials Library and inspect contents of the materials.</li>
-<li><a class="el" href="md__d_1_2work_2materialx_2materialxweb_2flask_2converters_2_r_e_a_d_m_e.html">glTF and USD Conversion from MaterialX</a> : Convert a MaterialX document to a USD or glTF Texture Procedural document.</li>
-<li><a class="el" href="md__d_1_2work_2materialx_2materialxweb_2flask_2ocio_2_r_e_a_d_m_e.html">OCIO to MaterialX Definition Generation (Alpha)</a> : Use the OpenColorIO package to query for color space transforms and create MaterialX node definitions.</li>
+<li><a class="el" href="md__d_1_2_work_2materialx_2materialx_web_2flask_2gpuopen_2_r_e_a_d_m_e.html">GPUOpen MaterialX Materials Inspector</a> : Download MaterialX materials from the AMD GPUOpen Materials Library and inspect contents of the materials.</li>
+<li><a class="el" href="md__d_1_2_work_2materialx_2materialx_web_2flask_2converters_2_r_e_a_d_m_e.html">glTF and USD Conversion from MaterialX</a> : Convert a MaterialX document to a USD or glTF Texture Procedural document.</li>
+<li><a class="el" href="md__d_1_2_work_2materialx_2materialx_web_2flask_2ocio_2_r_e_a_d_m_e.html">OCIO to MaterialX Definition Generation (Alpha)</a> : Use the OpenColorIO package to query for color space transforms and create MaterialX node definitions.</li>
 <li>Simple template example : A simple "template" application that can be copied and modified as desired.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md21"></a>
-NodeJS Express Examples</h1>
+<h2><a class="anchor" id="autotoc_md21"></a>
+NodeJS Express Examples</h2>
 <ul>
-<li><a class="el" href="md__d_1_2work_2materialx_2materialxweb_2nodejs_2materialx_library_inspector_2_r_e_a_d_m_e.html">General MaterialX Library Inspecter</a> : Common interface to access remove MaterialX material libraries such as <code>GPUOpen</code> and <code>AmbientCG</code>.</li>
+<li><a class="el" href="md__d_1_2_work_2materialx_2materialx_web_2nodejs_2materialx_library_inspector_2_r_e_a_d_m_e.html">General MaterialX Library Inspecter</a> : Common interface to access remove MaterialX material libraries such as <code>GPUOpen</code> and <code>AmbientCG</code>.<ul>
+<li>Sample deployment (*) is available <a href="https://materialx-materials-library-inspector.onrender.com/">here</a>.</li>
+</ul>
+</li>
 </ul>
 <hr  />
+<h2><a class="anchor" id="autotoc_md22"></a>
+GitHub Repository</h2>
+<p><a href="https://github.com/kwokcb/materialxWeb">materialXWeb</a></p>
+<h2><a class="anchor" id="autotoc_md23"></a>
+Building</h2>
 <p>See build instructions found <a href="https://github.com/kwokcb/materialxWeb/blob/main/utilities/README.md">here</a>.</p>
-<h1><a class="anchor" id="autotoc_md22"></a>
-GitHub Repository</h1>
-<p><a href="https://github.com/kwokcb/materialxWeb">materialXWeb</a> </p>
+<hr  />
+<p> <sub>(*) Spin-up time is slow as this is a free tier deployment.</sub> </p>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
