@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0.0,<68.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "materialx_conversion_app"
-version = "0.0.1"
+version = "0.0.2"
 description = "A Flask-based application for MaterialX conversion utilities."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -22,7 +22,7 @@ classifiers = [
 dependencies = [
     "flask>=2.3.2",
     "flask-socketio>=5.3.4",
-    "materialx>=1.39.2",
+    "materialx>=1.39.3",
     "usd-core>=25.2"
 ]
 
