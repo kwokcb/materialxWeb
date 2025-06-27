@@ -50,11 +50,11 @@ export class MaterialXOCIOClient extends WebSocketClient {
     }
 
     updateMaterialXInfo(data) {
-        console.log('Nodedef:\n',
+        /* console.log('Nodedef:\n',
             data.nodedef_string, "\nImpl: ",
             data.impl_string, "\nSource: ",
             data.source_string
-        );
+        ); */
 
         this.materialXEditor.setValue(data.nodedef_string);
 
