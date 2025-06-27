@@ -3,6 +3,7 @@
 @brief A Flask application that connects with the GPUOpen MaterialX server to allow downloading and extracting of materials by regular expression.
 '''
 import argparse
+import sys
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 from materialxMaterials import GPUOpenLoader as gpuo
@@ -146,7 +147,11 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
                         if update_mtlx:
                             self._emit_status_message(f'Updating MaterialX data to version: {mx.getVersionString()}')
                             doc = mx.createDocument()
-                            mx.readFromXmlString(doc, mx_string)
+                            readOptions = mx.XmlReadOptions()
+                            readOptions.readComments = True
+                            readOptions.readNewlines = True
+                            readOptions.upgradeVersion = True
+                            mx.readFromXmlString(doc, mx_string, mx.FileSearchPath(), readOptions)
                             mx_string = mx.writeToXmlString(doc)
 
                         return_data[file_name] = mx_string
