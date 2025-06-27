@@ -175,9 +175,10 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
 
     extractMaterials() {
         const materialSelect = document.getElementById('materialSelect');
+        const update_mtlx = document.getElementById('update_mtlx').checked;
         let selectedItem = materialSelect.options[materialSelect.selectedIndex].text;
         console.log("WEB: Emitting extract_material event");
-        this.emit('extract_material', { expression: selectedItem });
+        this.emit('extract_material', { expression: selectedItem, update_materialx: update_mtlx });
     }
 
     downloadMaterials() {

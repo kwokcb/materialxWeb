@@ -6,6 +6,12 @@ import argparse
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 from materialxMaterials import GPUOpenLoader as gpuo
+have_mx = False
+try:
+    import MaterialX as mx
+    have_mx = True
+except ImportError as e:
+    print("MaterialX module not found.")
 
 # Not required unless performing MaterialX operations on data
 #import MaterialX as mx
@@ -32,8 +38,9 @@ class MaterialXFlaskApp:
             """
             Render the home page.
             """
-            #status_message = f'Startup: Using MaterialX version: {mx.getVersionString()}'
+            status_message = f'Startup: Using MaterialX version: {mx.getVersionString()}'
             #self._emit_status_message(status_message)
+            print(status_message)
             return render_template(self.home)
 
     def _setup_event_handler_map(self):
@@ -114,7 +121,11 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
             self._emit_status_message('Loader is not initialized. Download materials first.')
             return
 
+        self._emit_status_message('Extracting materials...')
         expression = data.get('expression', 'Default Expression')
+        update_mtlx = data.get('update_materialx', False)
+        if not have_mx:
+            update_mtlx = False
         data_items = self.loader.downloadPackageByExpression(expression)
         return_list = []
 
@@ -131,7 +142,14 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
                     file_name = item['file_name']
                     if item['type'] == 'mtlx':
                         self._emit_status_message(f'- MaterialX file {file_name}')
-                        return_data[file_name] = item['data']
+                        mx_string = item['data']
+                        if update_mtlx:
+                            self._emit_status_message(f'Updating MaterialX data to version: {mx.getVersionString()}')
+                            doc = mx.createDocument()
+                            mx.readFromXmlString(doc, mx_string)
+                            mx_string = mx.writeToXmlString(doc)
+
+                        return_data[file_name] = mx_string
                     elif item["type"] == 'image':
                         self._emit_status_message(f'- Image file {file_name}')
                         image = item["data"]
