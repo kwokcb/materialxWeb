@@ -5,10 +5,21 @@
  * The class uses the fetch API to make HTTP requests.
  * The class is intended to be used in a Node.js environment.
  */
+
+
+// Use global fetch if available (Node.js v18+), otherwise use node-fetch
+const fetch =
+    typeof globalThis.fetch === 'function'
+        ? globalThis.fetch
+        : (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fs = require('fs');
+const MATERIALS_CACHE_FILE = 'gpuopen_materials.json';
+
 class JsGPUOpenMaterialLoader {
     /**
      * Constructor for the JsGPUOpenMaterialLoader class.
      */
+
     constructor() {
         if (JsGPUOpenMaterialLoader.instance) {
             return JsGPUOpenMaterialLoader.instance;
@@ -26,11 +37,37 @@ class JsGPUOpenMaterialLoader {
         JsGPUOpenMaterialLoader.instance = this;
     }
 
+    loadMaterialsFromCache() {
+        if (fs.existsSync(MATERIALS_CACHE_FILE)) {
+            try {
+                const data = fs.readFileSync(MATERIALS_CACHE_FILE, 'utf8');
+                this.materials = JSON.parse(data);
+                // Rebuild materialNames
+                this.materialNames = [];
+                for (const jsonData of this.materials) {
+                    for (const material of jsonData.results) {
+                        this.materialNames.push(material['title']);
+                    }
+                }
+                this.logger.info(`Loaded GPUOpen materials from cache: ${MATERIALS_CACHE_FILE}`);
+            } catch (e) {
+                this.logger.warn(`Failed to load GPUOpen materials cache: ${e.message}`);
+            }
+        }
+    }
+
     /** 
      * Return downloaded material list
      * @return {Array} - List of materials
      */    
     getMaterialList() {
+        // Save to cache file after fetching
+        try {
+            fs.writeFileSync(MATERIALS_CACHE_FILE, JSON.stringify(this.materials, null, 2));
+            this.logger.info(`Saved GPUOpen materials to cache: ${MATERIALS_CACHE_FILE}`);
+        } catch (e) {
+            this.logger.warn(`Failed to write GPUOpen materials cache: ${e.message}`);
+        }
         return this.materials;
     }
 
@@ -48,82 +85,75 @@ class JsGPUOpenMaterialLoader {
      * @return {Array} - List of material lists
      */
     async getMaterials(batchSize = 50) {
+        // 1. Try to load from cache file
+        if (fs.existsSync(MATERIALS_CACHE_FILE)) {
+            try {
+                const data = fs.readFileSync(MATERIALS_CACHE_FILE, 'utf8');
+                this.materials = JSON.parse(data);
+                // Rebuild materialNames
+                this.materialNames = [];
+                for (const jsonData of this.materials) {
+                    for (const material of jsonData.results) {
+                        this.materialNames.push(material['title']);
+                    }
+                }
+                this.logger.info(`Loaded GPUOpen materials from cache: ${MATERIALS_CACHE_FILE}`);
+                return this.materials;
+            } catch (e) {
+                this.logger.warn(`Failed to load GPUOpen materials cache: ${e.message}`);
+            }
+        }
 
-        /*
-         * Get the materials returned from the GPUOpen material database.
-         * Will loop based on the linked-list of materials stored in the database.
-         * Currently, the batch size requested is 100 materials per batch.
-         * @param batchSize: Number of materials to fetch per batch
-         * @return: List of material lists
-         */
-        
+        // 2. If not in cache, fetch from network
         this.materials = [];
         this.materialNames = [];
 
         let url = this.url;
-
-        // Get batches of materials. Start with the first N.
         let params = new URLSearchParams({
             limit: batchSize,
             offset: 0
         });
-
-        // Append & parameters to url using params
         if (params) {
             url += '?' + params.toString();
         }
 
         let haveMoreMaterials = true;
-        while (haveMoreMaterials) 
-        {
+        while (haveMoreMaterials) {
             try {
-
-                console.log('Fetch materials from url:', url)
-
+                console.log('Fetch materials from url:', url);
                 const response = await fetch(url);
-
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-
                 const jsonData = await response.json();
-                this.materials.push(jsonData)   
-
+                this.materials.push(jsonData);
                 for (const material of jsonData.results) {
                     this.materialNames.push(material['title']);
                 }
-
-                //console.log("Number of materials fetched:", jsonData.results.length)
-
-                let nextURL = jsonData.next
+                let nextURL = jsonData.next;
                 if (nextURL) {
-                    //console.log('Next URL: ', jsonData.next)
                     url = nextURL;
-                    haveMoreMaterials = true
-                }
-                else
-                {
-                    console.log('Finished fetching materials')
+                    haveMoreMaterials = true;
+                } else {
+                    console.log('Finished fetching materials');
                     haveMoreMaterials = false;
                     break;
                 }
-
             } catch (error) {
                 this.logger.info(`Error: ${error.message}`);
                 haveMoreMaterials = true;
             }
         }
-
+        // Save to cache file after fetching
+        try {
+            fs.writeFileSync(MATERIALS_CACHE_FILE, JSON.stringify(this.materials, null, 2));
+            this.logger.info(`Saved GPUOpen materials to cache: ${MATERIALS_CACHE_FILE}`);
+        } catch (e) {
+            this.logger.warn(`Failed to write GPUOpen materials cache: ${e.message}`);
+        }
         return this.materials;
     }
 
-    /**
-     * Download a material package from the GPUOpen material database.
-     * @param {number} listNumber - Index of the material list
-     * @param {number} materialNumber - Index of the material in the list
-     * @param {number} packageId - Index of the package in the material
-     * @return {Array} - A list containing the package data and title
-     */
     async downloadPackage(listNumber, materialNumber, packageId = 0) {
         if (this.materials === null || this.materials.length === 0) {
             return [null, null];
