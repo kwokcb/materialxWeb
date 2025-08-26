@@ -1,3 +1,9 @@
+
+// Use global fetch if available (Node.js v18+), otherwise use node-fetch
+const fetch =
+    typeof globalThis.fetch === 'function'
+        ? globalThis.fetch
+        : (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const fs = require('fs');
 const { Writable } = require('stream');
 const { createGunzip } = require('zlib');
@@ -22,10 +28,23 @@ class AmbientCGLoader {
         this.materialNames = [];
         this.csvMaterials = null;
         this.downloadMaterial = null;
-        this.downloadMaterialFileName = '';    
+        this.downloadMaterialFileName = '';
 
         // Cache the instance
         AmbientCGLoader.instance = this;
+    }
+
+    loadMaterialsFromCache() {
+        const MATERIALS_CACHE_FILE = 'ambientcg_materials.json';
+        if (fs.existsSync(MATERIALS_CACHE_FILE)) {
+            try {
+                const data = fs.readFileSync(MATERIALS_CACHE_FILE, 'utf8');
+                this.materials = JSON.parse(data);
+                this.logger.info(`Loaded AmbientCG materials from cache: ${MATERIALS_CACHE_FILE}`);
+            } catch (e) {
+                this.logger.warn(`Failed to load AmbientCG materials cache: ${e.message}`);
+            }
+        }
     }
 
     setDebugging(debug = true) {
@@ -201,27 +220,41 @@ class AmbientCGLoader {
          * @brief Download the list of materials from the ambientCG site.
          * @return {Array} Materials list.
          */
-        //const url = 'https://ambientCG.com/api/v2/downloads_csv';
-        const headers = { Accept: 'application/csv' };
-        const params = {
-            method: 'PBRPhotogrammetry',
-            type: 'Material',
-            sort: 'Alphabet',
-        };
+        const MATERIALS_CACHE_FILE = 'ambientcg_materials.json';
+        // 1. Try to load from cache file
+        if (fs.existsSync(MATERIALS_CACHE_FILE)) {
+            try {
+                const data = fs.readFileSync(MATERIALS_CACHE_FILE, 'utf8');
+                this.materials = JSON.parse(data);
+                this.logger.info(`Loaded AmbientCG materials from cache: ${MATERIALS_CACHE_FILE}`);
+                return this.materials;
+            } catch (e) {
+                this.logger.warn(`Failed to load AmbientCG materials cache: ${e.message}`);
+            }
+        }
 
+        // 2. If not in cache, fetch from network
+        const headers = { Accept: 'application/csv' };
         const url = new URL('https://ambientCG.com/api/v2/downloads_csv');
         url.searchParams.append('method', 'PBRPhotogrammetry');
         url.searchParams.append('type', 'Material');
-        url.searchParams.append('sort', 'Alphabet');        
+        url.searchParams.append('sort', 'Alphabet');
 
-        this.logger.info('Downloading materials CSV list...');
+        this.logger.info('Downloading materials CSV list from network...');
         try {
             const response = await fetch(url, { headers });
             if (response.status === 200) {
-                const csvContent = await response.text(); // Extract CSV content as text
+                const csvContent = await response.text();
                 this.csvMaterials = csvContent;
                 this.materials = parse(csvContent, { columns: true });
                 this.logger.info('Downloaded CSV material list as JSON.');
+                // Save to cache file after fetching
+                try {
+                    fs.writeFileSync(MATERIALS_CACHE_FILE, JSON.stringify(this.materials, null, 2));
+                    this.logger.info(`Saved AmbientCG materials to cache: ${MATERIALS_CACHE_FILE}`);
+                } catch (e) {
+                    this.logger.warn(`Failed to write AmbientCG materials cache: ${e.message}`);
+                }
             } else {
                 this.materials = null;
                 this.logger.warning(`Failed to fetch the CSV material content. HTTP status code: ${response.status}`);
