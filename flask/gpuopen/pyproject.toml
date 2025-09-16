@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "materialx_gpuopen_app"
-version = "0.0.1"
+version = "1.39.4"
 description = "A Flask-based application for accessing GPUOpen MaterialX materials."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -23,7 +23,7 @@ dependencies = [
     "flask>=2.3.2",
     "flask-socketio>=5.3.4",
     "argparse>=1.4.0",
-    "materialxMaterials>=0.0.1",
+    "materialxMaterials==1.39.4",
 ]
 
 [project.scripts]
