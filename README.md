@@ -20,7 +20,7 @@ See the <a href="https://kwokcb.github.io/materialxWeb/index.html">h ome page</a
 
 - [GPUOpen MaterialX Materials Inspector](./flask/gpuopen/README.md) : Download MaterialX materials from the AMD GPUOpen Materials Library and inspect contents of the materials.
 - [glTF and USD Conversion from MaterialX](./flask/converters/README.md) : Convert a MaterialX document to a USD or glTF Texture Procedural document.
-- [OCIO to MaterialX Definition Generation (Alpha)](./flask/ocio/README.md) : Use the OpenColorIO package to query for color space transforms and create MaterialX node definitions.
+- [OCIO to MaterialX Definition Generation (Alpha)](./flask/ocio/README.md) : Use the OpenColorIO package to query for color space transforms and create MaterialX node definitions. There is support for source cde as well as nodegraph generation for transforms without LUTs.
 - [Simple template example](./flask/template/README.md) : A simple "template" application that can be copied and modified as desired.
 
 ### NodeJS Express Examples
