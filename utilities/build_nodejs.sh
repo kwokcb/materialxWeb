@@ -5,7 +5,8 @@ cd nodejs
 for d in */ ; do
     echo "------------- Building $d ------------"
     cd $d
-    npm install --silent
+    npm install
+    npm audit fix    
     cd ..
 done
 echo "End building NodeJS applications"

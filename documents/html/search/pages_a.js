@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['web_0',['Welcome to Materialx Web',['../index.html',1,'']]],
-  ['welcome_20to_20materialx_20web_1',['Welcome to Materialx Web',['../index.html',1,'']]]
+  ['nodejs_20express_20examples_0',['NodeJS Express Examples',['../index.html#autotoc_md21',1,'']]],
+  ['nodejs_20materialx_20library_20inspector_1',['NodeJs MaterialX Library Inspector',['../dir_e970e05f0d1143752a047b815d91745b.html#autotoc_md17',1,'']]]
 ];

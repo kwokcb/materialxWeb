@@ -8,5 +8,5 @@ var searchData=
   ['getmaterials_5',['getMaterials',['../class_js_g_p_u_open_material_loader.html#a0ab9a9768584167afa02afa0b9755632',1,'JsGPUOpenMaterialLoader']]],
   ['getmaterialxstring_6',['getMaterialXString',['../class_ambient_c_g_loader.html#a8ba83539a06f0cf5bd9043ffada57495',1,'AmbientCGLoader']]],
   ['github_20repository_7',['GitHub Repository',['../index.html#autotoc_md22',1,'']]],
-  ['gpuopen_20material_20inspector_8',['Python GPUOpen Material Inspector',['../md__d_1_2_work_2materialx_2materialx_web_2flask_2gpuopen_2_r_e_a_d_m_e.html',1,'']]]
+  ['gpuopen_20material_20inspector_8',['Python GPUOpen Material Inspector',['../dir_95372e3e750da675740ad455334880ee.html#autotoc_md9',1,'']]]
 ];

@@ -1,12 +1,12 @@
 var annotated_dup =
 [
     [ "materialx_ocio_app", null, [
-      [ "materialx_ocio_app", "classmaterialx__ocio__app_1_1materialx__ocio__app.html", "classmaterialx__ocio__app_1_1materialx__ocio__app" ],
-      [ "MaterialXFlaskApp", "classmaterialx__ocio__app_1_1_material_x_flask_app.html", "classmaterialx__ocio__app_1_1_material_x_flask_app" ]
+      [ "MaterialXFlaskApp", "classmaterialx__ocio__app_1_1_material_x_flask_app.html", "classmaterialx__ocio__app_1_1_material_x_flask_app" ],
+      [ "materialx_ocio_app", "classmaterialx__ocio__app_1_1materialx__ocio__app.html", "classmaterialx__ocio__app_1_1materialx__ocio__app" ]
     ] ],
     [ "MaterialXConversionApp", null, [
-      [ "MaterialXConversionApp", "class_material_x_conversion_app_1_1_material_x_conversion_app.html", "class_material_x_conversion_app_1_1_material_x_conversion_app" ],
-      [ "MaterialXFlaskApp", "class_material_x_conversion_app_1_1_material_x_flask_app.html", "class_material_x_conversion_app_1_1_material_x_flask_app" ]
+      [ "MaterialXFlaskApp", "class_material_x_conversion_app_1_1_material_x_flask_app.html", "class_material_x_conversion_app_1_1_material_x_flask_app" ],
+      [ "MaterialXConversionApp", "class_material_x_conversion_app_1_1_material_x_conversion_app.html", "class_material_x_conversion_app_1_1_material_x_conversion_app" ]
     ] ],
     [ "MaterialXGPUOpenApp", null, [
       [ "MaterialXFlaskApp", "class_material_x_g_p_u_open_app_1_1_material_x_flask_app.html", "class_material_x_g_p_u_open_app_1_1_material_x_flask_app" ],
