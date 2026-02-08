@@ -291,25 +291,69 @@ class AmbientCGLoader {
         this.database = {};
         this.assets = null;
 
-        const url = 'https://ambientcg.com/api/v2/full_json';
+        const limit = 500
+        //https://ambientcg.com/api/v2/full_json?type=material
         const headers = { Accept: 'application/json' };
-        const params = {
-            method: 'PBRPhotogrammetry',
-            type: 'Material',
-            sort: 'Alphabet',
-        };
+        let url = new URL('https://ambientcg.com/api/v2/full_json');
+        url.searchParams.append('method', 'PBRPhotogrammetry');
+        url.searchParams.append('type', 'Material');
+        url.searchParams.append('sort', 'Alphabet');        
+        url.searchParams.append('limit', limit);
+        url.searchParams.append('offset', 0);
+        url.searchParams.append('include', 'tagData,previewData')
 
-        try {
-            const response = await axios.get(url, { headers, params });
-            if (response.status === 200) {
-                this.database = response.data;
-                this.assets = this.database.foundAssets;
-            } else {
-                this.logger.error(`Status: ${response.status}, ${response.data}`);
+        let numberOfResults = -1;
+        let offset = 0
+
+        //let data_list = []
+        let asset_list = []
+        while (numberOfResults === -1 || offset < numberOfResults) {
+            this.logger.info(`Downloading asset database from: ${url.toString()}`);
+
+            try {
+                const response = await fetch(url, { headers });
+                if (response.status === 200) {
+                    const data = await response.json();
+                    this.logger.info(`Downloaded data at offset ${offset}. ${data.foundAssets.length} assets found.`);
+                    //data_list.push(data);
+
+                    // Detel all fields but previewImage, tags and assetId from each entry
+                    let reduced_assets = data.foundAssets.map(asset => {
+                        return {
+                            assetId: asset.assetId,
+                            previewImage: asset.previewImage,
+                            tags: asset.tags
+                        }
+                    });
+                    asset_list = asset_list.concat(reduced_assets);
+
+                    if (numberOfResults === -1) {
+                        numberOfResults = data.numberOfResults;
+                    }
+                    // Update offset for next page
+                    if (!data.nextPageHttp) 
+                    {
+                        break;
+                    }
+                    offset = offset + limit;
+                    
+                    url.searchParams.set('offset', offset);
+                } else {
+                    this.logger.error(`Status: ${response.status}, ${response.data}`);
+                }
             }
-        } catch (error) {
-            this.logger.error(`Error downloading asset database: ${error}`);
+            catch (error) {
+                this.logger.error(`Error downloading asset database: ${error}`);
+            }
         }
+
+        // Contact all items in assets_list into a single list
+        //asset_list = asset_list.flat();
+        this.database = asset_list;
+        //this.assets = asset_list;
+
+        // Pull out the preview image link from database and put it
+        // into the materials. 
 
         return this.database;
     }
@@ -321,12 +365,30 @@ class AmbientCGLoader {
          * @return {boolean} True if the file was written successfully, otherwise False.
          */
         if (!this.database) {
-            this.logger.warning('No database to write');
+            this.logger.info('No database to write');
             return false;
         }
 
+        this.logger.info(`Writing database to file: ${filename}`);
         fs.writeFileSync(filename, JSON.stringify(this.database, null, 4));
         return true;
+    }
+
+    readDatabaseFromFile(filename) {
+        /**
+         * @brief Read the database file.
+         * @param {string} filename - The filename to read the JSON file from.
+         * @return {Object} The database object, or null if there was an error.
+         */
+        try {
+            const data = fs.readFileSync(filename, 'utf8');
+            this.database = JSON.parse(data);
+            this.assets = this.database.foundAssets;
+            return this.database;
+        } catch (e) {
+            this.logger.error(`Failed to read database from file: ${e.message}`);
+            return null;
+        }
     }
 
     validateMaterialXDocument(doc) {
