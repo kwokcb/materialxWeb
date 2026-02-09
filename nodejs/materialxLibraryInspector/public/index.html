@@ -119,6 +119,36 @@
                         </div>
                     </div>
                 </div>
+        <div class="row mb-4">
+            <div class="col-12">
+
+                <div class="row align-items-center mb-2">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search materials...">
+                            <button class="btn btn-sm btn-primary" id="searchButton">Search</button>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-3">
+                        <select class="form-select form-select-sm" id="categoryFilter">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div> -->
+                    <div class="col-md-3" style="display:none">
+                        <select class="form-select" id="resolutionFilter">
+                            <option value="1k" selected>1K Images</option>
+                            <option value="2k">2K Images</option>
+                            <option value="4k">4K Images</option>
+                            <option value="8k">8K Images</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
                 <div class="row overflow-auto" id="materialsContainer" style="max-height:400px;"></div>
                     <!-- Materials will be loaded here -->
                 </div>

@@ -272,6 +272,7 @@ class AmbientCGLoader {
                         if (databaseEntry.previewImage && typeof databaseEntry.previewImage === 'object') {
                             preview = databaseEntry.previewImage['256-PNG'] || '';
                         }
+                        material.displayCategory = databaseEntry.displayCategory;
                         material.previewImage = preview;
                         material.tags = databaseEntry.tags;
                     }
@@ -353,10 +354,11 @@ class AmbientCGLoader {
                         this.logger.info(`Downloaded data at offset ${offset}. ${data.foundAssets.length} assets found.`);
                         //data_list.push(data);
 
-                        // Detel all fields but previewImage, tags and assetId from each entry
+                        // Only keep desired fiels: displayCategory, previewImage, tags and assetId from each entry
                         let reduced_assets = data.foundAssets.map(asset => {
                             return {
                                 assetId: asset.assetId,
+                                displayCategory: asset.displayCategory,
                                 previewImage: asset.previewImage,
                                 tags: asset.tags
                             }
