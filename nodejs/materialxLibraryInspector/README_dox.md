@@ -31,7 +31,7 @@ The client uses this data to display material previews and provide download link
 
 For `AmbientCG` both a download list as well as full material "database" is fetched. The latter is to retrieve metadata such as author, description, preview images etc.
 
-```mermaid
+<pre><code class="language-mermaid"><div class="mermaid">
 flowchart LR
 	subgraph Client
 		A[main.js]
@@ -58,7 +58,8 @@ flowchart LR
 	D --> G
 	B -->|serves static| H[public/]
 	H -->|main.js, index.html, images| Client
-```
+
+</div></code></pre>
 
 ### Material Fetch/Download Logic
 
@@ -66,7 +67,7 @@ The sequence diagram below illustrates the interactions between the browser, ser
 
 ZIP data is unpacked on the client side to display `MaterialX` document content and dependent images.
 
-```mermaid
+<pre><code class="language-mermaid"><div class="mermaid">
 sequenceDiagram
 participant Browser
 participant Server
@@ -93,13 +94,14 @@ Server->>GPUOpenLoader: downloadPackage
 GPUOpenLoader-->>Server: [zip data]
 Server-->>Browser: [zip data]
 Browser->>DOM: displayMaterialPackage - unpack ZIP, show images, MaterialX
-```
+
+</div></code></pre>
 
 ### Loader Class Dependencies
 
 The package dependencies for the loader classes `AmbientCgLoader` and `JsGPUOpenMaterialLoader` are shown below.
 
-```mermaid
+<pre><code class="language-mermaid"><div class="mermaid">
 flowchart TD
 	subgraph Loader Classes
 		A[JsAmbientCGLoader.js]
@@ -111,5 +113,6 @@ flowchart TD
 	D -- produces --> F[gpuopen_materials.json, zip files]
 	A -- exports --> G[AmbientCGLoader instance]
 	B -- exports --> H[JsGPUOpenMaterialLoader instance]
-```
+
+</div></code></pre>
 

@@ -5,8 +5,6 @@ const fetch =
         ? globalThis.fetch
         : (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const fs = require('fs');
-const { Writable } = require('stream');
-const { createGunzip } = require('zlib');
 const { parse } = require('csv-parse/sync');
 
 class AmbientCGLoader {
@@ -167,7 +165,6 @@ class AmbientCGLoader {
         }
 
         this.downloadMaterialFileName = url.split('file=')[1];
-        console.log('>>>> URL:', url, 'Filename:', this.downloadMaterialFileName);
 
         try {
             const response = await fetch(url);

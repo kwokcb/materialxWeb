@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MaterialXWeb: materialxLibraryInspector Directory Reference</title>
+<title>MaterialXWeb: NodeJs MaterialX Library Inspector</title>
 <link rel="icon" href="toon_sphere.png" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <!-- Font Awesome CDN -->
@@ -83,7 +83,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('dir_e970e05f0d1143752a047b815d91745b.html','',''); });
+$(function(){initNavTree('md__d_1_2_work_2materialx_2materialx_web_2nodejs_2materialx_library_inspector_2_r_e_a_d_m_e__dox.html','',''); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -108,20 +108,11 @@ $(function(){initNavTree('dir_e970e05f0d1143752a047b815d91745b.html','',''); });
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">materialxLibraryInspector Directory Reference</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">NodeJs MaterialX Library Inspector </div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-files" class="groupheader"><a id="files" name="files"></a>
-Files</h2></td></tr>
-<tr class="memitem:JsAmbientCGLoader_2Ejs" id="r_JsAmbientCGLoader_2Ejs"><td class="memItemLeft"><a href="_js_ambient_c_g_loader_8js_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight"><b>JsAmbientCGLoader.js</b></td></tr>
-<tr class="memitem:JsGPUOpenMaterialLoader_2Ejs" id="r_JsGPUOpenMaterialLoader_2Ejs"><td class="memItemLeft"><a href="_js_g_p_u_open_material_loader_8js_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight"><b>JsGPUOpenMaterialLoader.js</b></td></tr>
-<tr class="memitem:materialServer_2Ecjs" id="r_materialServer_2Ecjs"><td class="memItemLeft"><a href="material_server_8cjs_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight"><b>materialServer.cjs</b></td></tr>
-</table>
-<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
-NodeJs MaterialX Library Inspector</h1>
+<div class="textblock"><p><a class="anchor" id="autotoc_md22"></a></p>
 <p>Application to examine MaterialX based materials from various publish libraries. This inclides AMD GPU open, and AmbientCG currently.</p>
 <p>Below are some sample materials packages that can be previewed and or downloaded as zip files. Note that any non MaterialX or non iage files (such as OpenUSD (usdc) files from AmbientCG) are not displayed in previews but are part of downloaded packages.</p>
 <p>Note that some packages may take some time to download / preview due to the time it takes to download large flles (e.g. 8K images)</p>
@@ -135,10 +126,10 @@ NodeJs MaterialX Library Inspector</h1>
 </table>
 <p>Below is an example of hosting on <a href="https://render.com/">Render</a></p>
 <p><img src="https://github.com/kwokcb/materialxWeb/blob/main/nodejs/materialxLibraryInspector/public/images/hosting_on_render_1.png?raw=true" alt="" width="100%" class="inline"/></p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
 Architecture Overview</h1>
 <p>The package is built using <span class="tt">NodeJs</span> and <span class="tt">Express</span> for the server, and JavaScript for the client. The server serves static files from the <span class="tt">public</span> directory, and also provides API endpoints to fetch material data and download material packages (Zip files) containing MaterialX files and associated assets.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
 Fetching Material Lists</h2>
 <p>The client fetches material lists from the server and displays it on a web page.</p>
 <p>The server uses two loader classes, <span class="tt">JsAmbientCGLoader</span> and <span class="tt"><a class="el" href="class_js_g_p_u_open_material_loader.html" title="Class to download MaterialX materials from the GPUOpen material database.">JsGPUOpenMaterialLoader</a></span>, to handle the fetching and processing of material data (in JSON form) from the AmbientCG and GPUOpen sites respectively.</p>
@@ -172,7 +163,7 @@ flowchart LR
     B --&gt;|serves static| H[public/]
     H --&gt;|main.js, index.html, images| Client
 
-</div></code></pre><h2 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+</div></code></pre><h2 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
 Material Fetch/Download Logic</h2>
 <p>The sequence diagram below illustrates the interactions between the browser, server, and loader classes when fetching material lists and downloading material packages (ZIP).</p>
 <p>ZIP data is unpacked on the client side to display <span class="tt">MaterialX</span> document content and dependent images.</p>
@@ -204,7 +195,7 @@ GPUOpenLoader--&gt;&gt;Server: [zip data]
 Server--&gt;&gt;Browser: [zip data]
 Browser-&gt;&gt;DOM: displayMaterialPackage - unpack ZIP, show images, MaterialX
 
-</div></code></pre><h2 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+</div></code></pre><h2 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
 Loader Class Dependencies</h2>
 <p>The package dependencies for the loader classes <span class="tt">AmbientCgLoader</span> and <span class="tt"><a class="el" href="class_js_g_p_u_open_material_loader.html" title="Class to download MaterialX materials from the GPUOpen material database.">JsGPUOpenMaterialLoader</a></span> are shown below.</p>
 <pre><code class="language-mermaid"><div class="mermaid">
@@ -221,6 +212,7 @@ flowchart TD
     B -- exports --&gt; H[<a class="el" href="class_js_g_p_u_open_material_loader.html" title="Class to download MaterialX materials from the GPUOpen material database.">JsGPUOpenMaterialLoader</a> instance]
 
 </div></code></pre> </div></div><!-- contents -->
+</div><!-- PageDoc -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">
 <div id="page-nav-resize-handle"></div>

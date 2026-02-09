@@ -162,6 +162,9 @@ function displayAmbientCGMaterials(materials)
         }
 
         // TODO: Fix to set over filter params
+        if (imageResolution != '1') {
+            continue;
+        }
         if (imageFormat != 'PNG') {
             continue;
         }
@@ -547,6 +550,14 @@ function setupLibrarySelector() {
         document.getElementById('dropdownMenuButton').innerText = source;
         document.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('active'));
         document.querySelector(`#${source.toLowerCase().replace(' ', '')}_source`).classList.add('active');
+        // Hide search_row for GPUOpen since it doesn't have categories
+        const searchRow = document.getElementById('search_row');
+        if (source === 'GPUOpen') {
+            searchRow.style.display = 'none';
+        } else {
+            searchRow.style.display = 'flex';
+        }
+
         //activeMaterials = null;
         //const contentDiv = document.getElementById('materialsContainer');
         //contentDiv.innerHTML = '';
