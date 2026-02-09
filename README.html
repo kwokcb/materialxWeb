@@ -377,30 +377,33 @@ code {
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center"><img src="https://raw.githubusercontent.com/kwokcb/materialxWeb/refs/heads/main/flask/gpuopen/images/extract_material_1.png" width=100%></td>
-<td style="text-align:center"><img src="https://github.com/kwokcb/materialxWeb/blob/main/flask/converters/images/render_converter_2.png?raw=true" width=100%></td>
-<td style="text-align:center"><img src="https://github.com/kwokcb/materialxWeb/raw/main/flask/ocio/images/ocio_mtlx_convert_1.png" width=100%></td>
-<td style="text-align:center"><img src="https://github.com/kwokcb/materialxWeb/blob/main/nodejs/materialxLibraryInspector/public/images/ambientCg_download.png?raw=true" width=100%></td>
+<td style="text-align:center"><img src="https://github.com/kwokcb/materialxWeb/blob/main/nodejs/materialxLibraryInspector/public/images/ambientCg_download_3.png?raw=true" width=100%> AmbientCg Express App</td>
+<td style="text-align:center"><img src="https://github.com/kwokcb/materialxWeb/raw/main/flask/ocio/images/ocio_mtlx_convert_1.png" width=100%> OCIO MaterialX builder</td>
+<td style="text-align:center"><img src="https://raw.githubusercontent.com/kwokcb/materialxWeb/refs/heads/main/flask/gpuopen/images/extract_material_2.png" width=100%> GPUOpen Flask App</td>
+<td style="text-align:center"><img src="https://github.com/kwokcb/materialxWeb/blob/main/flask/converters/images/render_converter_2.png?raw=true" width=100%> Backend: rendering, glTF and USD conversions</td>
 </tr>
 </tbody>
 </table>
-<p>This repository contains a set sample implementations demonstrate bi-directional communication between backends<br>
-using Python and NodeJS and front ends using Javascript .</p>
-<p>The primary focus is on connection &quot;open standards&quot; such as <code>gltF</code>, <code>OCIO</code>, <code>OpenUSD</code> with <code>MaterialX</code>.</p>
-<p>This is part of the set of tools available from <a href="https://kwokcb.github.io/MaterialXLab/" target="_blank"><br>
-<img src="https://kwokcb.github.io/MaterialXLab/documents/icons/teapot_logo.svg" width=32px>MaterialX Lab</a></p>
+<p>This repository contains a set interactive utilities to serve and manipulate MaterialX content using <code>Flask</code> / <code>Python</code> or <code>Express</code> / <code>NodeJS</code> back-ends communicating with Web (<code>Javascript</code>) front-ends.</p>
+<p>The requirement for backends is due to two main factors:</p>
+<ol>
+<li>The backend libraries are only available in C++ or Python, and not in JavaScript. This includes libraries such as <code>OpenColorIO</code> and <code>OpenUSD</code> (this requires manual<br>
+building at time of writing).</li>
+<li>Many remote servers hosting MaterialX content do not have CORS (Cross-Origin Resource Sharing) enabled, which prevents direct access from JavaScript in the browser. The backend acts as a proxy, fetching this data from the remote servers and passing it to the front-end.</li>
+</ol>
+<p>These utilities are part <a href="https://kwokcb.github.io/MaterialXLab/" target="_blank"><img src="https://kwokcb.github.io/MaterialXLab/documents/icons/teapot_logo.svg" width=24px>MaterialX Lab</a></p>
 <h3 id="documentation">Documentation</h3>
-<p>See the <a href="https://kwokcb.github.io/materialxWeb/index.html">h ome page</a> for more details.</p>
+<p>See the <a href="https://kwokcb.github.io/materialxWeb/index.html">home page</a> for more details.</p>
 <h3 id="python-flask-connector-examples">Python Flask Connector Examples</h3>
 <ul>
-<li><a href="./flask/gpuopen/README.md">GPUOpen MaterialX Materials Inspector</a> : Download MaterialX materials from the AMD GPUOpen Materials Library and inspect contents of the materials.</li>
+<li><a href="./flask/gpuopen/README.md">GPUOpen MaterialX Materials Inspector</a> : Examine and download MaterialX materials from the AMD GPUOpen Material library.</li>
 <li><a href="./flask/converters/README.md">glTF and USD Conversion from MaterialX</a> : Convert a MaterialX document to a USD or glTF Texture Procedural document.</li>
-<li><a href="./flask/ocio/README.md">OCIO to MaterialX Definition Generation (Alpha)</a> : Use the OpenColorIO package to query for color space transforms and create MaterialX node definitions.</li>
+<li><a href="./flask/ocio/README.md">OCIO to MaterialX Definition Generation (Alpha)</a> : Use the OpenColorIO package to query for color space transforms and create MaterialX node definitions in the form of source code as well as MaterialX shader graphs.</li>
 <li><a href="./flask/template/README.md">Simple template example</a> : A simple &quot;template&quot; application that can be copied and modified as desired.</li>
 </ul>
 <h3 id="nodejs-express-examples">NodeJS Express Examples</h3>
 <ul>
-<li><a href="./nodejs/materialxLibraryInspector/README.md">General MaterialX Library Inspecter</a> : Common interface to access remove MaterialX material libraries such as <code>GPUOpen</code> and <code>AmbientCG</code>.
+<li><a href="./nodejs/materialxLibraryInspector/README.md">General MaterialX Library Inspecter</a> : Common interface to access remote MaterialX material libraries such as <code>GPUOpen</code> and <code>AmbientCG</code>.
 <ul>
 <li>Sample deployment (*) is available <a href="https://materialx-materials-library-inspector.onrender.com/">here</a>.</li>
 </ul>
@@ -412,7 +415,7 @@ using Python and NodeJS and front ends using Javascript .</p>
 <h3 id="building">Building</h3>
 <p>See build instructions found <a href="https://github.com/kwokcb/materialxWeb/blob/main/utilities/README.md">here</a>.</p>
 <hr>
-<sub>(*) Spin-up time is slow as this is a free tier deployment.</sub>
+<sub>(*) Spin-up time may be slow as this is a free tier deployment.</sub>
 
 </body>
 </html>
