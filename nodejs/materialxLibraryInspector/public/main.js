@@ -2,6 +2,7 @@
 // Description: Client-side JavaScript for the MaterialX Material Server
 //
 let extractedEditor = null;
+let activeMaterials = null;
  
 // @brief Update the status input with a message
 // @param message: The message to display
@@ -48,52 +49,109 @@ async function fetchAmbientCGMaterials()
 {
     let query = '/api/materials?source=AmbientCG'
 
-    const cacheKey = query;
-    const cachedData = localStorage.getItem(cacheKey);
-    if (cachedData) {
-        updateStatusInput('- Client: Cached materials');
-        const materials = JSON.parse(cachedData);
-        displayAmbientCGMaterials(materials);
-        return;
-    }
-
     const response = await fetch(query);
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const materials = await response.json();
+    activeMaterials = await response.json();
     updateStatusInput('- Client: Fetched materials');
-    localStorage.setItem(cacheKey, JSON.stringify(materials)); // Cache the response
-    displayAmbientCGMaterials(materials);
+    displayAmbientCGMaterials(activeMaterials);
 }
 
-// @brief Display the AmbientCG materials in a table
-function displayAmbientCGMaterials(materials) {
+function filterMaterials() {
 
+    if (!activeMaterials) {
+        return;
+    }
+
+    const searchTerm = searchInput.value.toLowerCase();
+    //const selectedCategory = categoryFilter.value;
+
+    const selectedSource = document.querySelector('.dropdown-menu .active').id;
+    if (selectedSource === 'gpuopen_source') {
+
+        // Filtered = list of lists of materials
+        let filtered = [];
+        let results = []
+        activeMaterials.forEach((materialList, listNumber) => {
+            materialList.results.forEach((material, materialNumber) => {
+                console.log('Filtering material:', material);
+                // Filter by search term
+                let matchesSearch = false;
+                
+                if (material.title.toLowerCase().includes(searchTerm)) {
+                    matchesSearch = true;
+                }
+
+                if (matchesSearch) {
+                    results.push(material);
+                }
+            });
+        });
+        filtered.push({results: results});
+
+        displayGPUOpenMaterials(filtered);
+    }
+
+    else if (selectedSource === 'ambientcg_source') {
+
+        const filtered = activeMaterials.filter(material => {
+
+            console.log('Filtering material:', material);
+            // Filter by search term
+            let matchesSearch = false;
+            
+            let title = '';
+            if (material.assetId)
+            {
+                title = material.assetId;
+            }
+            else if (material.title)
+            {
+                title = material.title;
+            }
+            if (title.toLowerCase().includes(searchTerm))
+            {
+                matchesSearch = true;
+            }
+            if (material.tags && material.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
+            {
+                matchesSearch = true;
+            }
+
+            //material.description.toLowerCase().includes(searchTerm) ||
+            // Filter by category
+            //const matchesCategory = !selectedCategory || material.categories.includes(selectedCategory);
+
+            return matchesSearch;// && matchesCategory;        
+        });
+
+        displayAmbientCGMaterials(filtered);
+    }
+}
+
+// @brief Display available AmbientCG materials
+// @param materials: The materials list to display
+function displayAmbientCGMaterials(materials) 
+{
     if (!Array.isArray(materials)) {
         console.error('Invalid materials list:', materials);
         return;
     }
-    // Create table-like display for materials
-    const contentDiv = document.getElementById('content');
-    contentDiv.innerHTML = ''; // Clear existing content
 
-    // Create a table element
-    const tbl = document.createElement('table');
-    tbl.classList.add('table');
-    tbl.style.fontSize = '10px';
+    // Clear container
+    const contentDiv = document.getElementById('materialsContainer');
+    contentDiv.innerHTML = ''; 
 
     // Update status (assuming updateStatusInput is a defined function)
     updateStatusInput('- Server: Display material list...');
 
     // Iterate through the materials list
-    let tblFragment = document.createDocumentFragment();
-    materials.forEach((material, materialNumber) => {
-        // Create a table row for each material
-        const materialRow = document.createElement('tr');
-        materialRow.classList.add('row-sm');
+    for (let materialNumber = 0; materialNumber < materials.length; materialNumber++) 
+    {
+        const material = materials[materialNumber];
 
-        const assetId =material.assetId
+        const assetId = material.assetId
         const downloadAttribute = material.downloadAttribute;
         const parts = downloadAttribute.split('-');
         const imageFormat = parts[1];
@@ -103,24 +161,40 @@ function displayAmbientCGMaterials(materials) {
             imageResolution = imageResolution.slice(0, -1);
         }
 
-        // Populate the row with material data
-        materialRow.innerHTML = `
-            <td class="col-sm">${assetId} ${material.downloadAttribute}</td>
-            <td class="col-sm">
-                <button style="font-size: 10px" class="btn btn-primary" onclick="downloadAmbientCGPackage('${assetId}','${imageFormat}','${imageResolution}')">Download Package</button>
-            </td>
+        // TODO: Fix to set over filter params
+        if (imageResolution != '1') {
+            continue;
+        }
+        if (imageFormat != 'PNG') {
+            continue;
+        }
+
+        const col = document.createElement('div');
+        col.className = 'col-md-4 col-lg-3 mb-4';
+
+        let svgDataUrl = 'https://icons.getbootstrap.com/assets/icons/card-image.svg'
+        let img_src = material.previewImage ? material.previewImage : svgDataUrl;
+        let tags = material.tags;
+        // Remove any tag which is a number like 1,2,3 etc
+        tags = tags.filter(tag => isNaN(Number(tag)));
+        col.innerHTML = `
+            <div class="card material-card" data-material-id="${assetId}">
+                <img src="${img_src}" class="card-img-top material-img" alt="${svgDataUrl}" onerror="this.src=${svgDataUrl}">
+                <div class="card-body">
+                    <div class="card-title" style="font-size:12px">${assetId} (${imageResolution}K, ${imageFormat})</div>
+                    <div class="d-flex flex-wrap">
+                        ${tags.map(cat => `<span class="badge bg-secondary category-badge">${cat}</span>`).join('')}
+                    </div>
+                </div>
+            </div>
         `;
 
-        // Append the row to the table
-        tblFragment.appendChild(materialRow);
-    });
+        col.querySelector('.card').addEventListener('click', () => 
+            downloadAmbientCGPackage(assetId, imageFormat, imageResolution)
+        );
 
-    tbl.appendChild(tblFragment);
-
-    // Append the table to the content div
-    contentDiv.appendChild(tbl);
-
-    convertTableToBootstrapRowCol(contentDiv);
+        contentDiv.appendChild(col);
+    }
 }
 
 // @brief Download an AmbientCG material package
@@ -164,6 +238,7 @@ async function fetchGPUOpenMaterials()
     if (cachedData) {
         updateStatusInput('- Client: Cached materials');
         const materials = JSON.parse(cachedData);
+        console.log('Using cached materials:', materials);
         displayGPUOpenMaterials(materials);
         return;
     }
@@ -172,17 +247,17 @@ async function fetchGPUOpenMaterials()
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const materials = await response.json();
-    localStorage.setItem(cacheKey, JSON.stringify(materials)); // Cache the response
+    activeMaterials = await response.json();
+    localStorage.setItem(cacheKey, JSON.stringify(activeMaterials)); // Cache the response
     updateStatusInput('- Client: Fetched materials');
-    displayGPUOpenMaterials(materials);
+    displayGPUOpenMaterials(activeMaterials);
 }
 
 // @brief Display the GPUOpen materials in a table
 // @param materials: The materials list to display
 //
 function displayGPUOpenMaterials(materials) {
-    const contentDiv = document.getElementById('content');
+    const contentDiv = document.getElementById('materialsContainer');
     contentDiv.innerHTML = '';
 
     let tbl = document.createElement('table')
@@ -236,15 +311,16 @@ async function displayMaterialPackage(response) {
     updateStatusInput('- Client: Save download: ' + title);
 
     // Create a temporary <a> element to trigger the download
-    const a = document.createElement('a');
+    /* const a = document.createElement('a');
     a.href = url;
     a.download = title;
     document.body.appendChild(a); // Append the <a> element to the DOM
-    a.click(); // Trigger the download
+    a.click(); // Trigger the download 
 
     // Clean up
     window.URL.revokeObjectURL(url); // Release the Blob URL
     document.body.removeChild(a); // Remove the <a> element from the DOM    
+    */
 
     ///////////////////////////////////////////////////////
     updateStatusInput('- Client: Display Unpacked Data....: ' + title);
@@ -474,6 +550,17 @@ function setupLibrarySelector() {
         document.getElementById('dropdownMenuButton').innerText = source;
         document.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('active'));
         document.querySelector(`#${source.toLowerCase().replace(' ', '')}_source`).classList.add('active');
+        // Hide search_row for GPUOpen since it doesn't have categories
+        const searchRow = document.getElementById('search_row');
+        if (source === 'GPUOpen') {
+            searchRow.style.display = 'none';
+        } else {
+            searchRow.style.display = 'flex';
+        }
+
+        //activeMaterials = null;
+        //const contentDiv = document.getElementById('materialsContainer');
+        //contentDiv.innerHTML = '';
     }
     selectSource('GPUOpen');
 }
@@ -486,6 +573,12 @@ function main()
 
     document.getElementById('clear_status').addEventListener('click', () => {
         updateStatusInput('Status', true);
+    });
+
+    searchButton.addEventListener('click', filterMaterials);
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') filterMaterials();
     });
 
     function debounce(func, delay) {

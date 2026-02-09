@@ -31,6 +31,12 @@ function initializeServer() {
             else if (source == 'AmbientCG') {
                 //console.log(ambientcg_loader)
                 const materials = await ambientcg_loader.downloadMaterialsList();
+
+                //console.log('- Server: Read database...');
+                //const database = await ambientcg_loader.downloadAssetDatabase();
+                //ambientcg_loader.writeDatabaseToFile('ambientcg_database.json');
+                //ambientcg_loader.readDatabaseFromFile('ambientcg_database.json');
+
                 res.json(materials);
             }
         } catch (error) {

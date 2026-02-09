@@ -381,7 +381,7 @@ zip files. Note that any non MaterialX or non iage files (such as OpenUSD (usdc)
 <tbody>
 <tr>
 <td style="text-align:center">AmbientCG Tile</td>
-<td style="text-align:center"><img src="https://github.com/kwokcb/materialxWeb/blob/main/nodejs/materialxLibraryInspector/public/images/ambientCg_download_2.png?raw=true" width=100%></td>
+<td style="text-align:center"><img src="https://github.com/kwokcb/materialxWeb/blob/main/nodejs/materialxLibraryInspector/public/images/ambientCg_download_3.png?raw=true" width=100%></td>
 </tr>
 <tr>
 <td style="text-align:center">GPUOpen</td>
@@ -391,6 +391,84 @@ zip files. Note that any non MaterialX or non iage files (such as OpenUSD (usdc)
 </table>
 <p>Below is an example of hosting on <a href="https://render.com/">Render</a></p>
 <img src="https://github.com/kwokcb/materialxWeb/blob/main/nodejs/materialxLibraryInspector/public/images/hosting_on_render_1.png?raw=true" width=100%>
+<h2 id="architecture-overview">Architecture Overview</h2>
+<p>The package is built using <code>NodeJs</code> and <code>Express</code> for the server, and JavaScript for the client. The server serves static files from the <code>public</code> directory, and also provides API endpoints to fetch material data and download material packages (Zip files) containing MaterialX files and associated assets.</p>
+<h3 id="fetching-material-lists">Fetching Material Lists</h3>
+<p>The client fetches material lists from the server and displays it on a web page.</p>
+<p>The server uses two loader classes, <code>JsAmbientCGLoader</code> and <code>JsGPUOpenMaterialLoader</code>, to handle the fetching and processing of material data (in JSON form) from the AmbientCG and GPUOpen sites respectively.</p>
+<p>The client uses this data to display material previews and provide download links for the material packages.</p>
+<p>For <code>AmbientCG</code> both a download list as well as full material &quot;database&quot; is fetched. The latter is to retrieve metadata such as author, description, preview images etc.</p>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+	subgraph Client
+		A[main.js]
+		A -->|fetch /api/materials| B[Express Server]
+		A -->|fetch /api/downloadAmbientCGPackage| B
+		A -->|fetch /api/downloadGPUOpenPackage| B
+		A -->|render material list| I[displayAmbientCGMaterials / displayGPUOpenMaterials]
+		A -->|unpack/display ZIP| J[displayMaterialPackage]
+		I -->|update DOM| K[materialsContainer]
+		J -->|show images, MaterialX| L[extracted_images, extracted_mtlx]
+	end
+	subgraph Server
+		B[materialServer.cjs]
+		B -->|require| C[JsAmbientCGLoader.js]
+		B -->|require| D[JsGPUOpenMaterialLoader.js]
+	end
+	subgraph Data
+		E[ambientcg_database.json]
+		F[ambientcg_materials.json]
+		G[gpuopen_materials.json]
+	end
+	C --> E
+	C --> F
+	D --> G
+	B -->|serves static| H[public/]
+	H -->|main.js, index.html, images| Client
+</div></code></pre>
+<h3 id="material-fetchdownload-logic">Material Fetch/Download Logic</h3>
+<p>The sequence diagram below illustrates the interactions between the browser, server, and loader classes when fetching material lists and downloading material packages (ZIP).</p>
+<p>ZIP data is unpacked on the client side to display <code>MaterialX</code> document content and dependent images.</p>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+participant Browser
+participant Server
+participant AmbientCg_Loader
+participant GPUOpenLoader
+participant DOM
+Browser->>Server: GET /api/materials?source="AmbientCGLoader"
+Server->>AmbientCg_Loader: downloadMaterialsList()
+AmbientCg_Loader-->>Server: [materials JSON]
+Server-->>Browser: [materials JSON]
+Browser->>DOM: displayAmbientCGMaterials
+Browser->>Server: GET /api/downloadAmbientCGPackage
+Server->>AmbientCg_Loader: downloadMaterialAsset
+AmbientCg_Loader-->>Server: [zip data]
+Server-->>Browser: [zip data]
+Browser->>DOM: displayMaterialPackage - unpack ZIP, show images, MaterialX
+Browser->>Server: GET /api/materials?source="GPUOpen"
+Server->>GPUOpenLoader: getMaterials
+GPUOpenLoader-->>Server: [materials JSON]
+Server-->>Browser: [materials JSON]
+Browser->>DOM: displayGPUOpenMaterials
+Browser->>Server: GET /api/downloadGPUOpenPackage
+Server->>GPUOpenLoader: downloadPackage
+GPUOpenLoader-->>Server: [zip data]
+Server-->>Browser: [zip data]
+Browser->>DOM: displayMaterialPackage - unpack ZIP, show images, MaterialX
+</div></code></pre>
+<h3 id="loader-class-dependencies">Loader Class Dependencies</h3>
+<p>The package dependencies for the loader classes <code>AmbientCgLoader</code> and <code>JsGPUOpenMaterialLoader</code> are shown below.</p>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+	subgraph Loader Classes
+		A[JsAmbientCGLoader.js]
+		B[JsGPUOpenMaterialLoader.js]
+	end
+	A -- fetch, fs, csv-parse --> C[AmbientCG APIs & Files]
+	B -- fetch, fs --> D[GPUOpen APIs & Files]
+	C -- produces --> E[ambientcg_database.json, ambientcg_materials.json, zip files]
+	D -- produces --> F[gpuopen_materials.json, zip files]
+	A -- exports --> G[AmbientCGLoader instance]
+	B -- exports --> H[JsGPUOpenMaterialLoader instance]
+</div></code></pre>
 
 </body>
 </html>

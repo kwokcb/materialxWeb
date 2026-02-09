@@ -5,8 +5,6 @@ const fetch =
         ? globalThis.fetch
         : (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const fs = require('fs');
-const { Writable } = require('stream');
-const { createGunzip } = require('zlib');
 const { parse } = require('csv-parse/sync');
 
 class AmbientCGLoader {
@@ -23,7 +21,6 @@ class AmbientCGLoader {
 
         this.logger = console;
         this.database = {};
-        this.assets = {};
         this.materials = null;
         this.materialNames = [];
         this.csvMaterials = null;
@@ -168,7 +165,6 @@ class AmbientCGLoader {
         }
 
         this.downloadMaterialFileName = url.split('file=')[1];
-        console.log('>>>> URL:', url, 'Filename:', this.downloadMaterialFileName);
 
         try {
             const response = await fetch(url);
@@ -220,6 +216,7 @@ class AmbientCGLoader {
          * @brief Download the list of materials from the ambientCG site.
          * @return {Array} Materials list.
          */
+        let haveMaterials = false;
         const MATERIALS_CACHE_FILE = 'ambientcg_materials.json';
         // 1. Try to load from cache file
         if (fs.existsSync(MATERIALS_CACHE_FILE)) {
@@ -227,42 +224,73 @@ class AmbientCGLoader {
                 const data = fs.readFileSync(MATERIALS_CACHE_FILE, 'utf8');
                 this.materials = JSON.parse(data);
                 this.logger.info(`Loaded AmbientCG materials from cache: ${MATERIALS_CACHE_FILE}`);
-                return this.materials;
+                haveMaterials = true;   
             } catch (e) {
                 this.logger.warn(`Failed to load AmbientCG materials cache: ${e.message}`);
             }
         }
 
         // 2. If not in cache, fetch from network
-        const headers = { Accept: 'application/csv' };
-        const url = new URL('https://ambientCG.com/api/v2/downloads_csv');
-        url.searchParams.append('method', 'PBRPhotogrammetry');
-        url.searchParams.append('type', 'Material');
-        url.searchParams.append('sort', 'Alphabet');
+        if (!haveMaterials)
+        {
+            const headers = { Accept: 'application/csv' };
+            const url = new URL('https://ambientCG.com/api/v2/downloads_csv');
+            url.searchParams.append('method', 'PBRPhotogrammetry');
+            url.searchParams.append('type', 'Material');
+            url.searchParams.append('sort', 'Alphabet');
 
-        this.logger.info('Downloading materials CSV list from network...');
-        try {
-            const response = await fetch(url, { headers });
-            if (response.status === 200) {
-                const csvContent = await response.text();
-                this.csvMaterials = csvContent;
-                this.materials = parse(csvContent, { columns: true });
-                this.logger.info('Downloaded CSV material list as JSON.');
-                // Save to cache file after fetching
-                try {
-                    fs.writeFileSync(MATERIALS_CACHE_FILE, JSON.stringify(this.materials, null, 2));
-                    this.logger.info(`Saved AmbientCG materials to cache: ${MATERIALS_CACHE_FILE}`);
-                } catch (e) {
-                    this.logger.warn(`Failed to write AmbientCG materials cache: ${e.message}`);
+            this.logger.info('Downloading materials CSV list from network...');
+            try {
+                const response = await fetch(url, { headers });
+                if (response.status === 200) {
+                    const csvContent = await response.text();
+                    this.csvMaterials = csvContent;
+                    this.materials = parse(csvContent, { columns: true });
+                    this.logger.info('Downloaded CSV material list as JSON.');
+                } else {
+                    this.materials = null;
+                    this.logger.warning(`Failed to fetch the CSV material content. HTTP status code: ${response.status}`);
                 }
-            } else {
+            } catch (error) {
                 this.materials = null;
-                this.logger.warning(`Failed to fetch the CSV material content. HTTP status code: ${response.status}`);
+                this.logger.error(`Error downloading materials list: ${error}`);
             }
-        } catch (error) {
-            this.materials = null;
-            this.logger.error(`Error downloading materials list: ${error}`);
+
+            // Read database list from file.
+            this.readDatabaseFromFile('ambientcg_database.json');
+            const have_database = this.database && Object.keys(this.database).length > 0;
+            if (have_database) {
+                for (let material of this.materials) {
+                    const assetId = material.assetId;
+                    const databaseEntry = this.database.find(entry => entry.assetId === assetId);
+                    if (databaseEntry) {
+                        // Get "256-PNG" from previewImage (object, not Map)
+                        let preview = '';
+                        if (databaseEntry.previewImage && typeof databaseEntry.previewImage === 'object') {
+                            preview = databaseEntry.previewImage['256-PNG'] || '';
+                        }
+                        material.displayCategory = databaseEntry.displayCategory;
+                        material.previewImage = preview;
+                        material.tags = databaseEntry.tags;
+                    }
+                    else {
+                        this.logger.warn('No database entry found for assetId:', assetId);
+                    }
+            
+                }
+            }
+
+            // Save to cache file after fetching
+            try {
+                fs.writeFileSync(MATERIALS_CACHE_FILE, JSON.stringify(this.materials, null, 2));
+                this.logger.info(`Saved AmbientCG materials to cache: ${MATERIALS_CACHE_FILE}`);
+            } catch (e) {
+                this.logger.warn(`Failed to write AmbientCG materials cache: ${e.message}`);
+            }
         }
+
+        //console.log('>>> WRITE MATERIALS TO FILE:', this.materials.length);
+        //this.writeMaterialList(this.materials, 'ambientcg_materials.json');
 
         return this.materials;
     }
@@ -275,40 +303,89 @@ class AmbientCGLoader {
         return this.database;
     }
 
-    getDataBaseMaterialList() {
-        /**
-         * @brief Get asset database material list.
-         * @return {Array} Material list.
-         */
-        return this.assets;
-    }
-
     async downloadAssetDatabase() {
         /**
          * @brief Download the asset database for materials from the ambientCG site.
          * @return {Object} The downloaded database.
          */
         this.database = {};
-        this.assets = null;
 
-        const url = 'https://ambientcg.com/api/v2/full_json';
-        const headers = { Accept: 'application/json' };
-        const params = {
-            method: 'PBRPhotogrammetry',
-            type: 'Material',
-            sort: 'Alphabet',
-        };
-
-        try {
-            const response = await axios.get(url, { headers, params });
-            if (response.status === 200) {
-                this.database = response.data;
-                this.assets = this.database.foundAssets;
-            } else {
-                this.logger.error(`Status: ${response.status}, ${response.data}`);
+        haveDatabase = false;
+        const MATERIALS_DATABASE_FILE = 'ambientcg_database.json';
+        if (fs.existsSync(MATERIALS_DATABASE_FILE)) {
+            try {
+                const data = fs.readFileSync(MATERIALS_DATABASE_FILE, 'utf8');
+                this.database = JSON.parse(data);
+                this.logger.info(`Loaded AmbientCG database from file: ${MATERIALS_DATABASE_FILE}`);
+                haveDatabase = true;
+            } catch (e) {
+                this.logger.warn(`Failed to load AmbientCG database from file: ${e.message}`);
             }
-        } catch (error) {
-            this.logger.error(`Error downloading asset database: ${error}`);
+        }
+
+        if (!haveDatabase) {
+
+            const limit = 500
+            //https://ambientcg.com/api/v2/full_json?type=material
+            const headers = { Accept: 'application/json' };
+            let url = new URL('https://ambientcg.com/api/v2/full_json');
+            url.searchParams.append('method', 'PBRPhotogrammetry');
+            url.searchParams.append('type', 'Material');
+            url.searchParams.append('sort', 'Alphabet');        
+            url.searchParams.append('limit', limit);
+            url.searchParams.append('offset', 0);
+            url.searchParams.append('include', 'tagData,previewData')
+
+            let numberOfResults = -1;
+            let offset = 0
+
+            //let data_list = []
+            let asset_list = []
+            while (numberOfResults === -1 || offset < numberOfResults) {
+                this.logger.info(`Downloading asset database from: ${url.toString()}`);
+
+                try {
+                    const response = await fetch(url, { headers });
+                    if (response.status === 200) {
+                        const data = await response.json();
+                        this.logger.info(`Downloaded data at offset ${offset}. ${data.foundAssets.length} assets found.`);
+                        //data_list.push(data);
+
+                        // Only keep desired fiels: displayCategory, previewImage, tags and assetId from each entry
+                        let reduced_assets = data.foundAssets.map(asset => {
+                            return {
+                                assetId: asset.assetId,
+                                displayCategory: asset.displayCategory,
+                                previewImage: asset.previewImage,
+                                tags: asset.tags
+                            }
+                        });
+                        asset_list = asset_list.concat(reduced_assets);
+
+                        if (numberOfResults === -1) {
+                            numberOfResults = data.numberOfResults;
+                        }
+                        // Update offset for next page
+                        if (!data.nextPageHttp) 
+                        {
+                            break;
+                        }
+                        offset = offset + limit;
+                        
+                        url.searchParams.set('offset', offset);
+                    } else {
+                        this.logger.error(`Status: ${response.status}, ${response.data}`);
+                    }
+                }
+                catch (error) {
+                    this.logger.error(`Error downloading asset database: ${error}`);
+                }
+            }
+
+            this.database = asset_list;
+
+            // Pull out the preview image link from database and put it
+            // into the materials. 
         }
 
         return this.database;
@@ -321,12 +398,29 @@ class AmbientCGLoader {
          * @return {boolean} True if the file was written successfully, otherwise False.
          */
         if (!this.database) {
-            this.logger.warning('No database to write');
+            this.logger.info('No database to write');
             return false;
         }
 
+        this.logger.info(`Writing database to file: ${filename}`);
         fs.writeFileSync(filename, JSON.stringify(this.database, null, 4));
         return true;
+    }
+
+    readDatabaseFromFile(filename) {
+        /**
+         * @brief Read the database file.
+         * @param {string} filename - The filename to read the JSON file from.
+         * @return {Object} The database object, or null if there was an error.
+         */
+        try {
+            const data = fs.readFileSync(filename, 'utf8');
+            this.database = JSON.parse(data);
+            return this.database;
+        } catch (e) {
+            this.logger.error(`Failed to read database from file: ${e.message}`);
+            return null;
+        }
     }
 
     validateMaterialXDocument(doc) {

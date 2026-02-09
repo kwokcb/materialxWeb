@@ -26,6 +26,13 @@ var NAVTREE =
 [
   [ "MaterialXWeb", "index.html", [
     [ "Welcome to Materialx Web", "index.html", null ],
+    [ "NodeJs MaterialX Library Inspector", "md__d_1_2_work_2materialx_2materialx_web_2nodejs_2materialx_library_inspector_2_r_e_a_d_m_e__dox.html", [
+      [ "Architecture Overview", "md__d_1_2_work_2materialx_2materialx_web_2nodejs_2materialx_library_inspector_2_r_e_a_d_m_e__dox.html#autotoc_md23", [
+        [ "Fetching Material Lists", "md__d_1_2_work_2materialx_2materialx_web_2nodejs_2materialx_library_inspector_2_r_e_a_d_m_e__dox.html#autotoc_md24", null ],
+        [ "Material Fetch/Download Logic", "md__d_1_2_work_2materialx_2materialx_web_2nodejs_2materialx_library_inspector_2_r_e_a_d_m_e__dox.html#autotoc_md25", null ],
+        [ "Loader Class Dependencies", "md__d_1_2_work_2materialx_2materialx_web_2nodejs_2materialx_library_inspector_2_r_e_a_d_m_e__dox.html#autotoc_md26", null ]
+      ] ]
+    ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
