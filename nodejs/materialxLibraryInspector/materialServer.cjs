@@ -33,8 +33,9 @@ function initializeServer() {
                 const materials = await ambientcg_loader.downloadMaterialsList();
 
                 console.log('- Server: Downloaded materials list, now downloading database...');
-                const database = await ambientcg_loader.downloadAssetDatabase();
-                ambientcg_loader.writeDatabaseToFile('ambientcg_database.json');
+                //const database = await ambientcg_loader.downloadAssetDatabase();
+                //ambientcg_loader.writeDatabaseToFile('ambientcg_database.json');
+                ambientcg_loader.readDatabaseFromFile('ambientcg_database.json');
 
                 res.json(materials);
             }

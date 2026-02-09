@@ -75,23 +75,24 @@ function displayAmbientCGMaterials(materials) {
         return;
     }
     // Create table-like display for materials
-    const contentDiv = document.getElementById('content');
+    const contentDiv = document.getElementById('materialsContainer');
     contentDiv.innerHTML = ''; // Clear existing content
 
     // Create a table element
-    const tbl = document.createElement('table');
-    tbl.classList.add('table');
-    tbl.style.fontSize = '10px';
+    //const tbl = document.createElement('table');
+    //tbl.classList.add('table');
+    //tbl.style.fontSize = '10px';
 
     // Update status (assuming updateStatusInput is a defined function)
     updateStatusInput('- Server: Display material list...');
 
     // Iterate through the materials list
     let tblFragment = document.createDocumentFragment();
-    materials.forEach((material, materialNumber) => {
+    for (let materialNumber = 0; materialNumber < materials.length; materialNumber++) {
+        const material = materials[materialNumber];
         // Create a table row for each material
-        const materialRow = document.createElement('tr');
-        materialRow.classList.add('row-sm');
+        //const materialRow = document.createElement('tr');
+        //materialRow.classList.add('row-sm');
 
         const assetId =material.assetId
         const downloadAttribute = material.downloadAttribute;
@@ -103,22 +104,51 @@ function displayAmbientCGMaterials(materials) {
             imageResolution = imageResolution.slice(0, -1);
         }
 
-        // Populate the row with material data
-        materialRow.innerHTML = `
-            <td class="col-sm">${assetId} ${material.downloadAttribute}</td>
-            <td class="col-sm">
-                <button style="font-size: 10px" class="btn btn-primary" onclick="downloadAmbientCGPackage('${assetId}','${imageFormat}','${imageResolution}')">Download Package</button>
-            </td>
+        if (imageResolution > 1) {
+            continue;
+        }
+        if (imageFormat != 'PNG') {
+            continue;
+        }
+
+        const col = document.createElement('div');
+        col.className = 'col-2 mb-4';
+
+        let img_src = ""; //"https://acg-media.struffelproductions.com/file/ambientCG-Web/media/thumbnail/256-PNG/AcousticFoam001.png";
+        let svgDataUrl = 'https://icons.getbootstrap.com/assets/icons/card-image.svg'
+        img_src = svgDataUrl;
+
+        col.innerHTML = `
+            <div class="card material-card" data-material-id="${assetId}">
+                <img src="${img_src}" class="card-img-top material-img" alt="${svgDataUrl}" onerror="this.src=${svgDataUrl}">
+                <div class="card-body">
+                    <div class="card-title">${assetId} - ${imageResolution} - ${imageFormat}</div>
+                </div>
+            </div>
         `;
 
-        // Append the row to the table
-        tblFragment.appendChild(materialRow);
-    });
+        col.querySelector('.card').addEventListener('click', () => 
+            downloadAmbientCGPackage(assetId, imageFormat, imageResolution)
+        );
 
-    tbl.appendChild(tblFragment);
+        // Populate the row with material data
+        /* materialRow.innerHTML = `
+            <td class="col-sm">${assetId} ${material.downloadAttribute}</td>
+            <td class="col-sm">
+                <button style="font-size: 10px" class="btn btn-primary" 
+                onclick="downloadAmbientCGPackage('${assetId}','${imageFormat}','${imageResolution}')">Download Package</button>
+            </td>
+        `; */
+
+        // Append the row to the table
+        //tblFragment.appendChild(materialRow);
+        contentDiv.appendChild(col);
+    }
+
+    //tbl.appendChild(tblFragment);
 
     // Append the table to the content div
-    contentDiv.appendChild(tbl);
+    //contentDiv.appendChild(tbl);
 
     convertTableToBootstrapRowCol(contentDiv);
 }
@@ -182,7 +212,7 @@ async function fetchGPUOpenMaterials()
 // @param materials: The materials list to display
 //
 function displayGPUOpenMaterials(materials) {
-    const contentDiv = document.getElementById('content');
+    const contentDiv = document.getElementById('materialsContainer');
     contentDiv.innerHTML = '';
 
     let tbl = document.createElement('table')
