@@ -23,7 +23,6 @@ class AmbientCGLoader {
 
         this.logger = console;
         this.database = {};
-        this.assets = {};
         this.materials = null;
         this.materialNames = [];
         this.csvMaterials = null;
@@ -251,13 +250,6 @@ class AmbientCGLoader {
                     this.csvMaterials = csvContent;
                     this.materials = parse(csvContent, { columns: true });
                     this.logger.info('Downloaded CSV material list as JSON.');
-                    // Save to cache file after fetching
-                    try {
-                        fs.writeFileSync(MATERIALS_CACHE_FILE, JSON.stringify(this.materials, null, 2));
-                        this.logger.info(`Saved AmbientCG materials to cache: ${MATERIALS_CACHE_FILE}`);
-                    } catch (e) {
-                        this.logger.warn(`Failed to write AmbientCG materials cache: ${e.message}`);
-                    }
                 } else {
                     this.materials = null;
                     this.logger.warning(`Failed to fetch the CSV material content. HTTP status code: ${response.status}`);
@@ -266,7 +258,41 @@ class AmbientCGLoader {
                 this.materials = null;
                 this.logger.error(`Error downloading materials list: ${error}`);
             }
+
+            // Read database list from file.
+            this.readDatabaseFromFile('ambientcg_database.json');
+            const have_database = this.database && Object.keys(this.database).length > 0;
+            if (have_database) {
+                for (let material of this.materials) {
+                    const assetId = material.assetId;
+                    const databaseEntry = this.database.find(entry => entry.assetId === assetId);
+                    if (databaseEntry) {
+                        // Get "256-PNG" from previewImage (object, not Map)
+                        let preview = '';
+                        if (databaseEntry.previewImage && typeof databaseEntry.previewImage === 'object') {
+                            preview = databaseEntry.previewImage['256-PNG'] || '';
+                        }
+                        material.previewImage = preview;
+                        material.tags = databaseEntry.tags;
+                    }
+                    else {
+                        this.logger.warn('No database entry found for assetId:', assetId);
+                    }
+            
+                }
+            }
+
+            // Save to cache file after fetching
+            try {
+                fs.writeFileSync(MATERIALS_CACHE_FILE, JSON.stringify(this.materials, null, 2));
+                this.logger.info(`Saved AmbientCG materials to cache: ${MATERIALS_CACHE_FILE}`);
+            } catch (e) {
+                this.logger.warn(`Failed to write AmbientCG materials cache: ${e.message}`);
+            }
         }
+
+        //console.log('>>> WRITE MATERIALS TO FILE:', this.materials.length);
+        //this.writeMaterialList(this.materials, 'ambientcg_materials.json');
 
         return this.materials;
     }
@@ -279,21 +305,12 @@ class AmbientCGLoader {
         return this.database;
     }
 
-    getDataBaseMaterialList() {
-        /**
-         * @brief Get asset database material list.
-         * @return {Array} Material list.
-         */
-        return this.assets;
-    }
-
     async downloadAssetDatabase() {
         /**
          * @brief Download the asset database for materials from the ambientCG site.
          * @return {Object} The downloaded database.
          */
         this.database = {};
-        this.assets = null;
 
         haveDatabase = false;
         const MATERIALS_DATABASE_FILE = 'ambientcg_database.json';
@@ -366,10 +383,7 @@ class AmbientCGLoader {
                 }
             }
 
-            // Contact all items in assets_list into a single list
-            //asset_list = asset_list.flat();
             this.database = asset_list;
-            //this.assets = asset_list;
 
             // Pull out the preview image link from database and put it
             // into the materials. 
@@ -403,7 +417,6 @@ class AmbientCGLoader {
         try {
             const data = fs.readFileSync(filename, 'utf8');
             this.database = JSON.parse(data);
-            this.assets = this.database.foundAssets;
             return this.database;
         } catch (e) {
             this.logger.error(`Failed to read database from file: ${e.message}`);

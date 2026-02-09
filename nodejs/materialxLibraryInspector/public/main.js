@@ -48,14 +48,6 @@ async function fetchAmbientCGMaterials()
 {
     let query = '/api/materials?source=AmbientCG'
 
-    const cacheKey = query;
-    const cachedData = localStorage.getItem(cacheKey);
-    if (cachedData) {
-        updateStatusInput('- Client: Cached materials');
-        const materials = JSON.parse(cachedData);
-        displayAmbientCGMaterials(materials);
-        return;
-    }
 
     const response = await fetch(query);
     if (!response.ok) {
@@ -63,7 +55,6 @@ async function fetchAmbientCGMaterials()
     }
     const materials = await response.json();
     updateStatusInput('- Client: Fetched materials');
-    localStorage.setItem(cacheKey, JSON.stringify(materials)); // Cache the response
     displayAmbientCGMaterials(materials);
 }
 
@@ -112,17 +103,21 @@ function displayAmbientCGMaterials(materials) {
         }
 
         const col = document.createElement('div');
-        col.className = 'col-2 mb-4';
+        col.className = 'col-md-4 col-lg-3 mb-4';
 
-        let img_src = ""; //"https://acg-media.struffelproductions.com/file/ambientCG-Web/media/thumbnail/256-PNG/AcousticFoam001.png";
         let svgDataUrl = 'https://icons.getbootstrap.com/assets/icons/card-image.svg'
-        img_src = svgDataUrl;
-
+        let img_src = material.previewImage ? material.previewImage : svgDataUrl;
+        let tags = material.tags;
+        // Remove any tag which is a number like 1,2,3 etc
+        tags = tags.filter(tag => isNaN(Number(tag)));
         col.innerHTML = `
             <div class="card material-card" data-material-id="${assetId}">
                 <img src="${img_src}" class="card-img-top material-img" alt="${svgDataUrl}" onerror="this.src=${svgDataUrl}">
                 <div class="card-body">
                     <div class="card-title">${assetId} - ${imageResolution} - ${imageFormat}</div>
+                    <div class="d-flex flex-wrap">
+                        ${tags.map(cat => `<span class="badge bg-secondary category-badge">${cat}</span>`).join('')}
+                    </div>
                 </div>
             </div>
         `;
@@ -266,15 +261,16 @@ async function displayMaterialPackage(response) {
     updateStatusInput('- Client: Save download: ' + title);
 
     // Create a temporary <a> element to trigger the download
-    const a = document.createElement('a');
+    /* const a = document.createElement('a');
     a.href = url;
     a.download = title;
     document.body.appendChild(a); // Append the <a> element to the DOM
-    a.click(); // Trigger the download
+    a.click(); // Trigger the download 
 
     // Clean up
     window.URL.revokeObjectURL(url); // Release the Blob URL
     document.body.removeChild(a); // Remove the <a> element from the DOM    
+    */
 
     ///////////////////////////////////////////////////////
     updateStatusInput('- Client: Display Unpacked Data....: ' + title);
