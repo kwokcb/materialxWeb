@@ -92,6 +92,9 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
         const title = extractedData.title;
         console.log('Title:', title);
 
+        const preview_url = extractedData.url;
+        console.log('URL:', preview_url);
+
         const dataObj = extractedData.data;
         const imageDOM = document.getElementById('extracted_images');
         imageDOM.innerHTML = ''; // Clear existing images
@@ -103,6 +106,7 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
         // Optionally save zip of data to file.
         let save_extracted = document.getElementById('save_extracted').checked;
         let zip = save_extracted ? new JSZip() : null;
+        
         for (const key in dataObj) {
             if (key.endsWith('.mtlx')) {
                 this.extractedEditor.setValue(dataObj[key]);
@@ -155,6 +159,26 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
                     zip.file(key, imgFile);
                 }
             }
+        }
+
+        if (preview_url) {
+            // Create a container for the image and label
+            const imageContainer = document.createElement('div');
+            imageContainer.style.display = 'inline-block';
+            imageContainer.style.margin = '10px';
+            imageContainer.style.textAlign = 'center'; // Center the label under the image
+            
+            // Create the image element
+            const img = document.createElement('img');
+            img.src = preview_url;
+            img.width = 200;
+            img.alt = "";
+            
+            // Add the key as a tooltip
+            img.title = "Preview render"; 
+                    
+            imageContainer.appendChild(img);
+            imageDOM.appendChild(imageContainer);
         }
 
         // Create the zip file asynchronously

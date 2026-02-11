@@ -97,6 +97,7 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
         # Initialize the loader and fetch materials
         self.loader = gpuo.GPUOpenMaterialLoader()
         self.materials = self.loader.getMaterials()
+        self.loader.getRenders()
         self.material_names = self.loader.getMaterialNames()
 
         # Convert materials to JSON and get the count
@@ -159,10 +160,12 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
                         self._emit_status_message(f'- Image file {file_name}')
                         image = item["data"]
                         image_base64 = self.loader.convertPilImageToBase64(image)
-                        return_data[file_name] = image_base64
+                        return_data[file_name] = image_base64                    
 
             if len(return_data) > 0:
-                return_list.append({'title': title, 'data': return_data})
+                url = self.loader.getMaterialPreviewURL(title)
+                self._emit_status_message(f'Preview URL: {url}')
+                return_list.append({'title': title, 'data': return_data, 'url': url})
 
         if len(return_list) == 0:
             self._emit_status_message('No materials extracted')
