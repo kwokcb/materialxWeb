@@ -5,6 +5,7 @@
 import argparse
 import sys
 from flask import Flask, render_template
+import json
 from flask_socketio import SocketIO, emit
 from materialxMaterials import GPUOpenLoader as gpuo
 have_mx = False
@@ -121,8 +122,16 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
         self.loader.getRenders()
         self.material_names = self.loader.getMaterialNames()
 
-        # Convert materials to JSON and get the count
-        materials_list = self.loader.getMaterialsAsJsonString()
+        # Convert materials to JSON and add preview URLs
+        materials_list = []
+        for mat_json in self.loader.getMaterialsAsJsonString():
+            mat_obj = json.loads(mat_json)
+            # Add preview URL for each result
+            for result in mat_obj.get('results', []):
+                title = result.get('title')
+                result['url'] = self.loader.getMaterialPreviewURL(title)
+            materials_list.append(json.dumps(mat_obj))
+        # Sort list by title
         self.material_count = len(self.material_names)
 
         # Emit a status message

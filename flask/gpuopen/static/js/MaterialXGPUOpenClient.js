@@ -87,7 +87,49 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
             if (firstMaterial) {
                 this.populateForm(firstMaterial);
             }
-        }        
+
+            // Render preview images in gallery using preview URL from backend
+            const gallery = document.getElementById('material_gallery');
+            gallery.innerHTML = '';
+            for (const element of this.materialsList) {
+                let materials = JSON.parse(element).results;
+                // Sort by title
+                materials.sort((a, b) => a.title.localeCompare(b.title));
+                if (materials) {
+                    for (const material of materials) 
+                    {
+                        if (material.url) {
+                            const col = document.createElement('div');
+                            col.className = 'col-md-3 col-lg-2 mb-4';
+
+                            col.innerHTML = `
+                                <div class="card material-card" data-material-id="${material.id}">
+                                    <img src="${material.thumb_url}" class="card-img-top material-img" alt="${material.name}" onerror="this.src=${svgDataUrl}">
+                                    <div class="card-body">
+                                        <div class="card-title">${material.title}</div>
+                                    </div>
+                                </div>
+                            `;
+
+                            //col.querySelector('.card').addEventListener('click', () => showMaterialDetails(material));
+                            //materialsContainer.appendChild(col);
+
+                            /*const col = document.createElement('div');
+                            col.className = 'col-auto mb-2';
+                            col.innerHTML = `
+                                <div class="card" style="width: 8rem;">
+                                    <img src="${result.url}" class="card-img-top" alt="Preview">
+                                    <div class="card-body p-2">
+                                        <div class="card-title x-small">${result.title || 'Material'}</div>
+                                    </div>
+                                </div>
+                            `;*/
+                            gallery.appendChild(col);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     handleMaterialXExtract(data) 
