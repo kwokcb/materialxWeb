@@ -18,7 +18,14 @@ except ImportError as e:
 #import MaterialX as mx
 
 class MaterialXFlaskApp:
+    '''
+    @brief Base Flask application class for MaterialX GPUOpen server interactions.
+    '''
     def __init__(self, home):
+        '''
+        Initialize the Flask application and SocketIO.
+        @param home The home page template to render.
+        '''
         self.home = home
 
         # Initialize Flask and SocketIO
@@ -31,9 +38,9 @@ class MaterialXFlaskApp:
         self._register_socket_events()
 
     def _register_routes(self):
-        """
+        '''
         Register HTTP routes.
-        """
+        '''
         @self.app.route('/')
         def home():
             """
@@ -49,17 +56,20 @@ class MaterialXFlaskApp:
         raise NotImplementedError("Subclasses must implement _setup_event_handler_map")
 
     def _register_socket_events(self):
-        """
+        '''
         Register SocketIO events.
-        """
+        '''
         # Dynamically register event handlers
         for event_name, handler in self.event_handlers.items():
             self.socketio.on_event(event_name, handler)        
 
     def run(self, host, port, debug=True):
-        """
+        '''
         Run the Flask server with SocketIO.
-        """
+        @param host The host address to run the server on.
+        @param port The port to run the server on.
+        @param debug Whether to run the server in debug mode.
+        '''
         self.socketio.run(self.app, host, port, debug=debug)
 
 
@@ -69,9 +79,10 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
     and extracting of materials by regular expression.    
     '''
     def __init__(self, homePage):
-        """
+        '''
         Initialize the Flask application and the MaterialX loader.
-        """
+        @param homePage The home page template to render.
+        '''
         super().__init__(homePage)
 
         # Material loader and associated attributes
@@ -81,16 +92,26 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
         self.material_count = 0
 
     def _emit_status_message(self, message):
-        """
-        Emit a status message to the client.
-        """
+        '''
+        @brief Emit a status message to the client. The message emitted is of the form:
+        { 'message': 'message string' }
+
+        @param message The status message to emit. 
+        '''
         emit('materialx_status', { 'message': message }, broadcast=True)
         print('Python:', message)
 
     def handle_download_materialx(self, data):
-        """
-        Handle the 'download_materialx' event, initialize the loader, and send materials data to the client.
-        """
+        '''
+        @brief Handle the 'download_materialx' event, initialize the loader, and send materials data to the client.
+        Data is of the form:
+        { 'materialCount': int, 
+          'materialNames': list of strings, 
+          'materialsList': list of material data in JSON format 
+        }
+        @param data The data received from the client (not used in this handler).
+
+        '''
         status_message = f'Downloaded materials...'
         self._emit_status_message(status_message)
 
@@ -116,9 +137,11 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
         }, broadcast=True)
 
     def handle_extract_material(self, data):
-        """
-        Handle the 'extract_material' event, extract material data, and send it back to the client.
-        """
+        '''
+        @brief Handle the 'extract_material' event, extract material data, and send it back to the client.
+        @param data The data received from the client, expected to contain:
+        { 'expression': string, 'update_materialx': bool }
+        '''
         if self.loader is None:
             self._emit_status_message('Loader is not initialized. Download materials first.')
             return
@@ -175,9 +198,9 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
             emit('materialx_extracted', {'extractedData': return_list}, broadcast=True)
 
     def _setup_event_handler_map(self):
-        """
+        '''
         Set up dictionary of mapping event names to their handlers
-        """
+        '''
         self.event_handlers = {
             'download_materialx': self.handle_download_materialx,
             'extract_material': self.handle_extract_material,
@@ -185,10 +208,17 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
 
 # Main entry point
 def main(): 
+    '''
+    @brief Main entry point for the application. Parses command-line arguments and starts the Flask server.
+    @detail Argument parameters are:
+    -h/--host: Host address to run the server on (default: 127.0.0.1)
+    -po/--port: Port to run the server on (default: 8080)
+    -ho/--home: Home page template (default: MaterialXGPUOpenApp.html)
+    '''
     parser = argparse.ArgumentParser(description="GPUOpen MaterialX Application")
-    parser.add_argument('--host', type=str, default='127.0.0.1', help="Host address to run the server on (default: 127.0.0.1)")
-    parser.add_argument('--port', type=int, default=8080, help="Port to run the server on (default: 8080)")
-    parser.add_argument('--home', type=str, default='MaterialXGPUOpenApp.html', help="Home page.")
+    parser.add_argument('-hs', '--host', type=str, default='127.0.0.1', help="Host address to run the server on (default: 127.0.0.1)")
+    parser.add_argument('-p','--port', type=int, default=8080, help="Port to run the server on (default: 8080)")
+    parser.add_argument('-ho', '--home', type=str, default='MaterialXGPUOpenApp.html', help="Home page.")
 
     args = parser.parse_args()
 

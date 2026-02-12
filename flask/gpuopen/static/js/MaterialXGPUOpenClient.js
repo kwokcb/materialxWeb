@@ -55,6 +55,11 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
 
     handleMaterialXDownLoad(data)
     {
+        const downloadSpinner = document.getElementById('download_spinner');
+        const downloadStatus = document.getElementById('download_status');
+        downloadSpinner.classList.add('d-none'); // Hide spinner
+        downloadStatus.innerText = 'Download Materials';
+
         console.log('WEB: materialx downloaded event:', data);
         this.materialCount = data.materialCount;
         this.materialsList = data.materialsList;
@@ -87,6 +92,11 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
 
     handleMaterialXExtract(data) 
     {
+        const extractSpinner = document.getElementById('extract_spinner');
+        extractSpinner.classList.add('d-none'); // Hide spinner
+        const extractStatus = document.getElementById('extract_status');
+        extractStatus.innerText = 'Extract'; 
+
         console.log('WEB: materialx extracted event:', data.extractedData);
         const extractedData = data.extractedData[0];
         const title = extractedData.title;
@@ -126,14 +136,15 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
 
                 // Create a container for the image and label
                 const imageContainer = document.createElement('div');
-                imageContainer.style.display = 'inline-block';
-                imageContainer.style.margin = '10px';
-                imageContainer.style.textAlign = 'center'; // Center the label under the image
+                imageContainer.classList.add('col-sm');
+                //imageContainer.style.display = 'inline-block';
+                //imageContainer.style.margin = '10px';
+                //imageContainer.style.textAlign = 'center'; // Center the label under the image
                 
                 // Create the image element
                 const img = document.createElement('img');
                 img.src = url;
-                img.width = 200;
+                img.style.width = "256px";
                 img.alt = key;
                 
                 // Add the key as a tooltip
@@ -164,18 +175,25 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
         if (preview_url) {
             // Create a container for the image and label
             const imageContainer = document.createElement('div');
-            imageContainer.style.display = 'inline-block';
-            imageContainer.style.margin = '10px';
-            imageContainer.style.textAlign = 'center'; // Center the label under the image
+            imageContainer.classList.add('col-sm');
+            //imageContainer.style.margin = '10px';
+            //imageContainer.style.textAlign = 'center'; // Center the label under the image
             
             // Create the image element
             const img = document.createElement('img');
             img.src = preview_url;
-            img.width = 200;
+            img.style.width = "256px";
             img.alt = "";
             
             // Add the key as a tooltip
             img.title = "Preview render"; 
+
+            // Add "url.txt" file to zip where "url" is the preview URL, for reference
+            if (zip)
+            {
+                const urlFile = new File([preview_url], "url.txt", { type: 'text/plain' });
+                zip.file("url.txt", urlFile);
+            }
                     
             imageContainer.appendChild(img);
             imageDOM.appendChild(imageContainer);
@@ -198,6 +216,11 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
     }
 
     extractMaterials() {
+        const extractSpinner = document.getElementById('extract_spinner');
+        const extractStatus = document.getElementById('extract_status');
+        extractSpinner.classList.remove('d-none'); // Show spinner
+        extractStatus.innerText = 'Extracting...';
+
         const materialSelect = document.getElementById('materialSelect');
         const update_mtlx = document.getElementById('update_mtlx').checked;
         let selectedItem = materialSelect.options[materialSelect.selectedIndex].text;
@@ -207,6 +230,10 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
 
     downloadMaterials() {
         console.log("WEB: Emitting download_materialx event");
+        let downloadSpinner = document.getElementById('download_spinner');
+        let downloadStatus = document.getElementById('download_status');
+        downloadSpinner.classList.remove('d-none'); // Show spinner
+        downloadStatus.innerText = 'Downloading...';
         this.emit('download_materialx', {});
     }
 
