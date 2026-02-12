@@ -30,6 +30,7 @@
             border: solid thin lightskyblue;
             height: 50em;
         }
+
         .material-card {
             transition: transform 0.2s;
             cursor: pointer;
@@ -38,7 +39,7 @@
 
         .material-card:hover {
             transform: scale(1.03);
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            box-shadow: 0 0.5rem 1rem rgba(144, 143, 143, 0.15);
         }
 
         .material-img {
@@ -60,8 +61,9 @@
             <div class="row">
                 <div class="col">
                     <button id="getMTLXButton" class="btn btn-sm btn-primary">
-                        <span id="download_spinner" class="d-none spinner-border spinner-border-sm" aria-hidden="true"></span>
-                        <span id="download_status"role="status">Fetch Materials</span>
+                        <span id="download_spinner" class="d-none spinner-border spinner-border-sm"
+                            aria-hidden="true"></span>
+                        <span id="download_status" role="status">Fetch Materials</span>
                     </button>
                 </div>
                 <div class="col-auto d-flex align-items-center">
@@ -71,27 +73,24 @@
                         <label class="form-check-label" for="download_from_package">Download from Package</label>
                     </div>
                 </div>
-            </div>  
-        </div>
-
-        <!-- Gallery area for preview images -->
-        <div class="container-fluid mt-3 p-2 border border-prinary rounded-3" id="gallery_area" style="max-height: 300px; overflow-y: auto;">
-            <h5>Material Gallery</h5>
-            <div class="row" id="material_gallery">
-                <!-- Preview images will be inserted here -->
             </div>
         </div>
 
-        <div class="container-fluid p-2 border border-primary rounded-3" style="font-size: 12px">
-            <h4 class="mb-4">Materials List</h4>
+        <!-- Gallery area for preview images -->
+        <div class="container-fluid mt-3 p-2 border border-prinary rounded-3" id="gallery_area"
+            style="font-size: 12px;">
             <select class="form-select mb-3" id="materialSelect">
                 <option value="0">Select Material</option>
             </select>
-            <div class="row p-0 d-flex align-items-center">
+            <div class="row px-2" id="material_gallery" style="max-height: 256px; overflow-y: auto;">
+                <!-- Preview images will be inserted here -->
+            </div>
+            <div class="row mt-1 p-0 d-flex align-items-center">
                 <div class="col-auto">
                     <button type="submit" id="extract_material" class="btn btn-sm btn-primary">
-                    <span id="extract_spinner" class="d-none spinner-border spinner-border-sm" aria-hidden="true"></span>
-                    <span id="extract_status"role="status" style="font-size: 12px">Extract</span>
+                        <span id="extract_spinner" class="d-none spinner-border spinner-border-sm"
+                            aria-hidden="true"></span>
+                        <span id="extract_status" role="status" style="font-size: 12px">Extract</span>
                     </button>
                 </div>
                 <div class="col-auto">
@@ -108,67 +107,69 @@
                 </div>
             </div>
             <div class="container-fluid p-0 mt-2" style="max-height: 500px; overflow-y: auto;">
-                <div class="row">
-                    <div class="col">
-                        <textarea id="extracted_mtlx" rows="20" cols="80"></textarea>
-                    </div>
-                </div>
-                <div class="row mt-2" id="extracted_images">
+                <div class="row p-2" id="extracted_images">
                     <!-- Material images will appear here -->
                 </div>
-            </div>
-        </div>
+                <div class="row">
+                    <!-- Materialx area -->
+                    <div class="col-6">
+                        <textarea id="extracted_mtlx" rows="20" cols="80"></textarea>
+                    </div>
 
-        <br>
-        <div class="container-fluid p-2 border border-primary rounded-3" style="max-height: 400px; overflow-y: auto;">
-            <h4 class="mb-4">Material Details</h4>
-            <form id="materialForm">
-                <div class="mb-3">
-                    <label for="m_title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="m_title" name="title" readonly>
+                    <!-- Details area -->
+                    <div class="col">
+                    <div class="container-fluid p-2 border border-secondary rounded-3" style="max-height: 300px; overflow-y: auto;">
+                        <b class="mb-4">Details</b>
+                        <form id="materialForm">
+                            <div class="mb-3">
+                                <label for="m_title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="m_title" name="title" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="author" class="form-label">Author</label>
+                                <input type="text" class="form-control" id="author" name="author" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="published_date" class="form-label">Published Date</label>
+                                <input type="datetime-local" class="form-control" id="published_date" name="published_date"
+                                    readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mtlx_filename" class="form-label">MaterialX Filename</label>
+                                <input type="text" class="form-control" id="mtlx_filename" name="mtlx_filename" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <input type="text" class="form-control" id="category" name="category" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-select" id="status" name="status">
+                                    <option value="Published">Published</option>
+                                    <option value="Draft">Draft</option>
+                                    <option value="Archived">Archived</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tags" class="form-label">Tags</label>
+                                <textarea class="form-control" id="tags" name="tags" rows="2" readonly></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="packages" class="form-label">Packages</label>
+                                <textarea class="form-control" id="packages" name="packages" rows="2" readonly></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="renders" class="form-label">Renders</label>
+                                <textarea class="form-control" id="renders" name="renders" rows="2" readonly></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="author" class="form-label">Author</label>
-                    <input type="text" class="form-control" id="author" name="author" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="published_date" class="form-label">Published Date</label>
-                    <input type="datetime-local" class="form-control" id="published_date" name="published_date"
-                        readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="mtlx_filename" class="form-label">MaterialX Filename</label>
-                    <input type="text" class="form-control" id="mtlx_filename" name="mtlx_filename" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="category" class="form-label">Category</label>
-                    <input type="text" class="form-control" id="category" name="category" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="status" class="form-label">Status</label>
-                    <select class="form-select" id="status" name="status">
-                        <option value="Published">Published</option>
-                        <option value="Draft">Draft</option>
-                        <option value="Archived">Archived</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="tags" class="form-label">Tags</label>
-                    <textarea class="form-control" id="tags" name="tags" rows="2" readonly></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="packages" class="form-label">Packages</label>
-                    <textarea class="form-control" id="packages" name="packages" rows="2" readonly></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="renders" class="form-label">Renders</label>
-                    <textarea class="form-control" id="renders" name="renders" rows="2" readonly></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                </div>
-            </form>
+            </div>
         </div>
         <br>
 
@@ -193,14 +194,14 @@
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.7.1/dist/jszip.min.js"></script>
     <script type="module">
 
-         import { MaterialX_GPUOpen_Client } from "{{ url_for('static', filename='js/MaterialXGPUOpenClient.js') }}";
+        import { MaterialX_GPUOpen_Client } from "{{ url_for('static', filename='js/MaterialXGPUOpenClient.js') }}";
 
-         document.addEventListener("DOMContentLoaded", () => {
-             document.body.setAttribute('data-bs-theme', 'dark');
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.setAttribute('data-bs-theme', 'dark');
 
-             // Instantiate the client
-             const client = new MaterialX_GPUOpen_Client("", "");
-         });
+            // Instantiate the client
+            const client = new MaterialX_GPUOpen_Client("", "");
+        });
     </script>
 </body>
 

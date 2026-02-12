@@ -32,7 +32,7 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
                 for (const result of resultsArray) {
                     if (result.title === name) {
                         foundMaterial = result;
-                        //console.log('>>>>>>>>>> Found Material:', result.title);
+                        console.log('>>>>>>>>>> Popultate form:', result.title);
                         this.populateForm(result);
                         return foundMaterial;
                     }
@@ -79,6 +79,7 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
                 card.classList.remove('selected');
             }
         }
+        this.findMaterialByName(name);
     }
 
     handleMaterialXDownLoad(data)
@@ -121,6 +122,7 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
             // Render preview images in gallery using preview URL from backend
             const gallery = document.getElementById('material_gallery');
             gallery.innerHTML = '';
+            let firstTitle = '';
             for (const element of this.materialsList) {
                 let materials = JSON.parse(element).results;
                 if (materials) {
@@ -129,6 +131,9 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
                     for (const material of materials) 
                     {
                         if (material.url) {
+                            if (!firstTitle)
+                                firstTitle = material.title;
+
                             const col = document.createElement('div');
                             col.className = 'col-sm-4 col-md-3 col-lg-2 mb-4';
 
@@ -151,6 +156,11 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
                     }
                 }
             }
+
+            if (firstTitle) {
+                this.highlightSelectedMaterialInGallery(firstTitle);
+                this.selectMaterialByName(firstTitle);
+            }
         }
     }
 
@@ -163,6 +173,10 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
 
         console.log('WEB: materialx extracted event:', data.extractedData);
         const extractedData = data.extractedData[0];
+        if (!extractedData) {
+            console.log('No extracted data received');
+            return;
+        }
         const title = extractedData.title;
         console.log('Title:', title);
 
@@ -181,6 +195,30 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
         let save_extracted = document.getElementById('save_extracted').checked;
         let zip = save_extracted ? new JSZip() : null;
         
+
+        if (preview_url) {
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'col-sm-4 col-md-3 col-lg-2 mb-4';
+            let key = "Preview Render";
+            imageContainer.innerHTML = `
+                <div class="card material-card" data-material-id="${key}">
+                    <img loading="lazy" src="${preview_url}" id="${key} Image" class="card-img-top material-img" alt="${key}">
+                    <div class="card-body">
+                        <div style="font-size: 10px;" class="card-title">${key}</div>
+                    </div>
+                </div>
+            `;
+
+            // Add "url.txt" file to zip where "url" is the preview URL, for reference
+            if (zip)
+            {
+                const urlFile = new File([preview_url], "url.txt", { type: 'text/plain' });
+                zip.file("url.txt", urlFile);
+            }
+                    
+            imageDOM.appendChild(imageContainer);
+        }
+
         for (const key in dataObj) {
             if (key.endsWith('.mtlx')) {
                 this.extractedEditor.setValue(dataObj[key]);
@@ -200,29 +238,15 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
 
                 // Create a container for the image and label
                 const imageContainer = document.createElement('div');
-                imageContainer.classList.add('col-sm');
-                //imageContainer.style.display = 'inline-block';
-                //imageContainer.style.margin = '10px';
-                //imageContainer.style.textAlign = 'center'; // Center the label under the image
-                
-                // Create the image element
-                const img = document.createElement('img');
-                img.src = url;
-                img.style.width = "256px";
-                img.alt = key;
-                
-                // Add the key as a tooltip
-                img.title = key; 
-                
-                // Create a label for the image
-                const label = document.createElement('div');
-                label.innerText = key;
-                label.style.fontSize = '0.8rem'; 
-                //label.style.color = '#FFF'; // 
-                
-                // Append the image and label to the container
-                imageContainer.appendChild(img);
-                imageContainer.appendChild(label);
+                imageContainer.className = 'col-sm-4 col-md-3 col-lg-2 mb-4';
+                imageContainer.innerHTML = `
+                    <div class="card material-card" data-material-id="${key}">
+                        <img src="${url}" id="${key} Image" class="card-img-top material-img" alt="${key}">
+                        <div class="card-body">
+                            <div style="font-size: 10px;" class="card-title">${key}</div>
+                        </div>
+                    </div>
+                `;
                 
                 // Append the container to the image DOM
                 imageDOM.appendChild(imageContainer);
@@ -236,32 +260,6 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
             }
         }
 
-        if (preview_url) {
-            // Create a container for the image and label
-            const imageContainer = document.createElement('div');
-            imageContainer.classList.add('col-sm');
-            //imageContainer.style.margin = '10px';
-            //imageContainer.style.textAlign = 'center'; // Center the label under the image
-            
-            // Create the image element
-            const img = document.createElement('img');
-            img.src = preview_url;
-            img.style.width = "256px";
-            img.alt = "";
-            
-            // Add the key as a tooltip
-            img.title = "Preview render"; 
-
-            // Add "url.txt" file to zip where "url" is the preview URL, for reference
-            if (zip)
-            {
-                const urlFile = new File([preview_url], "url.txt", { type: 'text/plain' });
-                zip.file("url.txt", urlFile);
-            }
-                    
-            imageContainer.appendChild(img);
-            imageDOM.appendChild(imageContainer);
-        }
 
         // Create the zip file asynchronously
         if (zip)

@@ -129,14 +129,20 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
 
         # Convert materials to JSON and add preview URLs
         materials_list = []
+        merged_results = { "results": [] }
         for mat_json in self.loader.getMaterialsAsJsonString():
             mat_obj = json.loads(mat_json)
             # Add preview URL for each result
-            for result in mat_obj.get('results', []):
+            results = mat_obj.get('results', [])
+            for result in results:
                 title = result.get('title')
                 result['url'] = self.loader.getMaterialPreviewURL(title)
-            materials_list.append(json.dumps(mat_obj))
+                merged_results["results"].append(result)
+
         # Sort list by title
+        merged_results["results"].sort(key=lambda x: x.get('title', ''))
+        materials_list.append(json.dumps(merged_results, indent=2))
+
         self.material_count = len(self.material_names)
 
         # Emit a status message
@@ -156,8 +162,11 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
         @param data The data received from the client, expected to contain:
         { 'expression': string, 'update_materialx': bool }
         '''
+        return_list = []
+
         if self.loader is None:
             self._emit_status_message('Loader is not initialized. Download materials first.')
+            emit('materialx_extracted', {'extractedData': return_list}, broadcast=True)    
             return
 
         self._emit_status_message('Extracting materials...')
@@ -166,7 +175,6 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
         if not have_mx:
             update_mtlx = False
         data_items = self.loader.downloadPackageByExpression(expression)
-        return_list = []
 
         for data_item in data_items:
             status_message = f'Extracting material: {data_item[1]}'
@@ -206,6 +214,7 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
 
         if len(return_list) == 0:
             self._emit_status_message('No materials extracted')
+            emit('materialx_extracted', {'extractedData': return_list}, broadcast=True)
         else:
             status_message = f'Extracted {len(return_list)} materials'
             self._emit_status_message(status_message)
