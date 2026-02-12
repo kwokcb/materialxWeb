@@ -130,13 +130,13 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
                     {
                         if (material.url) {
                             const col = document.createElement('div');
-                            col.className = 'col-md-3 col-lg-2 mb-4';
+                            col.className = 'col-sm-4 col-md-3 col-lg-2 mb-4';
 
                             col.innerHTML = `
                                 <div class="card material-card" data-material-id="${material.title}">
                                     <img src="${material.url}" id="${material.title} Image" class="card-img-top material-img" alt="${material.title}">
                                     <div class="card-body">
-                                        <div class="card-title">${material.title}</div>
+                                        <div style="font-size: 10px;" class="card-title">${material.title}</div>
                                     </div>
                                 </div>
                             `;

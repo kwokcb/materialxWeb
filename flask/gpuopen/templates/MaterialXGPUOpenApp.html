@@ -54,9 +54,9 @@
 </head>
 
 <body>
-    <div class="container p-4">
+    <div class="container-fluid p-4">
         <h2 id="title">GPUOpen MaterialX Inspector</h2>
-        <div class="container p-2 rounded-3">
+        <div class="container-fluid px-2 py-0 rounded-3">
             <div class="row">
                 <div class="col">
                     <button id="getMTLXButton" class="btn btn-sm btn-primary">
@@ -75,14 +75,14 @@
         </div>
 
         <!-- Gallery area for preview images -->
-        <div class="container mt-3 p-2 border border-prinary rounded-3" id="gallery_area" style="max-height: 400px; overflow-y: auto;">
+        <div class="container-fluid mt-3 p-2 border border-prinary rounded-3" id="gallery_area" style="max-height: 300px; overflow-y: auto;">
             <h5>Material Gallery</h5>
             <div class="row" id="material_gallery">
                 <!-- Preview images will be inserted here -->
             </div>
         </div>
 
-        <div class="container p-2 border border-primary rounded-3">
+        <div class="container-fluid p-2 border border-primary rounded-3" style="font-size: 12px">
             <h4 class="mb-4">Materials List</h4>
             <select class="form-select mb-3" id="materialSelect">
                 <option value="0">Select Material</option>
@@ -91,7 +91,7 @@
                 <div class="col-auto">
                     <button type="submit" id="extract_material" class="btn btn-sm btn-primary">
                     <span id="extract_spinner" class="d-none spinner-border spinner-border-sm" aria-hidden="true"></span>
-                    <span id="extract_status"role="status">Extract</span>
+                    <span id="extract_status"role="status" style="font-size: 12px">Extract</span>
                     </button>
                 </div>
                 <div class="col-auto">
@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </div>
-            <div class="container p-0 mt-2" style="max-height: 500px; overflow-y: auto;">
+            <div class="container-fluid p-0 mt-2" style="max-height: 500px; overflow-y: auto;">
                 <div class="row">
                     <div class="col">
                         <textarea id="extracted_mtlx" rows="20" cols="80"></textarea>
@@ -120,7 +120,7 @@
         </div>
 
         <br>
-        <div class="container p-2 border border-primary rounded-3" style="max-height: 400px; overflow-y: auto;">
+        <div class="container-fluid p-2 border border-primary rounded-3" style="max-height: 400px; overflow-y: auto;">
             <h4 class="mb-4">Material Details</h4>
             <form id="materialForm">
                 <div class="mb-3">
@@ -172,7 +172,7 @@
         </div>
         <br>
 
-        <div class="container p-2 border border-secondary rounded-3">
+        <div class="container-fluid p-2 border border-secondary rounded-3">
             <div class="status">Material JSON Data</div>
             <textarea id="mtlxOutput" rows="10" cols="100"></textarea>
             <div class="row pb-2 pt-2">
