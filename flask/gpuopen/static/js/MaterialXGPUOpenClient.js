@@ -53,17 +53,47 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
         inputDOM.scrollTop = inputDOM.scrollHeight;
     }
 
+    selectMaterialByName(name) {
+        const materialSelect = document.getElementById('materialSelect');
+        for (let i = 0; i < materialSelect.options.length; i++) {
+            if (materialSelect.options[i].text === name) {
+                materialSelect.selectedIndex = i;
+                return;
+            }
+        }
+    }
+
+    highlightSelectedMaterialInGallery(name) {
+        const gallery = document.getElementById('material_gallery');
+        const cards = gallery.getElementsByClassName('material-card');
+        for (const card of cards) {
+            if (card.dataset.materialId === name) {
+                card.style.backgroundColor = '#007BFF'; // Highlight color
+                card.style.color = '#FFF'; // Text color for better contrast
+                card.classList.add('selected');
+                // Scroll the selected card into view
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                card.style.backgroundColor = ''; // Reset background color
+                card.style.color = ''; // Reset text color
+                card.classList.remove('selected');
+            }
+        }
+    }
+
     handleMaterialXDownLoad(data)
     {
         const downloadSpinner = document.getElementById('download_spinner');
         const downloadStatus = document.getElementById('download_status');
         downloadSpinner.classList.add('d-none'); // Hide spinner
-        downloadStatus.innerText = 'Download Materials';
+        downloadStatus.innerText = 'Fetch Materials';
 
         console.log('WEB: materialx downloaded event:', data);
         this.materialCount = data.materialCount;
         this.materialsList = data.materialsList;
         this.materialNames = data.materialNames;
+        // Sort materialNames alphabetically
+        this.materialNames.sort((a, b) => a.localeCompare(b));
 
         if (this.materialCount > 0) {
             let listString = '';
@@ -93,9 +123,9 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
             gallery.innerHTML = '';
             for (const element of this.materialsList) {
                 let materials = JSON.parse(element).results;
-                // Sort by title
-                materials.sort((a, b) => a.title.localeCompare(b.title));
                 if (materials) {
+                    // Sort by title
+                    materials.sort((a, b) => a.title.localeCompare(b.title));
                     for (const material of materials) 
                     {
                         if (material.url) {
@@ -103,27 +133,19 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
                             col.className = 'col-md-3 col-lg-2 mb-4';
 
                             col.innerHTML = `
-                                <div class="card material-card" data-material-id="${material.id}">
-                                    <img src="${material.thumb_url}" class="card-img-top material-img" alt="${material.name}" onerror="this.src=${svgDataUrl}">
+                                <div class="card material-card" data-material-id="${material.title}">
+                                    <img src="${material.url}" id="${material.title} Image" class="card-img-top material-img" alt="${material.title}">
                                     <div class="card-body">
                                         <div class="card-title">${material.title}</div>
                                     </div>
                                 </div>
                             `;
 
-                            //col.querySelector('.card').addEventListener('click', () => showMaterialDetails(material));
-                            //materialsContainer.appendChild(col);
-
-                            /*const col = document.createElement('div');
-                            col.className = 'col-auto mb-2';
-                            col.innerHTML = `
-                                <div class="card" style="width: 8rem;">
-                                    <img src="${result.url}" class="card-img-top" alt="Preview">
-                                    <div class="card-body p-2">
-                                        <div class="card-title x-small">${result.title || 'Material'}</div>
-                                    </div>
-                                </div>
-                            `;*/
+                            // Select material when clicking on the card
+                            col.querySelector('.card').addEventListener('click', () => {
+                                this.highlightSelectedMaterialInGallery(material.title);
+                                this.selectMaterialByName(material.title);
+                            });
                             gallery.appendChild(col);
                         }
                     }
@@ -275,8 +297,9 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
         let downloadSpinner = document.getElementById('download_spinner');
         let downloadStatus = document.getElementById('download_status');
         downloadSpinner.classList.remove('d-none'); // Show spinner
-        downloadStatus.innerText = 'Downloading...';
-        this.emit('download_materialx', {});
+        downloadStatus.innerText = 'Fetching...';
+        let from_package = document.getElementById('download_from_package').checked;
+        this.emit('download_materialx', { 'frompackage': from_package });
     }
 
     setupEventHandlers() {
@@ -307,6 +330,7 @@ export class MaterialX_GPUOpen_Client extends WebSocketClient
             const materialSelect = document.getElementById('materialSelect');
             const selectedItem = materialSelect.options[materialSelect.selectedIndex].text;
             this.findMaterialByName(selectedItem);
+            this.highlightSelectedMaterialInGallery(selectedItem);
         });
     }
 

@@ -118,8 +118,13 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
 
         # Initialize the loader and fetch materials
         self.loader = gpuo.GPUOpenMaterialLoader()
-        self.materials = self.loader.getMaterials()
-        self.loader.getRenders()
+        from_package = data.get('frompackage', False)
+        if from_package:
+            self.loader.readPackageFiles()
+        else:
+            # Download vs package...
+            self.materials = self.loader.getMaterials()
+            self.loader.getRenders()
         self.material_names = self.loader.getMaterialNames()
 
         # Convert materials to JSON and add preview URLs

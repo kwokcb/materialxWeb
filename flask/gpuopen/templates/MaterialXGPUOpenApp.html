@@ -61,14 +61,21 @@
                 <div class="col">
                     <button id="getMTLXButton" class="btn btn-sm btn-primary">
                         <span id="download_spinner" class="d-none spinner-border spinner-border-sm" aria-hidden="true"></span>
-                        <span id="download_status"role="status">Download Materials</span>
+                        <span id="download_status"role="status">Fetch Materials</span>
                     </button>
+                </div>
+                <div class="col-auto d-flex align-items-center">
+                    <!-- Checkbox to "download from package" default = true-->
+                    <div class="form-check form-switch">
+                        <input type="checkbox" value="true" id="download_from_package" class="form-check-input" checked>
+                        <label class="form-check-label" for="download_from_package">Download from Package</label>
+                    </div>
                 </div>
             </div>  
         </div>
 
         <!-- Gallery area for preview images -->
-        <div class="container mt-3 p-2 border border-prinary rounded-3" id="gallery_area" style="max-height: 500px; overflow-y: auto;">
+        <div class="container mt-3 p-2 border border-prinary rounded-3" id="gallery_area" style="max-height: 400px; overflow-y: auto;">
             <h5>Material Gallery</h5>
             <div class="row" id="material_gallery">
                 <!-- Preview images will be inserted here -->
