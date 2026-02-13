@@ -5,5 +5,6 @@ var class_js_g_p_u_open_material_loader =
     [ "findMaterialsByName", "class_js_g_p_u_open_material_loader.html#a29660fba61e18ad05c4ceb9aef8544b2", null ],
     [ "getMaterialList", "class_js_g_p_u_open_material_loader.html#a4b3ee53434e8ea43ed0a5b7d0e215778", null ],
     [ "getMaterialNames", "class_js_g_p_u_open_material_loader.html#a9cff1950acf5cb3057088b562ad3353c", null ],
+    [ "getMaterialPreviews", "class_js_g_p_u_open_material_loader.html#ad72d8d45471ff2f792594ee8ae015ee7", null ],
     [ "getMaterials", "class_js_g_p_u_open_material_loader.html#a0ab9a9768584167afa02afa0b9755632", null ]
 ];
