@@ -14,6 +14,7 @@ const fetch =
         : (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const fs = require('fs');
 const MATERIALS_CACHE_FILE = 'gpuopen_materials.json';
+const MATERIALS_PREVIEW_FILE = 'gpuopen_previews.json';
 
 class JsGPUOpenMaterialLoader {
     /**
@@ -30,6 +31,7 @@ class JsGPUOpenMaterialLoader {
         this.packageUrl = `${this.rootUrl}/packages`;
         this.materials = null;
         this.materialNames = null;
+        this.previews = null;
 
         this.logger = console;
 
@@ -54,6 +56,15 @@ class JsGPUOpenMaterialLoader {
                 this.logger.warn(`Failed to load GPUOpen materials cache: ${e.message}`);
             }
         }
+        if (fs.existsSync(MATERIALS_PREVIEW_FILE)) {
+            try {
+                const data = fs.readFileSync(MATERIALS_PREVIEW_FILE, 'utf8');
+                this.previews = JSON.parse(data);
+                this.logger.info(`Loaded GPUOpen material previews from cache: ${MATERIALS_PREVIEW_FILE}`);
+            } catch (e) {
+                this.logger.warn(`Failed to load GPUOpen material previews cache: ${e.message}`);
+            }
+        }
     }
 
     /** 
@@ -72,11 +83,48 @@ class JsGPUOpenMaterialLoader {
     }
 
     /**
+     * Return downloaded material previews
+     * @return {Array} - List of material previews
+     */
+    getMaterialPreviews() {
+        // Save to cache file after fetching
+        try {
+            fs.writeFileSync(MATERIALS_PREVIEW_FILE, JSON.stringify(this.previews, null, 2));
+            this.logger.info(`Saved GPUOpen material previews to cache: ${MATERIALS_PREVIEW_FILE}`);
+        } catch (e) {
+            this.logger.warn(`Failed to write GPUOpen material previews cache: ${e.message}`);
+        }
+        return this.previews;
+    }
+
+    /**
      * Return downloaded material names
      * @return {Array} - List of material names
      */
     getMaterialNames() {
         return this.materialNames;
+    }
+
+    async getPreviews() {
+    
+        // try load previews from cache file
+        if (fs.existsSync(MATERIALS_PREVIEW_FILE)) {
+            try {
+                const data = fs.readFileSync(MATERIALS_PREVIEW_FILE, 'utf8');
+                //console.log('preview data', data);
+                this.previews = JSON.parse(data);
+                this.logger.info(`Loaded GPUOpen material previews from cache 2: ${MATERIALS_PREVIEW_FILE}`);
+                //this.logger.info(`GPUOpen material previews: ${this.previews}`);
+                return this.previews;
+            } catch (e) {
+                this.logger.warn(`Failed to load GPUOpen material previews cache: ${e.message}`);
+            }
+        }
+        else {
+            this.logger.info(`No GPUOpen material previews cache found.`);
+            this.previews = [];
+        }   
+        return this.previews;
     }
 
     /**
@@ -97,7 +145,7 @@ class JsGPUOpenMaterialLoader {
                         this.materialNames.push(material['title']);
                     }
                 }
-                this.logger.info(`Loaded GPUOpen materials from cache: ${MATERIALS_CACHE_FILE}`);
+                this.logger.info(`Loaded GPUOpen materials from cache 2: ${MATERIALS_CACHE_FILE}`);
                 return this.materials;
             } catch (e) {
                 this.logger.warn(`Failed to load GPUOpen materials cache: ${e.message}`);

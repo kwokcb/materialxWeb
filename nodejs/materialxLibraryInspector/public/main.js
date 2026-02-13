@@ -233,24 +233,34 @@ async function fetchGPUOpenMaterials()
 {
     let query = '/api/materials?source=GPUOpen'
 
-    const cacheKey = query;
-    const cachedData = localStorage.getItem(cacheKey);
+    /* const cacheKey = query;
+    let cachedData = localStorage.getItem(cacheKey);
+    cachedData = null;
     if (cachedData) {
         updateStatusInput('- Client: Cached materials');
         const materials = JSON.parse(cachedData);
         console.log('Using cached materials:', materials);
         displayGPUOpenMaterials(materials);
         return;
-    }
+    } */
 
     const response = await fetch(query);
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`${query}. status: ${response.status}`);
     }
     activeMaterials = await response.json();
-    localStorage.setItem(cacheKey, JSON.stringify(activeMaterials)); // Cache the response
+    // localStorage.setItem(cacheKey, JSON.stringify(activeMaterials)); // Cache the response
     updateStatusInput('- Client: Fetched materials');
     displayGPUOpenMaterials(activeMaterials);
+
+    let previewQuery = '/api/previews?source=GPUOpen'
+    const previewResponse = await fetch(previewQuery);
+    if (!previewResponse.ok) {
+        throw new Error(`${previewQuery}. status: ${previewResponse.status}`);
+    }
+    const previews = await previewResponse.json();
+    updateStatusInput('- Client: Fetched previews');
+    console.log('Fetched previews:', previews);
 }
 
 // @brief Display the GPUOpen materials in a table
