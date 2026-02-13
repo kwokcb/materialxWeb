@@ -123,8 +123,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a80e86f9b035b45c90079589488c0f44d" id="r_a80e86f9b035b45c90079589488c0f44d"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a80e86f9b035b45c90079589488c0f44d">loadMaterialsFromCache</a> ()</td></tr>
 <tr class="memitem:a4b3ee53434e8ea43ed0a5b7d0e215778" id="r_a4b3ee53434e8ea43ed0a5b7d0e215778"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4b3ee53434e8ea43ed0a5b7d0e215778">getMaterialList</a> ()</td></tr>
 <tr class="memdesc:a4b3ee53434e8ea43ed0a5b7d0e215778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return downloaded material list.  <br /></td></tr>
+<tr class="memitem:ad72d8d45471ff2f792594ee8ae015ee7" id="r_ad72d8d45471ff2f792594ee8ae015ee7"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad72d8d45471ff2f792594ee8ae015ee7">getMaterialPreviews</a> ()</td></tr>
+<tr class="memdesc:ad72d8d45471ff2f792594ee8ae015ee7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return downloaded material previews.  <br /></td></tr>
 <tr class="memitem:a9cff1950acf5cb3057088b562ad3353c" id="r_a9cff1950acf5cb3057088b562ad3353c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9cff1950acf5cb3057088b562ad3353c">getMaterialNames</a> ()</td></tr>
 <tr class="memdesc:a9cff1950acf5cb3057088b562ad3353c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return downloaded material names.  <br /></td></tr>
+<tr class="memitem:af6ca251da5d97c462f5d2c49a21e830b" id="r_af6ca251da5d97c462f5d2c49a21e830b"><td class="memItemLeft">async&#160;</td><td class="memItemRight"><a class="el" href="#af6ca251da5d97c462f5d2c49a21e830b">getPreviews</a> ()</td></tr>
 <tr class="memitem:a0ab9a9768584167afa02afa0b9755632" id="r_a0ab9a9768584167afa02afa0b9755632"><td class="memItemLeft">async&#160;</td><td class="memItemRight"><a class="el" href="#a0ab9a9768584167afa02afa0b9755632">getMaterials</a> (batchSize=50)</td></tr>
 <tr class="memdesc:a0ab9a9768584167afa02afa0b9755632"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get lists of materials from the GPUOpen material database.  <br /></td></tr>
 <tr class="memitem:a17393d54017666b1a1d10b9e8a229477" id="r_a17393d54017666b1a1d10b9e8a229477"><td class="memItemLeft">async&#160;</td><td class="memItemRight"><a class="el" href="#a17393d54017666b1a1d10b9e8a229477">downloadPackage</a> (listNumber, materialNumber, packageId=0)</td></tr>
@@ -137,7 +140,7 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>Class to download MaterialX materials from the GPUOpen material database. </p>
 <p>The class provides methods to fetch materials and download material packages. The class uses the fetch API to make HTTP requests. The class is intended to be used in a Node.js environment. </p>
 
-<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00018">18</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00019">19</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="ac14a2316019215170e6a5b41796083a0" name="ac14a2316019215170e6a5b41796083a0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac14a2316019215170e6a5b41796083a0">&#9670;&#160;</a></span>constructor()</h2>
@@ -156,23 +159,24 @@ Public Member Functions</h2></td></tr>
 
 <p>Constructor for the <a class="el" href="class_js_g_p_u_open_material_loader.html" title="Class to download MaterialX materials from the GPUOpen material database.">JsGPUOpenMaterialLoader</a> class. </p>
 
-<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00023">23</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   23</span>                  {</div>
-<div class="line"><span class="lineno">   24</span>        <span class="keywordflow">if</span> (JsGPUOpenMaterialLoader.instance) {</div>
-<div class="line"><span class="lineno">   25</span>            <span class="keywordflow">return</span> JsGPUOpenMaterialLoader.instance;</div>
-<div class="line"><span class="lineno">   26</span>        }</div>
-<div class="line"><span class="lineno">   27</span> </div>
-<div class="line"><span class="lineno">   28</span>        this.rootUrl = <span class="stringliteral">&#39;https://api.matlib.gpuopen.com/api&#39;</span>;</div>
-<div class="line"><span class="lineno">   29</span>        this.url = `${this.rootUrl}/materials`;</div>
-<div class="line"><span class="lineno">   30</span>        this.packageUrl = `${this.rootUrl}/packages`;</div>
-<div class="line"><span class="lineno">   31</span>        this.materials = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   32</span>        this.materialNames = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   33</span> </div>
-<div class="line"><span class="lineno">   34</span>        this.logger = console;</div>
+<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00024">24</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   24</span>                  {</div>
+<div class="line"><span class="lineno">   25</span>        <span class="keywordflow">if</span> (JsGPUOpenMaterialLoader.instance) {</div>
+<div class="line"><span class="lineno">   26</span>            <span class="keywordflow">return</span> JsGPUOpenMaterialLoader.instance;</div>
+<div class="line"><span class="lineno">   27</span>        }</div>
+<div class="line"><span class="lineno">   28</span> </div>
+<div class="line"><span class="lineno">   29</span>        this.rootUrl = <span class="stringliteral">&#39;https://api.matlib.gpuopen.com/api&#39;</span>;</div>
+<div class="line"><span class="lineno">   30</span>        this.url = `${this.rootUrl}/materials`;</div>
+<div class="line"><span class="lineno">   31</span>        this.packageUrl = `${this.rootUrl}/packages`;</div>
+<div class="line"><span class="lineno">   32</span>        this.materials = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   33</span>        this.materialNames = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">   34</span>        this.previews = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   36</span>        <span class="comment">// Cache the instance</span></div>
-<div class="line"><span class="lineno">   37</span>        JsGPUOpenMaterialLoader.instance = <span class="keyword">this</span>;</div>
-<div class="line"><span class="lineno">   38</span>    }</div>
+<div class="line"><span class="lineno">   36</span>        this.logger = console;</div>
+<div class="line"><span class="lineno">   37</span> </div>
+<div class="line"><span class="lineno">   38</span>        <span class="comment">// Cache the instance</span></div>
+<div class="line"><span class="lineno">   39</span>        JsGPUOpenMaterialLoader.instance = <span class="keyword">this</span>;</div>
+<div class="line"><span class="lineno">   40</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -200,57 +204,57 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00157">157</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  157</span>                                                                   {</div>
-<div class="line"><span class="lineno">  158</span>        <span class="keywordflow">if</span> (this.materials === <span class="keyword">null</span> || this.materials.length === 0) {</div>
-<div class="line"><span class="lineno">  159</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
-<div class="line"><span class="lineno">  160</span>        }</div>
-<div class="line"><span class="lineno">  161</span> </div>
-<div class="line"><span class="lineno">  162</span>        <span class="keyword">const</span> jsonData = this.materials[listNumber];</div>
-<div class="line"><span class="lineno">  163</span>        <span class="keywordflow">if</span> (!jsonData) {</div>
-<div class="line"><span class="lineno">  164</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
-<div class="line"><span class="lineno">  165</span>        }</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>        let jsonResults = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  168</span>        let jsonResult = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  169</span>        <span class="keywordflow">if</span> (<span class="stringliteral">&#39;results&#39;</span> in jsonData) {</div>
-<div class="line"><span class="lineno">  170</span>            jsonResults = jsonData[<span class="stringliteral">&#39;results&#39;</span>];</div>
-<div class="line"><span class="lineno">  171</span>            <span class="keywordflow">if</span> (jsonResults.length &lt;= materialNumber) {</div>
-<div class="line"><span class="lineno">  172</span>                <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
-<div class="line"><span class="lineno">  173</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  174</span>                jsonResult = jsonResults[materialNumber];</div>
-<div class="line"><span class="lineno">  175</span>            }</div>
-<div class="line"><span class="lineno">  176</span>        }</div>
-<div class="line"><span class="lineno">  177</span> </div>
-<div class="line"><span class="lineno">  178</span>        <span class="keywordflow">if</span> (!jsonResult) {</div>
-<div class="line"><span class="lineno">  179</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
-<div class="line"><span class="lineno">  180</span>        }</div>
-<div class="line"><span class="lineno">  181</span> </div>
-<div class="line"><span class="lineno">  182</span>        let jsonPackages = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  183</span>        <span class="keywordflow">if</span> (<span class="stringliteral">&#39;packages&#39;</span> in jsonResult) {</div>
-<div class="line"><span class="lineno">  184</span>            jsonPackages = jsonResult[<span class="stringliteral">&#39;packages&#39;</span>];</div>
-<div class="line"><span class="lineno">  185</span>        }</div>
-<div class="line"><span class="lineno">  186</span>        <span class="keywordflow">if</span> (!jsonPackages) {</div>
-<div class="line"><span class="lineno">  187</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
-<div class="line"><span class="lineno">  188</span>        }</div>
-<div class="line"><span class="lineno">  189</span> </div>
-<div class="line"><span class="lineno">  190</span>        <span class="keywordflow">if</span> (jsonPackages.length &lt;= packageId) {</div>
-<div class="line"><span class="lineno">  191</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
-<div class="line"><span class="lineno">  192</span>        }</div>
-<div class="line"><span class="lineno">  193</span>        <span class="keyword">const</span> packageIdValue = jsonPackages[packageId];</div>
-<div class="line"><span class="lineno">  194</span> </div>
-<div class="line"><span class="lineno">  195</span>        <span class="keywordflow">if</span> (!packageIdValue) {</div>
-<div class="line"><span class="lineno">  196</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
-<div class="line"><span class="lineno">  197</span>        }</div>
-<div class="line"><span class="lineno">  198</span> </div>
-<div class="line"><span class="lineno">  199</span>        <span class="keyword">const</span> url = `${this.packageUrl}/${packageIdValue}/download`</div>
-<div class="line"><span class="lineno">  200</span>        <span class="keyword">const</span> response = await fetch(url);</div>
-<div class="line"><span class="lineno">  201</span>        <span class="keyword">const</span> data = await response.arrayBuffer();</div>
-<div class="line"><span class="lineno">  202</span>        <span class="keyword">const</span> title = jsonResult[<span class="stringliteral">&#39;title&#39;</span>];</div>
-<div class="line"><span class="lineno">  203</span> </div>
-<div class="line"><span class="lineno">  204</span>        console.log(`- Loader: Downloaded package: ${title} from ${url}`);</div>
-<div class="line"><span class="lineno">  205</span>        <span class="keywordflow">return</span> [data, title];</div>
-<div class="line"><span class="lineno">  206</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00205">205</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  205</span>                                                                   {</div>
+<div class="line"><span class="lineno">  206</span>        <span class="keywordflow">if</span> (this.materials === <span class="keyword">null</span> || this.materials.length === 0) {</div>
+<div class="line"><span class="lineno">  207</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
+<div class="line"><span class="lineno">  208</span>        }</div>
+<div class="line"><span class="lineno">  209</span> </div>
+<div class="line"><span class="lineno">  210</span>        <span class="keyword">const</span> jsonData = this.materials[listNumber];</div>
+<div class="line"><span class="lineno">  211</span>        <span class="keywordflow">if</span> (!jsonData) {</div>
+<div class="line"><span class="lineno">  212</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
+<div class="line"><span class="lineno">  213</span>        }</div>
+<div class="line"><span class="lineno">  214</span> </div>
+<div class="line"><span class="lineno">  215</span>        let jsonResults = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  216</span>        let jsonResult = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  217</span>        <span class="keywordflow">if</span> (<span class="stringliteral">&#39;results&#39;</span> in jsonData) {</div>
+<div class="line"><span class="lineno">  218</span>            jsonResults = jsonData[<span class="stringliteral">&#39;results&#39;</span>];</div>
+<div class="line"><span class="lineno">  219</span>            <span class="keywordflow">if</span> (jsonResults.length &lt;= materialNumber) {</div>
+<div class="line"><span class="lineno">  220</span>                <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
+<div class="line"><span class="lineno">  221</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  222</span>                jsonResult = jsonResults[materialNumber];</div>
+<div class="line"><span class="lineno">  223</span>            }</div>
+<div class="line"><span class="lineno">  224</span>        }</div>
+<div class="line"><span class="lineno">  225</span> </div>
+<div class="line"><span class="lineno">  226</span>        <span class="keywordflow">if</span> (!jsonResult) {</div>
+<div class="line"><span class="lineno">  227</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
+<div class="line"><span class="lineno">  228</span>        }</div>
+<div class="line"><span class="lineno">  229</span> </div>
+<div class="line"><span class="lineno">  230</span>        let jsonPackages = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  231</span>        <span class="keywordflow">if</span> (<span class="stringliteral">&#39;packages&#39;</span> in jsonResult) {</div>
+<div class="line"><span class="lineno">  232</span>            jsonPackages = jsonResult[<span class="stringliteral">&#39;packages&#39;</span>];</div>
+<div class="line"><span class="lineno">  233</span>        }</div>
+<div class="line"><span class="lineno">  234</span>        <span class="keywordflow">if</span> (!jsonPackages) {</div>
+<div class="line"><span class="lineno">  235</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
+<div class="line"><span class="lineno">  236</span>        }</div>
+<div class="line"><span class="lineno">  237</span> </div>
+<div class="line"><span class="lineno">  238</span>        <span class="keywordflow">if</span> (jsonPackages.length &lt;= packageId) {</div>
+<div class="line"><span class="lineno">  239</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
+<div class="line"><span class="lineno">  240</span>        }</div>
+<div class="line"><span class="lineno">  241</span>        <span class="keyword">const</span> packageIdValue = jsonPackages[packageId];</div>
+<div class="line"><span class="lineno">  242</span> </div>
+<div class="line"><span class="lineno">  243</span>        <span class="keywordflow">if</span> (!packageIdValue) {</div>
+<div class="line"><span class="lineno">  244</span>            <span class="keywordflow">return</span> [<span class="keyword">null</span>, <span class="keyword">null</span>];</div>
+<div class="line"><span class="lineno">  245</span>        }</div>
+<div class="line"><span class="lineno">  246</span> </div>
+<div class="line"><span class="lineno">  247</span>        <span class="keyword">const</span> url = `${this.packageUrl}/${packageIdValue}/download`</div>
+<div class="line"><span class="lineno">  248</span>        <span class="keyword">const</span> response = await fetch(url);</div>
+<div class="line"><span class="lineno">  249</span>        <span class="keyword">const</span> data = await response.arrayBuffer();</div>
+<div class="line"><span class="lineno">  250</span>        <span class="keyword">const</span> title = jsonResult[<span class="stringliteral">&#39;title&#39;</span>];</div>
+<div class="line"><span class="lineno">  251</span> </div>
+<div class="line"><span class="lineno">  252</span>        console.log(`- Loader: Downloaded package: ${title} from ${url}`);</div>
+<div class="line"><span class="lineno">  253</span>        <span class="keywordflow">return</span> [data, title];</div>
+<div class="line"><span class="lineno">  254</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -283,24 +287,24 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>{Array} - A list of material items that match the regular expression of the form: [[data, title], [data, title], ...] where data is the package data (in zip form) and title is the material title </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00256">256</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  256</span>                                                               {</div>
-<div class="line"><span class="lineno">  257</span>        <span class="keyword">const</span> downloadList = [];</div>
-<div class="line"><span class="lineno">  258</span> </div>
-<div class="line"><span class="lineno">  259</span>        <span class="keyword">const</span> foundList = this.<a class="code hl_function" href="#a29660fba61e18ad05c4ceb9aef8544b2">findMaterialsByName</a>(searchExpr);</div>
-<div class="line"><span class="lineno">  260</span>        <span class="keywordflow">if</span> (foundList.length &gt; 0) {</div>
-<div class="line"><span class="lineno">  261</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> found of foundList) {</div>
-<div class="line"><span class="lineno">  262</span>                <span class="keyword">const</span> listNumber = found[<span class="stringliteral">&#39;listNumber&#39;</span>];</div>
-<div class="line"><span class="lineno">  263</span>                <span class="keyword">const</span> materialNumber = found[<span class="stringliteral">&#39;materialNumber&#39;</span>];</div>
-<div class="line"><span class="lineno">  264</span>                <span class="keyword">const</span> matName = found[<span class="stringliteral">&#39;title&#39;</span>];</div>
-<div class="line"><span class="lineno">  265</span>                this.logger.info(`&gt; Download material: ${matName} List: ${listNumber}. Index: ${materialNumber}`);</div>
-<div class="line"><span class="lineno">  266</span>                <span class="keyword">const</span> [data, title] = await this.downloadPackage(listNumber, materialNumber, packageId);</div>
-<div class="line"><span class="lineno">  267</span>                downloadList.push([data, title]);</div>
-<div class="line"><span class="lineno">  268</span>            }</div>
-<div class="line"><span class="lineno">  269</span>        }</div>
-<div class="line"><span class="lineno">  270</span>        <span class="keywordflow">return</span> downloadList;</div>
-<div class="line"><span class="lineno">  271</span>    }</div>
-<div class="ttc" id="aclass_js_g_p_u_open_material_loader_html_a29660fba61e18ad05c4ceb9aef8544b2"><div class="ttname"><a href="#a29660fba61e18ad05c4ceb9aef8544b2">JsGPUOpenMaterialLoader::findMaterialsByName</a></div><div class="ttdeci">findMaterialsByName(materialName)</div><div class="ttdoc">Find materials by name.</div><div class="ttdef"><b>Definition</b> <a href="_js_g_p_u_open_material_loader_8js_source.html#l00214">JsGPUOpenMaterialLoader.js:214</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00304">304</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  304</span>                                                               {</div>
+<div class="line"><span class="lineno">  305</span>        <span class="keyword">const</span> downloadList = [];</div>
+<div class="line"><span class="lineno">  306</span> </div>
+<div class="line"><span class="lineno">  307</span>        <span class="keyword">const</span> foundList = this.<a class="code hl_function" href="#a29660fba61e18ad05c4ceb9aef8544b2">findMaterialsByName</a>(searchExpr);</div>
+<div class="line"><span class="lineno">  308</span>        <span class="keywordflow">if</span> (foundList.length &gt; 0) {</div>
+<div class="line"><span class="lineno">  309</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> found of foundList) {</div>
+<div class="line"><span class="lineno">  310</span>                <span class="keyword">const</span> listNumber = found[<span class="stringliteral">&#39;listNumber&#39;</span>];</div>
+<div class="line"><span class="lineno">  311</span>                <span class="keyword">const</span> materialNumber = found[<span class="stringliteral">&#39;materialNumber&#39;</span>];</div>
+<div class="line"><span class="lineno">  312</span>                <span class="keyword">const</span> matName = found[<span class="stringliteral">&#39;title&#39;</span>];</div>
+<div class="line"><span class="lineno">  313</span>                this.logger.info(`&gt; Download material: ${matName} List: ${listNumber}. Index: ${materialNumber}`);</div>
+<div class="line"><span class="lineno">  314</span>                <span class="keyword">const</span> [data, title] = await this.downloadPackage(listNumber, materialNumber, packageId);</div>
+<div class="line"><span class="lineno">  315</span>                downloadList.push([data, title]);</div>
+<div class="line"><span class="lineno">  316</span>            }</div>
+<div class="line"><span class="lineno">  317</span>        }</div>
+<div class="line"><span class="lineno">  318</span>        <span class="keywordflow">return</span> downloadList;</div>
+<div class="line"><span class="lineno">  319</span>    }</div>
+<div class="ttc" id="aclass_js_g_p_u_open_material_loader_html_a29660fba61e18ad05c4ceb9aef8544b2"><div class="ttname"><a href="#a29660fba61e18ad05c4ceb9aef8544b2">JsGPUOpenMaterialLoader::findMaterialsByName</a></div><div class="ttdeci">findMaterialsByName(materialName)</div><div class="ttdoc">Find materials by name.</div><div class="ttdef"><b>Definition</b> <a href="_js_g_p_u_open_material_loader_8js_source.html#l00262">JsGPUOpenMaterialLoader.js:262</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -328,39 +332,39 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>{Array} - A list of materials that match the regular expression of the form: [{ 'listNumber': listNumber, 'materialNumber': materialNumber, 'title': title }] </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00214">214</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  215</span>    {</div>
-<div class="line"><span class="lineno">  216</span>        <span class="keywordflow">if</span> (!this.materials) {</div>
-<div class="line"><span class="lineno">  217</span>            <span class="keywordflow">return</span> [];</div>
-<div class="line"><span class="lineno">  218</span>        }</div>
-<div class="line"><span class="lineno">  219</span> </div>
-<div class="line"><span class="lineno">  220</span>        <span class="keyword">const</span> materialsList = [];</div>
-<div class="line"><span class="lineno">  221</span>        let listNumber = 0;</div>
-<div class="line"><span class="lineno">  222</span> </div>
-<div class="line"><span class="lineno">  223</span>        <span class="comment">// Create a RegExp object for case-insensitive matching</span></div>
-<div class="line"><span class="lineno">  224</span>        <span class="keyword">const</span> regex = <span class="keyword">new</span> RegExp(materialName, <span class="charliteral">&#39;i&#39;</span>);</div>
-<div class="line"><span class="lineno">  225</span> </div>
-<div class="line"><span class="lineno">  226</span>        this.materials.forEach((materialList, materialIndex) =&gt; {</div>
-<div class="line"><span class="lineno">  227</span>            let materialNumber = 0;</div>
-<div class="line"><span class="lineno">  228</span> </div>
-<div class="line"><span class="lineno">  229</span>            materialList[<span class="stringliteral">&#39;results&#39;</span>].forEach((material) =&gt; {</div>
-<div class="line"><span class="lineno">  230</span> </div>
-<div class="line"><span class="lineno">  231</span>                <span class="comment">//console.log(&#39;testing material:&#39;, material[&#39;title&#39;], &#39; with regex:&#39;, regex)</span></div>
-<div class="line"><span class="lineno">  232</span>                <span class="keywordflow">if</span> (regex.test(material[<span class="stringliteral">&#39;title&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  233</span>                    materialsList.push({</div>
-<div class="line"><span class="lineno">  234</span>                        listNumber: listNumber,</div>
-<div class="line"><span class="lineno">  235</span>                        materialNumber: materialNumber,</div>
-<div class="line"><span class="lineno">  236</span>                        title: material[<span class="stringliteral">&#39;title&#39;</span>],</div>
-<div class="line"><span class="lineno">  237</span>                    });</div>
-<div class="line"><span class="lineno">  238</span>                }</div>
-<div class="line"><span class="lineno">  239</span>                materialNumber += 1;</div>
-<div class="line"><span class="lineno">  240</span>            });</div>
-<div class="line"><span class="lineno">  241</span> </div>
-<div class="line"><span class="lineno">  242</span>            listNumber += 1;</div>
-<div class="line"><span class="lineno">  243</span>        });</div>
-<div class="line"><span class="lineno">  244</span> </div>
-<div class="line"><span class="lineno">  245</span>        <span class="keywordflow">return</span> materialsList;</div>
-<div class="line"><span class="lineno">  246</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00262">262</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  263</span>    {</div>
+<div class="line"><span class="lineno">  264</span>        <span class="keywordflow">if</span> (!this.materials) {</div>
+<div class="line"><span class="lineno">  265</span>            <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">  266</span>        }</div>
+<div class="line"><span class="lineno">  267</span> </div>
+<div class="line"><span class="lineno">  268</span>        <span class="keyword">const</span> materialsList = [];</div>
+<div class="line"><span class="lineno">  269</span>        let listNumber = 0;</div>
+<div class="line"><span class="lineno">  270</span> </div>
+<div class="line"><span class="lineno">  271</span>        <span class="comment">// Create a RegExp object for case-insensitive matching</span></div>
+<div class="line"><span class="lineno">  272</span>        <span class="keyword">const</span> regex = <span class="keyword">new</span> RegExp(materialName, <span class="charliteral">&#39;i&#39;</span>);</div>
+<div class="line"><span class="lineno">  273</span> </div>
+<div class="line"><span class="lineno">  274</span>        this.materials.forEach((materialList, materialIndex) =&gt; {</div>
+<div class="line"><span class="lineno">  275</span>            let materialNumber = 0;</div>
+<div class="line"><span class="lineno">  276</span> </div>
+<div class="line"><span class="lineno">  277</span>            materialList[<span class="stringliteral">&#39;results&#39;</span>].forEach((material) =&gt; {</div>
+<div class="line"><span class="lineno">  278</span> </div>
+<div class="line"><span class="lineno">  279</span>                <span class="comment">//console.log(&#39;testing material:&#39;, material[&#39;title&#39;], &#39; with regex:&#39;, regex)</span></div>
+<div class="line"><span class="lineno">  280</span>                <span class="keywordflow">if</span> (regex.test(material[<span class="stringliteral">&#39;title&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  281</span>                    materialsList.push({</div>
+<div class="line"><span class="lineno">  282</span>                        listNumber: listNumber,</div>
+<div class="line"><span class="lineno">  283</span>                        materialNumber: materialNumber,</div>
+<div class="line"><span class="lineno">  284</span>                        title: material[<span class="stringliteral">&#39;title&#39;</span>],</div>
+<div class="line"><span class="lineno">  285</span>                    });</div>
+<div class="line"><span class="lineno">  286</span>                }</div>
+<div class="line"><span class="lineno">  287</span>                materialNumber += 1;</div>
+<div class="line"><span class="lineno">  288</span>            });</div>
+<div class="line"><span class="lineno">  289</span> </div>
+<div class="line"><span class="lineno">  290</span>            listNumber += 1;</div>
+<div class="line"><span class="lineno">  291</span>        });</div>
+<div class="line"><span class="lineno">  292</span> </div>
+<div class="line"><span class="lineno">  293</span>        <span class="keywordflow">return</span> materialsList;</div>
+<div class="line"><span class="lineno">  294</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -382,17 +386,17 @@ Public Member Functions</h2></td></tr>
 <p>Return downloaded material list. </p>
 <dl class="section return"><dt>Returns</dt><dd>{Array} - List of materials </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00063">63</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   63</span>                      {</div>
-<div class="line"><span class="lineno">   64</span>        <span class="comment">// Save to cache file after fetching</span></div>
-<div class="line"><span class="lineno">   65</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   66</span>            fs.writeFileSync(MATERIALS_CACHE_FILE, JSON.stringify(<span class="keyword">this</span>.materials, <span class="keyword">null</span>, 2));</div>
-<div class="line"><span class="lineno">   67</span>            this.logger.info(`Saved GPUOpen materials to cache: ${MATERIALS_CACHE_FILE}`);</div>
-<div class="line"><span class="lineno">   68</span>        } <span class="keywordflow">catch</span> (e) {</div>
-<div class="line"><span class="lineno">   69</span>            this.logger.warn(`Failed to write GPUOpen materials cache: ${e.message}`);</div>
-<div class="line"><span class="lineno">   70</span>        }</div>
-<div class="line"><span class="lineno">   71</span>        <span class="keywordflow">return</span> this.materials;</div>
-<div class="line"><span class="lineno">   72</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00074">74</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   74</span>                      {</div>
+<div class="line"><span class="lineno">   75</span>        <span class="comment">// Save to cache file after fetching</span></div>
+<div class="line"><span class="lineno">   76</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   77</span>            fs.writeFileSync(MATERIALS_CACHE_FILE, JSON.stringify(<span class="keyword">this</span>.materials, <span class="keyword">null</span>, 2));</div>
+<div class="line"><span class="lineno">   78</span>            this.logger.info(`Saved GPUOpen materials to cache: ${MATERIALS_CACHE_FILE}`);</div>
+<div class="line"><span class="lineno">   79</span>        } <span class="keywordflow">catch</span> (e) {</div>
+<div class="line"><span class="lineno">   80</span>            this.logger.warn(`Failed to write GPUOpen materials cache: ${e.message}`);</div>
+<div class="line"><span class="lineno">   81</span>        }</div>
+<div class="line"><span class="lineno">   82</span>        <span class="keywordflow">return</span> this.materials;</div>
+<div class="line"><span class="lineno">   83</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -414,10 +418,42 @@ Public Member Functions</h2></td></tr>
 <p>Return downloaded material names. </p>
 <dl class="section return"><dt>Returns</dt><dd>{Array} - List of material names </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00078">78</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   78</span>                       {</div>
-<div class="line"><span class="lineno">   79</span>        <span class="keywordflow">return</span> this.materialNames;</div>
-<div class="line"><span class="lineno">   80</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00104">104</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  104</span>                       {</div>
+<div class="line"><span class="lineno">  105</span>        <span class="keywordflow">return</span> this.materialNames;</div>
+<div class="line"><span class="lineno">  106</span>    }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ad72d8d45471ff2f792594ee8ae015ee7" name="ad72d8d45471ff2f792594ee8ae015ee7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad72d8d45471ff2f792594ee8ae015ee7">&#9670;&#160;</a></span>getMaterialPreviews()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">JsGPUOpenMaterialLoader::getMaterialPreviews </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return downloaded material previews. </p>
+<dl class="section return"><dt>Returns</dt><dd>{Array} - List of material previews </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00089">89</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   89</span>                          {</div>
+<div class="line"><span class="lineno">   90</span>        <span class="comment">// Save to cache file after fetching</span></div>
+<div class="line"><span class="lineno">   91</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   92</span>            fs.writeFileSync(MATERIALS_PREVIEW_FILE, JSON.stringify(<span class="keyword">this</span>.previews, <span class="keyword">null</span>, 2));</div>
+<div class="line"><span class="lineno">   93</span>            this.logger.info(`Saved GPUOpen material previews to cache: ${MATERIALS_PREVIEW_FILE}`);</div>
+<div class="line"><span class="lineno">   94</span>        } <span class="keywordflow">catch</span> (e) {</div>
+<div class="line"><span class="lineno">   95</span>            this.logger.warn(`Failed to write GPUOpen material previews cache: ${e.message}`);</div>
+<div class="line"><span class="lineno">   96</span>        }</div>
+<div class="line"><span class="lineno">   97</span>        <span class="keywordflow">return</span> this.previews;</div>
+<div class="line"><span class="lineno">   98</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -445,76 +481,116 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>{Array} - List of material lists </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00087">87</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   87</span>                                     {</div>
-<div class="line"><span class="lineno">   88</span>        <span class="comment">// 1. Try to load from cache file</span></div>
-<div class="line"><span class="lineno">   89</span>        <span class="keywordflow">if</span> (fs.existsSync(MATERIALS_CACHE_FILE)) {</div>
-<div class="line"><span class="lineno">   90</span>            <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   91</span>                <span class="keyword">const</span> data = fs.readFileSync(MATERIALS_CACHE_FILE, <span class="stringliteral">&#39;utf8&#39;</span>);</div>
-<div class="line"><span class="lineno">   92</span>                this.materials = JSON.parse(data);</div>
-<div class="line"><span class="lineno">   93</span>                <span class="comment">// Rebuild materialNames</span></div>
-<div class="line"><span class="lineno">   94</span>                this.materialNames = [];</div>
-<div class="line"><span class="lineno">   95</span>                <span class="keywordflow">for</span> (<span class="keyword">const</span> jsonData of this.materials) {</div>
-<div class="line"><span class="lineno">   96</span>                    <span class="keywordflow">for</span> (<span class="keyword">const</span> material of jsonData.results) {</div>
-<div class="line"><span class="lineno">   97</span>                        this.materialNames.push(material[<span class="stringliteral">&#39;title&#39;</span>]);</div>
-<div class="line"><span class="lineno">   98</span>                    }</div>
-<div class="line"><span class="lineno">   99</span>                }</div>
-<div class="line"><span class="lineno">  100</span>                this.logger.info(`Loaded GPUOpen materials from cache: ${MATERIALS_CACHE_FILE}`);</div>
-<div class="line"><span class="lineno">  101</span>                <span class="keywordflow">return</span> this.materials;</div>
-<div class="line"><span class="lineno">  102</span>            } <span class="keywordflow">catch</span> (e) {</div>
-<div class="line"><span class="lineno">  103</span>                this.logger.warn(`Failed to load GPUOpen materials cache: ${e.message}`);</div>
-<div class="line"><span class="lineno">  104</span>            }</div>
-<div class="line"><span class="lineno">  105</span>        }</div>
-<div class="line"><span class="lineno">  106</span> </div>
-<div class="line"><span class="lineno">  107</span>        <span class="comment">// 2. If not in cache, fetch from network</span></div>
-<div class="line"><span class="lineno">  108</span>        this.materials = [];</div>
-<div class="line"><span class="lineno">  109</span>        this.materialNames = [];</div>
-<div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>        let url = this.url;</div>
-<div class="line"><span class="lineno">  112</span>        let params = <span class="keyword">new</span> URLSearchParams({</div>
-<div class="line"><span class="lineno">  113</span>            limit: batchSize,</div>
-<div class="line"><span class="lineno">  114</span>            offset: 0</div>
-<div class="line"><span class="lineno">  115</span>        });</div>
-<div class="line"><span class="lineno">  116</span>        <span class="keywordflow">if</span> (params) {</div>
-<div class="line"><span class="lineno">  117</span>            url += <span class="charliteral">&#39;?&#39;</span> + params.toString();</div>
-<div class="line"><span class="lineno">  118</span>        }</div>
-<div class="line"><span class="lineno">  119</span> </div>
-<div class="line"><span class="lineno">  120</span>        let haveMoreMaterials = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  121</span>        <span class="keywordflow">while</span> (haveMoreMaterials) {</div>
-<div class="line"><span class="lineno">  122</span>            <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  123</span>                console.log(<span class="stringliteral">&#39;Fetch materials from url:&#39;</span>, url);</div>
-<div class="line"><span class="lineno">  124</span>                <span class="keyword">const</span> response = await fetch(url);</div>
-<div class="line"><span class="lineno">  125</span>                <span class="keywordflow">if</span> (!response.ok) {</div>
-<div class="line"><span class="lineno">  126</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> Error(`HTTP error! status: ${response.status}`);</div>
-<div class="line"><span class="lineno">  127</span>                }</div>
-<div class="line"><span class="lineno">  128</span>                <span class="keyword">const</span> jsonData = await response.json();</div>
-<div class="line"><span class="lineno">  129</span>                this.materials.push(jsonData);</div>
-<div class="line"><span class="lineno">  130</span>                <span class="keywordflow">for</span> (<span class="keyword">const</span> material of jsonData.results) {</div>
-<div class="line"><span class="lineno">  131</span>                    this.materialNames.push(material[<span class="stringliteral">&#39;title&#39;</span>]);</div>
-<div class="line"><span class="lineno">  132</span>                }</div>
-<div class="line"><span class="lineno">  133</span>                let nextURL = jsonData.next;</div>
-<div class="line"><span class="lineno">  134</span>                <span class="keywordflow">if</span> (nextURL) {</div>
-<div class="line"><span class="lineno">  135</span>                    url = nextURL;</div>
-<div class="line"><span class="lineno">  136</span>                    haveMoreMaterials = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  137</span>                } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  138</span>                    console.log(<span class="stringliteral">&#39;Finished fetching materials&#39;</span>);</div>
-<div class="line"><span class="lineno">  139</span>                    haveMoreMaterials = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  140</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  141</span>                }</div>
-<div class="line"><span class="lineno">  142</span>            } <span class="keywordflow">catch</span> (error) {</div>
-<div class="line"><span class="lineno">  143</span>                this.logger.info(`Error: ${error.message}`);</div>
-<div class="line"><span class="lineno">  144</span>                haveMoreMaterials = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  145</span>            }</div>
-<div class="line"><span class="lineno">  146</span>        }</div>
-<div class="line"><span class="lineno">  147</span>        <span class="comment">// Save to cache file after fetching</span></div>
-<div class="line"><span class="lineno">  148</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  149</span>            fs.writeFileSync(MATERIALS_CACHE_FILE, JSON.stringify(<span class="keyword">this</span>.materials, <span class="keyword">null</span>, 2));</div>
-<div class="line"><span class="lineno">  150</span>            this.logger.info(`Saved GPUOpen materials to cache: ${MATERIALS_CACHE_FILE}`);</div>
-<div class="line"><span class="lineno">  151</span>        } <span class="keywordflow">catch</span> (e) {</div>
-<div class="line"><span class="lineno">  152</span>            this.logger.warn(`Failed to write GPUOpen materials cache: ${e.message}`);</div>
+<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00135">135</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  135</span>                                     {</div>
+<div class="line"><span class="lineno">  136</span>        <span class="comment">// 1. Try to load from cache file</span></div>
+<div class="line"><span class="lineno">  137</span>        <span class="keywordflow">if</span> (fs.existsSync(MATERIALS_CACHE_FILE)) {</div>
+<div class="line"><span class="lineno">  138</span>            <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  139</span>                <span class="keyword">const</span> data = fs.readFileSync(MATERIALS_CACHE_FILE, <span class="stringliteral">&#39;utf8&#39;</span>);</div>
+<div class="line"><span class="lineno">  140</span>                this.materials = JSON.parse(data);</div>
+<div class="line"><span class="lineno">  141</span>                <span class="comment">// Rebuild materialNames</span></div>
+<div class="line"><span class="lineno">  142</span>                this.materialNames = [];</div>
+<div class="line"><span class="lineno">  143</span>                <span class="keywordflow">for</span> (<span class="keyword">const</span> jsonData of this.materials) {</div>
+<div class="line"><span class="lineno">  144</span>                    <span class="keywordflow">for</span> (<span class="keyword">const</span> material of jsonData.results) {</div>
+<div class="line"><span class="lineno">  145</span>                        this.materialNames.push(material[<span class="stringliteral">&#39;title&#39;</span>]);</div>
+<div class="line"><span class="lineno">  146</span>                    }</div>
+<div class="line"><span class="lineno">  147</span>                }</div>
+<div class="line"><span class="lineno">  148</span>                this.logger.info(`Loaded GPUOpen materials from cache 2: ${MATERIALS_CACHE_FILE}`);</div>
+<div class="line"><span class="lineno">  149</span>                <span class="keywordflow">return</span> this.materials;</div>
+<div class="line"><span class="lineno">  150</span>            } <span class="keywordflow">catch</span> (e) {</div>
+<div class="line"><span class="lineno">  151</span>                this.logger.warn(`Failed to load GPUOpen materials cache: ${e.message}`);</div>
+<div class="line"><span class="lineno">  152</span>            }</div>
 <div class="line"><span class="lineno">  153</span>        }</div>
-<div class="line"><span class="lineno">  154</span>        <span class="keywordflow">return</span> this.materials;</div>
-<div class="line"><span class="lineno">  155</span>    }</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span>        <span class="comment">// 2. If not in cache, fetch from network</span></div>
+<div class="line"><span class="lineno">  156</span>        this.materials = [];</div>
+<div class="line"><span class="lineno">  157</span>        this.materialNames = [];</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>        let url = this.url;</div>
+<div class="line"><span class="lineno">  160</span>        let params = <span class="keyword">new</span> URLSearchParams({</div>
+<div class="line"><span class="lineno">  161</span>            limit: batchSize,</div>
+<div class="line"><span class="lineno">  162</span>            offset: 0</div>
+<div class="line"><span class="lineno">  163</span>        });</div>
+<div class="line"><span class="lineno">  164</span>        <span class="keywordflow">if</span> (params) {</div>
+<div class="line"><span class="lineno">  165</span>            url += <span class="charliteral">&#39;?&#39;</span> + params.toString();</div>
+<div class="line"><span class="lineno">  166</span>        }</div>
+<div class="line"><span class="lineno">  167</span> </div>
+<div class="line"><span class="lineno">  168</span>        let haveMoreMaterials = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  169</span>        <span class="keywordflow">while</span> (haveMoreMaterials) {</div>
+<div class="line"><span class="lineno">  170</span>            <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  171</span>                console.log(<span class="stringliteral">&#39;Fetch materials from url:&#39;</span>, url);</div>
+<div class="line"><span class="lineno">  172</span>                <span class="keyword">const</span> response = await fetch(url);</div>
+<div class="line"><span class="lineno">  173</span>                <span class="keywordflow">if</span> (!response.ok) {</div>
+<div class="line"><span class="lineno">  174</span>                    <span class="keywordflow">throw</span> <span class="keyword">new</span> Error(`HTTP error! status: ${response.status}`);</div>
+<div class="line"><span class="lineno">  175</span>                }</div>
+<div class="line"><span class="lineno">  176</span>                <span class="keyword">const</span> jsonData = await response.json();</div>
+<div class="line"><span class="lineno">  177</span>                this.materials.push(jsonData);</div>
+<div class="line"><span class="lineno">  178</span>                <span class="keywordflow">for</span> (<span class="keyword">const</span> material of jsonData.results) {</div>
+<div class="line"><span class="lineno">  179</span>                    this.materialNames.push(material[<span class="stringliteral">&#39;title&#39;</span>]);</div>
+<div class="line"><span class="lineno">  180</span>                }</div>
+<div class="line"><span class="lineno">  181</span>                let nextURL = jsonData.next;</div>
+<div class="line"><span class="lineno">  182</span>                <span class="keywordflow">if</span> (nextURL) {</div>
+<div class="line"><span class="lineno">  183</span>                    url = nextURL;</div>
+<div class="line"><span class="lineno">  184</span>                    haveMoreMaterials = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  185</span>                } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  186</span>                    console.log(<span class="stringliteral">&#39;Finished fetching materials&#39;</span>);</div>
+<div class="line"><span class="lineno">  187</span>                    haveMoreMaterials = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  188</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  189</span>                }</div>
+<div class="line"><span class="lineno">  190</span>            } <span class="keywordflow">catch</span> (error) {</div>
+<div class="line"><span class="lineno">  191</span>                this.logger.info(`Error: ${error.message}`);</div>
+<div class="line"><span class="lineno">  192</span>                haveMoreMaterials = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  193</span>            }</div>
+<div class="line"><span class="lineno">  194</span>        }</div>
+<div class="line"><span class="lineno">  195</span>        <span class="comment">// Save to cache file after fetching</span></div>
+<div class="line"><span class="lineno">  196</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  197</span>            fs.writeFileSync(MATERIALS_CACHE_FILE, JSON.stringify(<span class="keyword">this</span>.materials, <span class="keyword">null</span>, 2));</div>
+<div class="line"><span class="lineno">  198</span>            this.logger.info(`Saved GPUOpen materials to cache: ${MATERIALS_CACHE_FILE}`);</div>
+<div class="line"><span class="lineno">  199</span>        } <span class="keywordflow">catch</span> (e) {</div>
+<div class="line"><span class="lineno">  200</span>            this.logger.warn(`Failed to write GPUOpen materials cache: ${e.message}`);</div>
+<div class="line"><span class="lineno">  201</span>        }</div>
+<div class="line"><span class="lineno">  202</span>        <span class="keywordflow">return</span> this.materials;</div>
+<div class="line"><span class="lineno">  203</span>    }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="af6ca251da5d97c462f5d2c49a21e830b" name="af6ca251da5d97c462f5d2c49a21e830b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6ca251da5d97c462f5d2c49a21e830b">&#9670;&#160;</a></span>getPreviews()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">async JsGPUOpenMaterialLoader::getPreviews </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00108">108</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  108</span>                        {</div>
+<div class="line"><span class="lineno">  109</span>    </div>
+<div class="line"><span class="lineno">  110</span>        <span class="comment">// try load previews from cache file</span></div>
+<div class="line"><span class="lineno">  111</span>        <span class="keywordflow">if</span> (fs.existsSync(MATERIALS_PREVIEW_FILE)) {</div>
+<div class="line"><span class="lineno">  112</span>            <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  113</span>                <span class="keyword">const</span> data = fs.readFileSync(MATERIALS_PREVIEW_FILE, <span class="stringliteral">&#39;utf8&#39;</span>);</div>
+<div class="line"><span class="lineno">  114</span>                <span class="comment">//console.log(&#39;preview data&#39;, data);</span></div>
+<div class="line"><span class="lineno">  115</span>                this.previews = JSON.parse(data);</div>
+<div class="line"><span class="lineno">  116</span>                this.logger.info(`Loaded GPUOpen material previews from cache 2: ${MATERIALS_PREVIEW_FILE}`);</div>
+<div class="line"><span class="lineno">  117</span>                <span class="comment">//this.logger.info(`GPUOpen material previews: ${this.previews}`);</span></div>
+<div class="line"><span class="lineno">  118</span>                <span class="keywordflow">return</span> this.previews;</div>
+<div class="line"><span class="lineno">  119</span>            } <span class="keywordflow">catch</span> (e) {</div>
+<div class="line"><span class="lineno">  120</span>                this.logger.warn(`Failed to load GPUOpen material previews cache: ${e.message}`);</div>
+<div class="line"><span class="lineno">  121</span>            }</div>
+<div class="line"><span class="lineno">  122</span>        }</div>
+<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  124</span>            this.logger.info(`No GPUOpen material previews cache found.`);</div>
+<div class="line"><span class="lineno">  125</span>            this.previews = [];</div>
+<div class="line"><span class="lineno">  126</span>        }   </div>
+<div class="line"><span class="lineno">  127</span>        <span class="keywordflow">return</span> this.previews;</div>
+<div class="line"><span class="lineno">  128</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -533,25 +609,34 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00040">40</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>                             {</div>
-<div class="line"><span class="lineno">   41</span>        <span class="keywordflow">if</span> (fs.existsSync(MATERIALS_CACHE_FILE)) {</div>
-<div class="line"><span class="lineno">   42</span>            <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   43</span>                <span class="keyword">const</span> data = fs.readFileSync(MATERIALS_CACHE_FILE, <span class="stringliteral">&#39;utf8&#39;</span>);</div>
-<div class="line"><span class="lineno">   44</span>                this.materials = JSON.parse(data);</div>
-<div class="line"><span class="lineno">   45</span>                <span class="comment">// Rebuild materialNames</span></div>
-<div class="line"><span class="lineno">   46</span>                this.materialNames = [];</div>
-<div class="line"><span class="lineno">   47</span>                <span class="keywordflow">for</span> (<span class="keyword">const</span> jsonData of this.materials) {</div>
-<div class="line"><span class="lineno">   48</span>                    <span class="keywordflow">for</span> (<span class="keyword">const</span> material of jsonData.results) {</div>
-<div class="line"><span class="lineno">   49</span>                        this.materialNames.push(material[<span class="stringliteral">&#39;title&#39;</span>]);</div>
-<div class="line"><span class="lineno">   50</span>                    }</div>
-<div class="line"><span class="lineno">   51</span>                }</div>
-<div class="line"><span class="lineno">   52</span>                this.logger.info(`Loaded GPUOpen materials from cache: ${MATERIALS_CACHE_FILE}`);</div>
-<div class="line"><span class="lineno">   53</span>            } <span class="keywordflow">catch</span> (e) {</div>
-<div class="line"><span class="lineno">   54</span>                this.logger.warn(`Failed to load GPUOpen materials cache: ${e.message}`);</div>
-<div class="line"><span class="lineno">   55</span>            }</div>
-<div class="line"><span class="lineno">   56</span>        }</div>
-<div class="line"><span class="lineno">   57</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html#l00042">42</a> of file <a class="el" href="_js_g_p_u_open_material_loader_8js_source.html">JsGPUOpenMaterialLoader.js</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span>                             {</div>
+<div class="line"><span class="lineno">   43</span>        <span class="keywordflow">if</span> (fs.existsSync(MATERIALS_CACHE_FILE)) {</div>
+<div class="line"><span class="lineno">   44</span>            <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   45</span>                <span class="keyword">const</span> data = fs.readFileSync(MATERIALS_CACHE_FILE, <span class="stringliteral">&#39;utf8&#39;</span>);</div>
+<div class="line"><span class="lineno">   46</span>                this.materials = JSON.parse(data);</div>
+<div class="line"><span class="lineno">   47</span>                <span class="comment">// Rebuild materialNames</span></div>
+<div class="line"><span class="lineno">   48</span>                this.materialNames = [];</div>
+<div class="line"><span class="lineno">   49</span>                <span class="keywordflow">for</span> (<span class="keyword">const</span> jsonData of this.materials) {</div>
+<div class="line"><span class="lineno">   50</span>                    <span class="keywordflow">for</span> (<span class="keyword">const</span> material of jsonData.results) {</div>
+<div class="line"><span class="lineno">   51</span>                        this.materialNames.push(material[<span class="stringliteral">&#39;title&#39;</span>]);</div>
+<div class="line"><span class="lineno">   52</span>                    }</div>
+<div class="line"><span class="lineno">   53</span>                }</div>
+<div class="line"><span class="lineno">   54</span>                this.logger.info(`Loaded GPUOpen materials from cache: ${MATERIALS_CACHE_FILE}`);</div>
+<div class="line"><span class="lineno">   55</span>            } <span class="keywordflow">catch</span> (e) {</div>
+<div class="line"><span class="lineno">   56</span>                this.logger.warn(`Failed to load GPUOpen materials cache: ${e.message}`);</div>
+<div class="line"><span class="lineno">   57</span>            }</div>
+<div class="line"><span class="lineno">   58</span>        }</div>
+<div class="line"><span class="lineno">   59</span>        <span class="keywordflow">if</span> (fs.existsSync(MATERIALS_PREVIEW_FILE)) {</div>
+<div class="line"><span class="lineno">   60</span>            <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   61</span>                <span class="keyword">const</span> data = fs.readFileSync(MATERIALS_PREVIEW_FILE, <span class="stringliteral">&#39;utf8&#39;</span>);</div>
+<div class="line"><span class="lineno">   62</span>                this.previews = JSON.parse(data);</div>
+<div class="line"><span class="lineno">   63</span>                this.logger.info(`Loaded GPUOpen material previews from cache: ${MATERIALS_PREVIEW_FILE}`);</div>
+<div class="line"><span class="lineno">   64</span>            } <span class="keywordflow">catch</span> (e) {</div>
+<div class="line"><span class="lineno">   65</span>                this.logger.warn(`Failed to load GPUOpen material previews cache: ${e.message}`);</div>
+<div class="line"><span class="lineno">   66</span>            }</div>
+<div class="line"><span class="lineno">   67</span>        }</div>
+<div class="line"><span class="lineno">   68</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -19,6 +19,20 @@ function initializeServer() {
     // Serve static files from the 'public' directory
     app.use(express.static('public'));
 
+    app.get('/api/previews', async (req, res) => {
+        try {
+            const { source } = req.query
+            console.log('- Server: Fetch material previews from:', source)
+            if (source == 'GPUOpen') {
+                const previews = await gpuopen_loader.getPreviews();
+                res.json(previews);
+            }
+        } catch (error) {
+            console.error('- Server: Error fetching material previews:', error);
+            res.status(500).json({ error: '- Server: Failed to fetch material previews' });
+        }
+    });
+
     // Proxy endpoint to fetch materials
     app.get('/api/materials', async (req, res) => {
         try {
