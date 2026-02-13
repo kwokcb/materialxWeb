@@ -3,7 +3,8 @@
 //
 let extractedEditor = null;
 let activeMaterials = null;
- 
+let activePreviews = null; 
+
 // @brief Update the status input with a message
 // @param message: The message to display
 // @param force: Replace vs append to the existing message
@@ -53,9 +54,10 @@ async function fetchAmbientCGMaterials()
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
+    activePreviews = null;
     activeMaterials = await response.json();
     updateStatusInput('- Client: Fetched materials');
-    displayAmbientCGMaterials(activeMaterials);
+    displayAmbientCGMaterials(activeMaterials);    
 }
 
 function filterMaterials() {
@@ -72,10 +74,10 @@ function filterMaterials() {
 
         // Filtered = list of lists of materials
         let filtered = [];
-        let results = []
+        //let results = []
         activeMaterials.forEach((materialList, listNumber) => {
             materialList.results.forEach((material, materialNumber) => {
-                console.log('Filtering material:', material);
+                //console.log('Filtering material:', material);
                 // Filter by search term
                 let matchesSearch = false;
                 
@@ -84,13 +86,13 @@ function filterMaterials() {
                 }
 
                 if (matchesSearch) {
-                    results.push(material);
+                    filtered.push(material.title);
                 }
             });
         });
-        filtered.push({results: results});
+        //filtered.push({results: results});
 
-        displayGPUOpenMaterials(filtered);
+        displayGPUOpenMaterials(activeMaterials, filtered, activePreviews);
     }
 
     else if (selectedSource === 'ambientcg_source') {
@@ -257,24 +259,24 @@ async function fetchGPUOpenMaterials()
     if (!previewResponse.ok) {
         throw new Error(`${previewQuery}. status: ${previewResponse.status}`);
     }
-    const previews = await previewResponse.json();
+    activePreviews = await previewResponse.json();
     updateStatusInput('- Client: Fetched previews');
-    console.log('Fetched previews:', previews);
+    //console.log('Fetched previews:', previews);
 
-    displayGPUOpenMaterials(activeMaterials, previews);
+    displayGPUOpenMaterials(activeMaterials, [], activePreviews);
 }
 
 // @brief Display the GPUOpen materials in a table
 // @param materials: The materials list to display
 // @param previews: The material previews to display
 //
-function displayGPUOpenMaterials(materials, previews) {
+function displayGPUOpenMaterials(materials, filtered, previews) {
     const contentDiv = document.getElementById('materialsContainer');
     contentDiv.innerHTML = '';
 
-    let tbl = document.createElement('table')
-    tbl.classList.add('table');
-    tbl.style.fontSize = '10px';
+    //let tbl = document.createElement('table')
+    //tbl.classList.add('table');
+    //tbl.style.fontSize = '10px';
 
     //console.log('previews:', previews);
 
@@ -283,7 +285,17 @@ function displayGPUOpenMaterials(materials, previews) {
     updateStatusInput('- Server: Display material list...');
     let tblFragment = document.createDocumentFragment();
     materials.forEach((materialList, listNumber) => {
-        materialList.results.forEach((material, materialNumber) => {
+        for (let materialNumber = 0; materialNumber < materialList.results.length; materialNumber++) {
+            let material = materialList.results[materialNumber];
+            //materialList.results.forEach((material, materialNumber) => {
+
+            if (filtered.length > 0) {
+                if (!filtered.includes(material.title)) {
+                    // Skip this material if it's in the filtered
+                    continue;
+                }
+            }
+
             const materialDiv = document.createElement('tr');
             materialDiv.classList.add('row-sm');
             // Find material.title in previews
@@ -292,10 +304,36 @@ function displayGPUOpenMaterials(materials, previews) {
                 if (previews[i].title === material.title) {
                     //console.log('Finding preview for material:', material.title, 'comparing with:', previews[i].title);
                     preview_url = previews[i].preview_url;
+                    //materialNumber = i;
                     break;
                 }
             }
-            materialDiv.innerHTML = `
+
+            const col = document.createElement('div');
+            col.className = 'col-md-4 col-lg-3 mb-4';
+
+            let assetId = material.title;
+            let img_src = preview_url;
+            //let tags = material.tags;
+            // TODO: Fix to get tags from GPUOpen
+            //tags = tags.filter(tag => isNaN(Number(tag)));
+            tags = ''
+            col.innerHTML = `
+                <div class="card material-card" data-material-id="${assetId}">
+                    <img src="${img_src}" class="card-img-top material-img" alt="${svgDataUrl}" onerror="this.src=${svgDataUrl}">
+                    <div class="card-body">
+                        <div class="card-title" style="font-size:12px">${assetId}</div>
+                    </div>
+                </div>
+            `;
+
+            col.querySelector('.card').addEventListener('click', () => { 
+                downloadGPUOpenPackage(listNumber, materialNumber);
+            });
+
+            contentDiv.appendChild(col);
+
+            /* materialDiv.innerHTML = `
                 <td class="col-sm">
                     <img loading="lazy" src="${preview_url}" width="64" alt="Preview not available">
                 </td>
@@ -304,14 +342,14 @@ function displayGPUOpenMaterials(materials, previews) {
                 <button style="font-size: 10px" class="btn btn-primary" onclick="downloadGPUOpenPackage(${listNumber}, ${materialNumber})">Download Package</button>
                 </td>
             `;
-            tblFragment.appendChild(materialDiv);
-        });
+            tblFragment.appendChild(materialDiv); */
+        };
     });
-    tbl.appendChild(tblFragment);
+    //tbl.appendChild(tblFragment);
 
-    contentDiv.appendChild(tbl);
+    //contentDiv.appendChild(tbl);
 
-    convertTableToBootstrapRowCol(contentDiv);
+    //convertTableToBootstrapRowCol(contentDiv);
 }
 
 // @brief Display unzipped data found in the response for a query
@@ -581,7 +619,7 @@ function setupLibrarySelector() {
         // Hide search_row for GPUOpen since it doesn't have categories
         const searchRow = document.getElementById('search_row');
         if (source === 'GPUOpen') {
-            searchRow.style.display = 'none';
+            searchRow.style.display = 'flex';
         } else {
             searchRow.style.display = 'flex';
         }
