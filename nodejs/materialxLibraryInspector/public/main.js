@@ -251,7 +251,6 @@ async function fetchGPUOpenMaterials()
     activeMaterials = await response.json();
     // localStorage.setItem(cacheKey, JSON.stringify(activeMaterials)); // Cache the response
     updateStatusInput('- Client: Fetched materials');
-    displayGPUOpenMaterials(activeMaterials);
 
     let previewQuery = '/api/previews?source=GPUOpen'
     const previewResponse = await fetch(previewQuery);
@@ -261,12 +260,15 @@ async function fetchGPUOpenMaterials()
     const previews = await previewResponse.json();
     updateStatusInput('- Client: Fetched previews');
     console.log('Fetched previews:', previews);
+
+    displayGPUOpenMaterials(activeMaterials, previews);
 }
 
 // @brief Display the GPUOpen materials in a table
 // @param materials: The materials list to display
+// @param previews: The material previews to display
 //
-function displayGPUOpenMaterials(materials) {
+function displayGPUOpenMaterials(materials, previews) {
     const contentDiv = document.getElementById('materialsContainer');
     contentDiv.innerHTML = '';
 
@@ -274,14 +276,30 @@ function displayGPUOpenMaterials(materials) {
     tbl.classList.add('table');
     tbl.style.fontSize = '10px';
 
+    //console.log('previews:', previews);
+
+    let svgDataUrl = 'https://icons.getbootstrap.com/assets/icons/card-image.svg'
+
     updateStatusInput('- Server: Display material list...');
     let tblFragment = document.createDocumentFragment();
     materials.forEach((materialList, listNumber) => {
         materialList.results.forEach((material, materialNumber) => {
             const materialDiv = document.createElement('tr');
             materialDiv.classList.add('row-sm');
+            // Find material.title in previews
+            let preview_url = svgDataUrl;
+            for (let i = 0; i < previews.length; i++) {
+                if (previews[i].title === material.title) {
+                    //console.log('Finding preview for material:', material.title, 'comparing with:', previews[i].title);
+                    preview_url = previews[i].preview_url;
+                    break;
+                }
+            }
             materialDiv.innerHTML = `
-                <td class="col-sm">${material.title}</td>
+                <td class="col-sm">
+                    <img loading="lazy" src="${preview_url}" width="64" alt="Preview not available">
+                </td>
+                <td class="col-sm">${material.title}</td>                
                 <td class="col-sm">
                 <button style="font-size: 10px" class="btn btn-primary" onclick="downloadGPUOpenPackage(${listNumber}, ${materialNumber})">Download Package</button>
                 </td>
