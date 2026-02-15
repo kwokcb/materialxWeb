@@ -174,7 +174,10 @@ class MaterialXGPUOpenApp(MaterialXFlaskApp):
         update_mtlx = data.get('update_materialx', False)
         if not have_mx:
             update_mtlx = False
-        data_items = self.loader.downloadPackageByExpression(expression)
+
+        # Since we are selecting only one existing material, use exact match search
+        exact_match = True
+        data_items = self.loader.downloadPackageByExpression(expression, exact_match)
 
         for data_item in data_items:
             status_message = f'Extracting material: {data_item[1]}'
