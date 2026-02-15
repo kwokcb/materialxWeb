@@ -4,6 +4,7 @@
 let extractedEditor = null;
 let activeMaterials = null;
 let activePreviews = null; 
+let boostrap_download_icon ='<i class="bi bi-cloud-download"></i>';
 
 // @brief Update the status input with a message
 // @param message: The message to display
@@ -179,11 +180,20 @@ function displayAmbientCGMaterials(materials)
         let tags = material.tags;
         // Remove any tag which is a number like 1,2,3 etc
         tags = tags.filter(tag => isNaN(Number(tag)));
+
+        let downloadBtnName = `download_button_${assetId}`;
+        // Sanitize name for HTML, also replace ' ' with '_'
+        downloadBtnName = downloadBtnName.replace(/ /g, '_');
+        downloadBtnName = downloadBtnName.replace(/[^a-zA-Z0-9_-]/g, '');
+
         col.innerHTML = `
             <div class="card material-card" data-material-id="${assetId}">
-                <img src="${img_src}" class="card-img-top material-img" alt="${svgDataUrl}" onerror="this.src=${svgDataUrl}">
+                <img src="${img_src}" class="card-img-top material-img" alt="${svgDataUrl}" onerror="this.src=${svgDataUrl}">                
                 <div class="card-body">
-                    <div class="card-title" style="font-size:12px">${assetId} (${imageResolution}K, ${imageFormat})</div>
+                    <div class="card-title" style="font-size:12px">${assetId} (${imageResolution}K, ${imageFormat})
+                        <div id="${downloadBtnName}" class="btn btn-sm btn-outline-secondary download-button">
+                        ${boostrap_download_icon}</div>
+                    </div>
                     <div class="d-flex flex-wrap">
                         ${tags.map(cat => `<span class="badge bg-secondary category-badge">${cat}</span>`).join('')}
                     </div>
@@ -191,9 +201,10 @@ function displayAmbientCGMaterials(materials)
             </div>
         `;
 
-        col.querySelector('.card').addEventListener('click', () => 
-            downloadAmbientCGPackage(assetId, imageFormat, imageResolution)
-        );
+        col.querySelector(`#${downloadBtnName}`).addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent the card click event
+            downloadAmbientCGPackage(assetId, imageFormat, imageResolution);
+        });
 
         contentDiv.appendChild(col);
     }
@@ -318,18 +329,34 @@ function displayGPUOpenMaterials(materials, filtered, previews) {
             // TODO: Fix to get tags from GPUOpen
             //tags = tags.filter(tag => isNaN(Number(tag)));
             tags = ''
+
+            let downloadBtnName = `download_button_${assetId}`;
+            // Sanitize name for HTML, also replace ' ' with '_'
+            downloadBtnName = downloadBtnName.replace(/ /g, '_');
+            downloadBtnName = downloadBtnName.replace(/[^a-zA-Z0-9_-]/g, '');
+
             col.innerHTML = `
                 <div class="card material-card" data-material-id="${assetId}">
-                    <img src="${img_src}" class="card-img-top material-img" alt="${svgDataUrl}" onerror="this.src=${svgDataUrl}">
+                    <img src="${img_src}" class="card-img-top material-img" alt="${svgDataUrl}" onerror="this.src='${svgDataUrl}'">
                     <div class="card-body">
-                        <div class="card-title" style="font-size:12px">${assetId}</div>
+                        <div class="card-title" style="font-size:12px">${assetId}
+                            <div id="${downloadBtnName}" class="btn btn-sm btn-outline-secondary download-button">
+                            ${boostrap_download_icon}</div>
+                        </div>
                     </div>
                 </div>
             `;
 
-            col.querySelector('.card').addEventListener('click', () => { 
-                downloadGPUOpenPackage(listNumber, materialNumber);
-            });
+            let downloadBtn = col.querySelector(`#${downloadBtnName}`);
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', (event) => {
+                    event.stopPropagation(); // Prevent the card click event
+                    downloadGPUOpenPackage(listNumber, materialNumber);
+                });
+            }
+            else {
+                console.warn('Download button not found for material: ', downloadBtnName);
+            }
 
             contentDiv.appendChild(col);
 
