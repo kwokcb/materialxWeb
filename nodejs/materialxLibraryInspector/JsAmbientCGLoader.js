@@ -14,7 +14,7 @@ class AmbientCGLoader {
      * @param {Object} mxModule - The MaterialX module. Required.
      * @param {Object} mxStdlib - The MaterialX standard library. Optional.
      */
-    constructor() {
+    constructor(apiVersion = 'v3') {
         if (AmbientCGLoader.instance) {
             return AmbientCGLoader.instance;
         }
@@ -26,6 +26,8 @@ class AmbientCGLoader {
         this.csvMaterials = null;
         this.downloadMaterial = null;
         this.downloadMaterialFileName = '';
+        // AmbientCG API version to use ('v2' or 'v3'). V2 is deprecated upstream.
+        this.apiVersion = apiVersion;
 
         // Cache the instance
         AmbientCGLoader.instance = this;
@@ -52,12 +54,29 @@ class AmbientCGLoader {
         this.logger.level = debug ? 'debug' : 'info';
     }
 
-    getMaterialNames(key = 'assetId') {
+    setApiVersion(apiVersion = 'v3') {
+        /**
+         * @brief Set the ambientCG API version to use.
+         * @param {string} apiVersion - The API version to use. Must be 'v2' or 'v3'.
+         */
+        if (apiVersion !== 'v2' && apiVersion !== 'v3') {
+            this.logger.warn(`Invalid API version: ${apiVersion}. Using v3.`);
+            apiVersion = 'v3';
+        }
+        this.apiVersion = apiVersion;
+        this.logger.info(`Using ambientCG API version: ${apiVersion}`);
+    }
+
+    getMaterialNames(key = null) {
         /**
          * @brief Get the list of material names.
-         * @param {string} key - The key to use for the material name. Default is 'assetId'.
+         * @param {string|null} key - The key to use for the material name. When null the default
+         * is used: 'assetId' for the version 2 API, 'id' for the version 3 API.
          * @return {Array} The list of material names.
          */
+        if (key === null) {
+            key = this.apiVersion === 'v3' ? 'id' : 'assetId';
+        }
         this.materialNames = [];
         const uniqueNames = new Set();
         if (this.materials) {
@@ -151,13 +170,26 @@ class AmbientCGLoader {
         let url = '';
         let downloadAttribute = '';
 
-        items.forEach(item => {
-            downloadAttribute = item[downloadAttributeKey];
-            if (downloadAttribute === target) {
-                url = item[downloadLinkKey];
-                this.logger.info(`Found Asset: ${assetId}. Download Attribute: ${downloadAttribute} -> ${url}`);
-            }
-        });
+        if (this.apiVersion === 'v3') {
+            // In v3 the download variants are nested under the asset's "downloads" array
+            items.forEach(item => {
+                (item.downloads || []).forEach(download => {
+                    downloadAttribute = download.attributes;
+                    if (downloadAttribute === target) {
+                        url = download.url;
+                        this.logger.info(`Found Asset: ${assetId}. Download Attribute: ${downloadAttribute} -> ${url}`);
+                    }
+                });
+            });
+        } else {
+            items.forEach(item => {
+                downloadAttribute = item[downloadAttributeKey];
+                if (downloadAttribute === target) {
+                    url = item[downloadLinkKey];
+                    this.logger.info(`Found Asset: ${assetId}. Download Attribute: ${downloadAttribute} -> ${url}`);
+                }
+            });
+        }
 
         if (!url) {
             this.logger.error(`No download link found for asset: ${assetId}, attribute: ${target}`);
@@ -187,13 +219,17 @@ class AmbientCGLoader {
         return this.downloadMaterialFileName;
     }
 
-    findMaterial(assetId, key = 'assetId') {
+    findMaterial(assetId, key = null) {
         /**
          * @brief Get the list of materials matching a material identifier.
          * @param {string} assetId - Material string identifier.
-         * @param {string} key - The key to lookup asset identifiers. Default is 'assetId'.
+         * @param {string|null} key - The key to lookup asset identifiers. When null the default
+         * is used: 'assetId' for the version 2 API, 'id' for the version 3 API.
          * @return {Array} List of materials, or empty array if not found.
          */
+        if (key === null) {
+            key = this.apiVersion === 'v3' ? 'id' : 'assetId';
+        }
         if (this.materials) {
             return this.materials.filter(item => item[key] === assetId);
         }
@@ -233,50 +269,56 @@ class AmbientCGLoader {
         // 2. If not in cache, fetch from network
         if (!haveMaterials)
         {
-            const headers = { Accept: 'application/csv' };
-            const url = new URL('https://ambientCG.com/api/v2/downloads_csv');
-            url.searchParams.append('method', 'PBRPhotogrammetry');
-            url.searchParams.append('type', 'Material');
-            url.searchParams.append('sort', 'Alphabet');
+            if (this.apiVersion === 'v3') {
+                // In v3 the list comes from the JSON "assets" endpoint (paginated)
+                this.materials = await this._fetchAssetsV3();
+                this.logger.info(`Downloaded materials list (v3 API): ${this.materials.length} assets`);
+            } else {
+                const headers = { Accept: 'application/csv' };
+                const url = new URL('https://ambientCG.com/api/v2/downloads_csv');
+                url.searchParams.append('method', 'PBRPhotogrammetry');
+                url.searchParams.append('type', 'Material');
+                url.searchParams.append('sort', 'Alphabet');
 
-            this.logger.info('Downloading materials CSV list from network...');
-            try {
-                const response = await fetch(url, { headers });
-                if (response.status === 200) {
-                    const csvContent = await response.text();
-                    this.csvMaterials = csvContent;
-                    this.materials = parse(csvContent, { columns: true });
-                    this.logger.info('Downloaded CSV material list as JSON.');
-                } else {
+                this.logger.info('Downloading materials CSV list from network...');
+                try {
+                    const response = await fetch(url, { headers });
+                    if (response.status === 200) {
+                        const csvContent = await response.text();
+                        this.csvMaterials = csvContent;
+                        this.materials = parse(csvContent, { columns: true });
+                        this.logger.info('Downloaded CSV material list as JSON.');
+                    } else {
+                        this.materials = null;
+                        this.logger.warning(`Failed to fetch the CSV material content. HTTP status code: ${response.status}`);
+                    }
+                } catch (error) {
                     this.materials = null;
-                    this.logger.warning(`Failed to fetch the CSV material content. HTTP status code: ${response.status}`);
+                    this.logger.error(`Error downloading materials list: ${error}`);
                 }
-            } catch (error) {
-                this.materials = null;
-                this.logger.error(`Error downloading materials list: ${error}`);
-            }
 
-            // Read database list from file.
-            this.readDatabaseFromFile('ambientcg_database.json');
-            const have_database = this.database && Object.keys(this.database).length > 0;
-            if (have_database) {
-                for (let material of this.materials) {
-                    const assetId = material.assetId;
-                    const databaseEntry = this.database.find(entry => entry.assetId === assetId);
-                    if (databaseEntry) {
-                        // Get "256-PNG" from previewImage (object, not Map)
-                        let preview = '';
-                        if (databaseEntry.previewImage && typeof databaseEntry.previewImage === 'object') {
-                            preview = databaseEntry.previewImage['256-PNG'] || '';
+                // Read database list from file.
+                this.readDatabaseFromFile('ambientcg_database.json');
+                const have_database = this.database && Object.keys(this.database).length > 0;
+                if (have_database) {
+                    for (let material of this.materials) {
+                        const assetId = material.assetId;
+                        const databaseEntry = this.database.find(entry => entry.assetId === assetId);
+                        if (databaseEntry) {
+                            // Get "256-PNG" from previewImage (object, not Map)
+                            let preview = '';
+                            if (databaseEntry.previewImage && typeof databaseEntry.previewImage === 'object') {
+                                preview = databaseEntry.previewImage['256-PNG'] || '';
+                            }
+                            material.displayCategory = databaseEntry.displayCategory;
+                            material.previewImage = preview;
+                            material.tags = databaseEntry.tags;
                         }
-                        material.displayCategory = databaseEntry.displayCategory;
-                        material.previewImage = preview;
-                        material.tags = databaseEntry.tags;
+                        else {
+                            this.logger.warn('No database entry found for assetId:', assetId);
+                        }
+                
                     }
-                    else {
-                        this.logger.warn('No database entry found for assetId:', assetId);
-                    }
-            
                 }
             }
 
@@ -295,6 +337,52 @@ class AmbientCGLoader {
         return this.materials;
     }
 
+    async _fetchAssetsV3(limit = 500, maxAssets = null) {
+        /**
+         * @brief Fetch the full list of assets using the version 3 "assets" endpoint,
+         * following pagination until all assets are retrieved (each page is capped at
+         * `limit` results, up to a maximum of 500).
+         * @param {number} limit - The number of assets to request per page. Maximum is 500.
+         * @param {number|null} maxAssets - Optional cap on the total number of assets to return.
+         * @return {Array} The accumulated list of asset records.
+         */
+        const headers = { Accept: 'application/json' };
+        const assets = [];
+        const pageLimit = Math.min(limit, 500);
+        let offset = 0;
+        let totalResults = null;
+
+        while (true) {
+            const url = new URL('https://ambientCG.com/api/v3/assets');
+            url.searchParams.append('type', 'material');
+            url.searchParams.append('sort', 'alphabet');
+            url.searchParams.append('include', 'downloads,title,type,thumbnails,tags');
+            url.searchParams.append('limit', pageLimit);
+            url.searchParams.append('offset', offset);
+
+            this.logger.info(`Downloading materials list (v3 API)... offset=${offset}, limit=${pageLimit}`);
+            const response = await fetch(url, { headers });
+            if (response.status !== 200) {
+                this.logger.warn(`Failed to fetch the materials list. HTTP status code: ${response.status}`);
+                return assets;
+            }
+            const data = await response.json();
+            const pageAssets = data.assets || [];
+            assets.push(...pageAssets);
+            totalResults = data.totalResults;
+            offset += pageAssets.length;
+
+            if (maxAssets !== null && assets.length >= maxAssets) {
+                assets.splice(maxAssets);
+                break;
+            }
+            if (pageAssets.length === 0) break;
+            if (totalResults !== null && offset >= totalResults) break;
+        }
+
+        return assets;
+    }
+
     getDataBase() {
         /**
          * @brief Get asset database.
@@ -310,7 +398,7 @@ class AmbientCGLoader {
          */
         this.database = {};
 
-        haveDatabase = false;
+        let haveDatabase = false;
         const MATERIALS_DATABASE_FILE = 'ambientcg_database.json';
         if (fs.existsSync(MATERIALS_DATABASE_FILE)) {
             try {
@@ -324,6 +412,11 @@ class AmbientCGLoader {
         }
 
         if (!haveDatabase) {
+            if (this.apiVersion === 'v3') {
+                const assets = await this._fetchAssetsV3();
+                this.database = { totalResults: assets.length, assets };
+                return this.database;
+            }
 
             const limit = 500
             //https://ambientcg.com/api/v2/full_json?type=material

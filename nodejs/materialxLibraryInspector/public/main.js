@@ -154,30 +154,39 @@ function displayAmbientCGMaterials(materials)
     {
         const material = materials[materialNumber];
 
-        const assetId = material.assetId
-        const downloadAttribute = material.downloadAttribute;
-        const parts = downloadAttribute.split('-');
-        const imageFormat = parts[1];
-        let imageResolution = parts[0];
-        // Only want the 1 from 1K in imageResolution
-        if (imageResolution.endsWith('K')) {
-            imageResolution = imageResolution.slice(0, -1);
+        // Asset identifier: 'id' in v3, 'assetId' in v2
+        const assetId = material.id || material.assetId;
+        if (!assetId) {
+            continue;
         }
 
-        // TODO: Fix to set over filter params
-        if (imageResolution != '1') {
-            continue;
-        }
-        if (imageFormat != 'PNG') {
-            continue;
+        // Resolve the download variant to feature on the card.
+        // In v3 the variants are nested under 'downloads'; in v2 they were flat rows.
+        let imageFormat = 'PNG';
+        let imageResolution = '1';
+        if (Array.isArray(material.downloads)) {
+            // Prefer a 1K PNG variant, otherwise use the first download entry
+            const preferred = material.downloads.find(d => d.attributes === '1K-PNG') || material.downloads[0];
+            if (preferred && preferred.attributes) {
+                const parts = preferred.attributes.split('-');
+                imageFormat = parts[1] || imageFormat;
+                imageResolution = (parts[0] || imageResolution).replace('K', '');
+            }
+        } else if (material.downloadAttribute) {
+            const parts = material.downloadAttribute.split('-');
+            imageFormat = parts[1] || imageFormat;
+            imageResolution = (parts[0] || imageResolution).replace('K', '');
         }
 
         const col = document.createElement('div');
         col.className = 'col-md-4 col-lg-3 mb-4';
 
         let svgDataUrl = 'https://icons.getbootstrap.com/assets/icons/card-image.svg'
-        let img_src = material.previewImage ? material.previewImage : svgDataUrl;
-        let tags = material.tags;
+        // Prefer the V3 thumbnail, then the V2 previewImage, then the placeholder icon
+        let img_src = (material.thumbnails && material.thumbnails['256-PNG'])
+            || material.previewImage
+            || svgDataUrl;
+        let tags = Array.isArray(material.tags) ? material.tags : [];
         // Remove any tag which is a number like 1,2,3 etc
         tags = tags.filter(tag => isNaN(Number(tag)));
 
